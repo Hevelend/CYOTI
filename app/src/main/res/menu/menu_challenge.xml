@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.quentin.cyoti.ChallengeActivity">
+
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="always"
+        android:icon="@mipmap/ic_settings"/>
+
+    <item android:id="@+id/action_friends" android:title="Friends"
+        android:orderInCategory="200" app:showAsAction="always"
+        android:icon="@mipmap/ic_friends"/>
+
+
+
+</menu>

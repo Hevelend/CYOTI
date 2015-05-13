@@ -1,5 +1,22 @@
 <resources>
     <string name="app_name">CYOTI</string>
-    <string name="hello_world">Hello world!</string>
+
     <string name="action_settings">Settings</string>
+    <string name="action_friends">Friends</string>
+
+    <string name="title_activity_challenge">ChallengeActivity</string>
+    <string name="title_fragment_propose_challenge">Challenge your friends</string>
+
+    <string name="tv_write_challenge">Write a challenge</string>
+    <string name="et_write_challenge">Type something</string>
+    <string name="tv_choose_theme">Choose a theme</string>
+
+    <string-array name="challenge_themes">
+        <item>Choose a theme for your challenge</item>
+        <item>Dance</item>
+        <item>Sing</item>
+        <item>Sport</item>
+        <item>Humour</item>
+        <item>Serious</item>
+    </string-array>
 </resources>
