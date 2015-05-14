@@ -14,6 +14,8 @@ public class ChallengeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_challenge);
         getSupportActionBar().setTitle(R.string.title_fragment_propose_challenge);
         getSupportActionBar().setIcon(R.mipmap.ic_app);
+
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
     }
 
 

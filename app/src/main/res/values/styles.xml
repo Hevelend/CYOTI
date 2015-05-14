@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:typeface">monospace</item>
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
@@ -11,9 +12,11 @@
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@mipmap/background_actionbar</item>
+        <item name="android:icon">@mipmap/ic_app</item>
 
         <!-- Support library compatibility -->
         <item name="background">@mipmap/background_actionbar</item>
+        <item name="icon">@mipmap/ic_app</item>
     </style>
 
 </resources>
