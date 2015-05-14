@@ -23,6 +23,12 @@ public class Friend {
         imgPath = path;
     }
 
+    public Friend(String first, String last, String nick) {
+        firstName = first;
+        lastName = last;
+        nickName = nick;
+    }
+
     public String getFirstName() {
         return firstName;
     }

@@ -11,12 +11,10 @@
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@mipmap/background_actionbar</item>
-        <item name="android:icon">@mipmap/ic_app</item>
+        <item name="android:background">@color/purple</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@mipmap/background_actionbar</item>
-        <item name="icon">@mipmap/ic_app</item>
+        <item name="background">@color/purple</item>
     </style>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.quentin.cyoti;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,8 +13,10 @@ public class ChallengeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenge);
-        getSupportActionBar().setTitle(R.string.title_fragment_propose_challenge);
-        getSupportActionBar().setIcon(R.mipmap.ic_app);
+
+        ActionBar ac = getSupportActionBar();
+        ac.setTitle(R.string.title_fragment_propose_challenge);
+        ac.setDisplayShowHomeEnabled(true);
 
         FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
     }

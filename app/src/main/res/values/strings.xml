@@ -14,6 +14,8 @@
     <string name="tv_cioty">CYOTI PROJECT!</string>
     <string name="tv_challenge">Challenge your friends!</string>
     <string name="tv_signin">Sign in with social network</string>
+    <string name="bt_send_challenge">Send this challenge</string>
+    <string name="tv_who">Who ?</string>
 
     <string-array name="challenge_themes">
         <item>Choose a theme for your challenge</item>

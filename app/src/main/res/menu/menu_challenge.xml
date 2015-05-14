@@ -8,9 +8,23 @@
         android:icon="@mipmap/ic_settings"/>
 
     <item android:id="@+id/action_friends" android:title="Friends"
-        android:orderInCategory="200" app:showAsAction="always"
+        android:orderInCategory="100" app:showAsAction="always"
         android:icon="@mipmap/ic_friends"/>
 
+    <item android:id="@+id/action_diploma" android:title="Diploma"
+        android:orderInCategory="100" app:showAsAction="always"
+        android:icon="@mipmap/ic_diploma" />
 
+    <item android:id="@+id/action_news" android:title="News"
+        android:orderInCategory="100" app:showAsAction="always"
+        android:icon="@mipmap/ic_news" />
+
+    <item android:id="@+id/action_cup" android:title="Cup"
+        android:orderInCategory="100" app:showAsAction="always"
+        android:icon="@mipmap/ic_cup" />
+
+    <item android:id="@+id/action_refresh" android:title="Refresh"
+        android:orderInCategory="100" app:showAsAction="always"
+        android:icon="@mipmap/ic_refresh" />
 
 </menu>

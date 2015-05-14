@@ -26,9 +26,19 @@ public class ProposeChallengeFragment extends Fragment {
     public ProposeChallengeFragment() {
         friends = new ArrayList<Friend>();
         Friend friend1 = new Friend();
-        Friend friend2 = new Friend("Toto", "Tutu", "TotoTutu","mipmap/cup");
+        Friend friend2 = new Friend("Toto", "Tutu", "TotoTutu");
+        Friend friend3 = new Friend("James", "Morrison", "Jim");
+        Friend friend4 = new Friend("Vincent","Aunai","Lodoss");
+        Friend friend5 = new Friend("Truc", "Muche", "Osef");
+        Friend friend6 = new Friend("Machin", "Bidule", "TrucBidule");
+        Friend friend7 = new Friend("Test", "7", "test7");
         friends.add(friend1);
         friends.add(friend2);
+        friends.add(friend3);
+        friends.add(friend4);
+        friends.add(friend5);
+        friends.add(friend6);
+        friends.add(friend7);
     }
 
     @Override

@@ -36,8 +36,8 @@ public class FriendAdapter extends ArrayAdapter<Friend>{
         TextView tvFriend = (TextView)v.findViewById(R.id.tv_friend);
         tvFriend.setText(f.getFirstName() + " " + f.getLastName());
 
-        ImageView imgFriend = (ImageView)v.findViewById(R.id.imageFriend);
-        imgFriend.setImageURI(Uri.parse(f.getImgPath()));
+        //ImageView imgFriend = (ImageView)v.findViewById(R.id.imageFriend);
+        //imgFriend.setImageURI(Uri.parse(f.getImgPath()));
         return v;
     }
 }
