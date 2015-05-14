@@ -11,6 +11,10 @@
     <string name="et_write_challenge">Type something</string>
     <string name="tv_choose_theme">Choose a theme</string>
 
+    <string name="tv_cioty">CYOTI PROJECT!</string>
+    <string name="tv_challenge">Challenge your friends!</string>
+    <string name="tv_signin">Sign in with social network</string>
+
     <string-array name="challenge_themes">
         <item>Choose a theme for your challenge</item>
         <item>Dance</item>
