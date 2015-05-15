@@ -1,4 +1,4 @@
-package com.example.quentin.cyoti;
+package com.example.quentin.cyoti.utilities;
 import java.lang.reflect.Field;
 import android.content.Context;
 import android.graphics.Typeface;

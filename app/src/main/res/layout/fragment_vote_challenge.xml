@@ -1,10 +1,95 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffdfba"
     tools:context="com.example.quentin.cyoti.VoteChallengeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/imageFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:layout_marginLeft="10px"
+        android:src="@mipmap/ic_app" />
+
+    <TextView
+        android:id="@+id/tv_descriptionChallenge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tv_descriptionChallenge"
+        android:layout_toRightOf="@id/imageFriend"
+        android:layout_alignTop="@id/imageFriend"
+        android:layout_marginLeft="20px"
+        android:textSize="35dp"
+        android:textStyle="bold"/>
+
+    <ProgressBar
+        android:id="@+id/pb_vote"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:useLevel="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_descriptionChallenge"
+        android:layout_marginTop="50dp"/>
+
+
+    <ImageButton
+        android:id="@+id/bt_unlike"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_below="@id/pb_vote"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="150px"
+        android:layout_marginTop="50px"
+        android:background="@mipmap/unlike" />
+
+    <ImageButton
+        android:id="@+id/bt_like"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignTop="@id/bt_unlike"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="150px"
+        android:background="@mipmap/like" />
+
+    <Button
+        android:id="@+id/bt_validChallenge"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/bt_like"
+        android:layout_marginTop="100px"
+        android:text="@string/bt_validChallenge"
+        android:textColor="#ffffff"
+        android:textSize="30dp"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/bt_proposeChallenge"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:background="@color/turquoise"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/bt_validChallenge"
+        android:layout_marginTop="20px"
+        android:text="@string/bt_proposeChallenge"
+        android:textColor="#ffffff"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="75%"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        android:textColor="#ff009900"
+        android:id="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/pb_vote"
+        android:layout_marginTop="120dp"/>
+</RelativeLayout>

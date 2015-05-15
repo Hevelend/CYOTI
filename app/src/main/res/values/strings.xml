@@ -16,6 +16,9 @@
     <string name="tv_signin">Sign in with social network</string>
     <string name="bt_send_challenge">Send this challenge</string>
     <string name="tv_who">Who ?</string>
+    <string name="tv_descriptionChallenge">Impossible to load challenge\'s description</string>
+    <string name="bt_validChallenge">Accept victory</string>
+    <string name="bt_proposeChallenge">Propose this challenge</string>
 
     <string-array name="challenge_themes">
         <item>Choose a theme for your challenge</item>

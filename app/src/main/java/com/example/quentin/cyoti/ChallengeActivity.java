@@ -1,7 +1,5 @@
 package com.example.quentin.cyoti;
 
-import android.app.Fragment;
-import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.quentin.cyoti.adapters.CustomFragmentPagerAdapter;
+import com.example.quentin.cyoti.utilities.FontsOverride;
 
 
 public class ChallengeActivity extends ActionBarActivity {
