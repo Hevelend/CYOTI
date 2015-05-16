@@ -7,95 +7,58 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+
+import com.example.quentin.cyoti.adapters.FriendAdapter;
+import com.example.quentin.cyoti.metier.Friend;
+
+import java.util.ArrayList;
 
 
 public class FriendsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private View rootView;
+    private ArrayList<Friend> friends;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    //private OnFragmentInteractionListener mListener;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment VoteChallengeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-/*
-    public static VoteChallengeFragment newInstance(String param1, String param2) {
-        VoteChallengeFragment fragment = new VoteChallengeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public FriendsFragment() {
+        friends = new ArrayList<Friend>();
+        Friend friend1 = new Friend();
+        Friend friend2 = new Friend("Toto", "Tutu", "TotoTutu");
+        Friend friend3 = new Friend("James", "Morrison", "Jim");
+        Friend friend4 = new Friend("Vincent", "Aunai", "Lodoss");
+        Friend friend5 = new Friend("Truc", "Muche", "Osef");
+        Friend friend6 = new Friend("Machin", "Bidule", "TrucBidule");
+        Friend friend7 = new Friend("Test", "7", "test7");
+        friends.add(friend1);
+        friends.add(friend2);
+        friends.add(friend3);
+        friends.add(friend4);
+        friends.add(friend5);
+        friends.add(friend6);
+        friends.add(friend7);
     }
-
-    public VoteChallengeFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false);
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-/*    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        rootView = inflater.inflate(R.layout.fragment_friends, container, false);
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+        ListView listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
+        listFriends.setClickable(true);
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+        FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(),
+                R.layout.listitem_friend,
+                friends);
 
-    *//**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     *//*
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }*/
+        listFriends.setAdapter(friendAdapter);
+
+        EditText addFriend = (EditText)rootView.findViewById(R.id.et_addFriend);
+        addFriend.clearFocus();
+
+        return rootView;
+    }
 
 }

@@ -1,14 +1,49 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="#ffffdfba"
     tools:context="com.example.quentin.cyoti.FriendsFragment">
 
     <ListView
         android:id="@+id/lv_friends"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10px" />
+        android:layout_height="300dp"
+        android:layout_marginTop="10dp" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_addFriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lv_friends"
+        android:text="@string/tv_addFriend"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_addFriend"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:id="@+id/et_addFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/et_addFriend"/>
+
+        <ImageButton
+            android:contentDescription="@string/ib_addFriend_description"
+            android:id="@+id/ib_addFriend"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_fb"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
