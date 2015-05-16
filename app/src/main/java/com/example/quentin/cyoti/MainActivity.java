@@ -1,5 +1,7 @@
 package com.example.quentin.cyoti;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +19,16 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().setIcon(R.mipmap.ic_app);
+
+        Bundle bundle = new Bundle();
+
+        Fragment fragment = new MainActivityFragment();
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+
+
 
         // Enable Local Datastore.
         //Parse.enableLocalDatastore(this);

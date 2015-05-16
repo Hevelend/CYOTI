@@ -22,6 +22,16 @@
         </activity>
 
         <activity
+            android:name=".CreationUserActivity"
+            android:label="@string/title_creation_user"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:icon="@drawable/ic_app">
+
+            <meta-data android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow"/>
+        </activity>
+
+        <activity
             android:name=".ChallengeActivity"
             android:label="@string/title_activity_challenge"
             android:uiOptions="splitActionBarWhenNarrow"

@@ -9,6 +9,7 @@
     android:background="@color/purple"
     tools:context=".MainActivityFragment">
 
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -27,22 +28,22 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-    <TextView
-        android:id="@+id/tv_cyoty"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="50dp"
-        android:text="@string/tv_cioty"
-        android:gravity="center"
-        android:layout_below="@+id/imageView"/>
-    <TextView
-        android:id="@+id/tv_challenge"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:textSize="30dp"
-        android:text="@string/tv_challenge"
-        android:gravity="center"
-        android:layout_below="@+id/tv_cyoty" />
+        <TextView
+            android:id="@+id/tv_cyoty"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="50dp"
+            android:text="@string/tv_cioty"
+            android:gravity="center"
+            android:layout_below="@+id/imageView"/>
+        <TextView
+            android:id="@+id/tv_challenge"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:textSize="30dp"
+            android:text="@string/tv_challenge"
+            android:gravity="center"
+            android:layout_below="@+id/tv_cyoty" />
     </LinearLayout>
 
 
@@ -68,7 +69,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-<!-- Alignement des boutons des réseaux sociaux pour la connexion -->
+    <!-- Alignement des boutons des réseaux sociaux pour la connexion -->
     <LinearLayout
         android:layout_width="225dp"
         android:layout_height="75dp"
@@ -116,14 +117,14 @@
 
     </LinearLayout>
 
-<!-- fin alignement bouton réseaux sociaux -->
-<!-- Alignement des textview pour la connexion -->
+    <!-- fin alignement bouton réseaux sociaux -->
+    <!-- Alignement des textview pour la connexion -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:id="@+id/linearLayout1"
-        android:layout_above="@+id/buttonConnection"
+        android:layout_above="@+id/login"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
         <TextView
@@ -155,16 +156,16 @@
             android:layout_below="@+id/txtpassword"
             android:inputType="textPassword" />
     </LinearLayout>
-<!-- fin de l'alignement des textview pour la connexion -->
+    <!-- fin de l'alignement des textview pour la connexion -->
 
     <Button
+        android:id="@+id/login"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="SIGN IN"
-        android:id="@+id/buttonConnection"
         android:background="@color/turquoise"
         android:layout_gravity="center_horizontal"
-        android:layout_above="@+id/button"
+        android:layout_above="@+id/signup"
         android:layout_centerHorizontal="true" />
     <Button
         android:layout_width="fill_parent"
@@ -174,5 +175,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/button" />
+        android:id="@+id/signup" />
 </RelativeLayout>
