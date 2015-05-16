@@ -7,16 +7,17 @@
     <string name="title_activity_challenge">ChallengeActivity</string>
     <string name="title_fragment_propose_challenge">Challenge your friends</string>
 
-    <string name="tv_write_challenge">Write a challenge</string>
-    <string name="et_write_challenge">Type something</string>
-    <string name="tv_choose_theme">Choose a theme</string>
-
-    <!-- ProposeChallengeFragment -->
+    <!-- MainActivityFragment -->
     <string name="tv_cioty">CYOTI PROJECT!</string>
     <string name="tv_challenge">Challenge your friends!</string>
     <string name="tv_signin">Sign in with social network</string>
-    <string name="bt_send_challenge">Send this challenge</string>
+
+    <!-- ProposeChallengeFragment -->
+    <string name="tv_write_challenge">Write a challenge</string>
+    <string name="et_write_challenge">Type something</string>
+    <string name="tv_choose_theme">Choose a theme</string>
     <string name="tv_who">Who ?</string>
+    <string name="bt_send_challenge">Send this challenge</string>
 
     <!-- VoteChallengeFragment -->
     <string name="tv_descriptionChallenge">Impossible to load challenge\'s description</string>
