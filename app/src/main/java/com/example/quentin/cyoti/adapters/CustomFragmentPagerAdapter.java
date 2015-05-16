@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.quentin.cyoti.FriendsFragment;
 import com.example.quentin.cyoti.ProposeChallengeFragment;
 import com.example.quentin.cyoti.VoteChallengeFragment;
 
@@ -24,6 +25,9 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new VoteChallengeFragment();
 
+            case 2:
+                return new FriendsFragment();
+
             default:
                 return null;
         }
@@ -31,6 +35,6 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }

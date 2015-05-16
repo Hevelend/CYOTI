@@ -24,4 +24,11 @@
         tools:layout="@layout/fragment_vote_challenge"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/fragment_friends"
+        android:name="com.example.quentin.cyoti.FriendsFragment"
+        tools:layout="@layout/fragment_friends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
