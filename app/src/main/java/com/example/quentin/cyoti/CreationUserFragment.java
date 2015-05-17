@@ -83,7 +83,7 @@ public class CreationUserFragment extends Fragment {
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(getActivity().getApplicationContext(),
-                                        "Sign up Error", Toast.LENGTH_LONG)
+                                        "Username or Email already existing", Toast.LENGTH_LONG)
                                         .show();
                             }
                         }
