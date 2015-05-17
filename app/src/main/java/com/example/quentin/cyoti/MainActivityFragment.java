@@ -60,7 +60,7 @@ public class MainActivityFragment extends Fragment {
                         new LogInCallback() {
                             public void done(ParseUser user, ParseException e) {
                                 if (user != null) {
-                                    // If user exist and authenticated, send user to Welcome.class
+                                    // If user exist and authenticated, send user to ChallengeActivity.class
                                     Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
                                     startActivity(intent);
                                     Toast.makeText(getActivity().getApplicationContext(),
@@ -83,7 +83,7 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
 
-                Fragment fragment = new CreationUserActivity();
+                Fragment fragment = new CreationUserFragment();
                 fragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = getFragmentManager();

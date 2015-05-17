@@ -166,14 +166,15 @@
         android:background="@color/turquoise"
         android:layout_gravity="center_horizontal"
         android:layout_above="@+id/signup"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"/>
+
     <Button
-        android:layout_width="fill_parent"
+        android:id="@+id/signup"
+        android:layout_width="250dp"
         android:layout_height="50dp"
-        android:background="@color/purple"
+        android:background="@color/turquoise"
         android:text="Create an account"
+        android:layout_margin="5dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/signup" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

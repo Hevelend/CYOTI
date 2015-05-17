@@ -2,13 +2,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#ffffdfba"
+    android:background="@color/beige"
     android:padding="10dip" >
 
     <TextView
         android:id="@+id/txtusername"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20dp"
         android:text="Username" />
 
     <EditText
@@ -23,6 +25,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/username"
+        android:gravity="center"
+        android:textSize="20dp"
         android:text="mail" />
 
     <EditText
@@ -36,6 +40,8 @@
         android:id="@+id/txtpassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20dp"
         android:layout_below="@+id/mail"
         android:text="Password" />
 
@@ -48,9 +54,12 @@
 
     <Button
         android:id="@+id/signup"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:background="@color/turquoise"
+        android:layout_margin="20dp"
         android:text="SIGN UP" />
 
 </RelativeLayout>

@@ -29,14 +29,14 @@ public class MainActivity extends ActionBarActivity {
         fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
 
 
-
-        // Enable Local Datastore.
-        //Parse.enableLocalDatastore(this);
-        //Parse.initialize(this, "MHc2HO2gVNyI2uMdGmHUPwNKDjMMMSGroQENoUmW", "ghzcQLyYa0M5HiIdRchcnfC1EE7RnXhL229tCUfX");
+/*
+        //Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "MHc2HO2gVNyI2uMdGmHUPwNKDjMMMSGroQENoUmW", "ghzcQLyYa0M5HiIdRchcnfC1EE7RnXhL229tCUfX");
 
         //ParseObject testObject = new ParseObject("TestObject");
         //testObject.put("foo", "bar");
-        //testObject.saveInBackground();
+        //testObject.saveInBackground();*/
     }
 
 
@@ -61,4 +61,5 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

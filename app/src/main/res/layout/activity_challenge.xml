@@ -12,6 +12,13 @@
     </android.support.v4.view.ViewPager>
 
     <fragment
+        android:id="@+id/fragment_user"
+        android:name="com.example.quentin.cyoti.UserFragment"
+        tools:layout="@layout/fragment_user"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
         android:id="@+id/fragment_propose_challenge"
         android:name="com.example.quentin.cyoti.ProposeChallengeFragment"
         tools:layout="@layout/fragment_propose_challenge"

@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#ffffdfba"
+    tools:context="com.example.quentin.cyoti.UserFragment">
+
+    <TextView
+        android:id="@+id/txtwelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="Welcome" />
+
+    <TextView
+        android:id="@+id/txtuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtwelcome"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_panda"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/txtuser"/>
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:layout_below="@id/imageView"
+        android:layout_centerInParent="true"
+        android:background="@color/turquoise"
+        android:textSize="30dp"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"/>
+
+</RelativeLayout>
