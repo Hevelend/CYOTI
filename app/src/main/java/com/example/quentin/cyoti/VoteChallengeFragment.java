@@ -40,8 +40,6 @@ public class VoteChallengeFragment extends Fragment {
         vote.setRotation(90f);
         vote.setProgress(75);
 
-
-
         return rootView;
     }
 }

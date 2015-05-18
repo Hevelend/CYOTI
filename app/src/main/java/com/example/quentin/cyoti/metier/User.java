@@ -1,35 +1,35 @@
 package com.example.quentin.cyoti.metier;
 
+import java.util.ArrayList;
+
 /**
- * Created by Vincent on 13/05/2015.
+ * Created by Vincent on 18/05/2015.
  */
-public class Friend {
+public class User {
     private String firstName;
-    private String lastName;
     private String nickName;
     private String imgPath;
+    private ArrayList<Friend> friends = new ArrayList<Friend>();
 
-    public Friend() {
+
+    public User() {
         firstName = "Mon";
-        lastName = "Ami";
         nickName = "Nick123";
         imgPath = "mipmap/ic_app";
     }
 
-    public Friend(String first, String last, String nick, String path) {
+    public User(String first, String last, String nick, String path) {
         firstName = first;
-        lastName = last;
         nickName = nick;
         imgPath = path;
     }
 
-    public Friend(String first, String last, String nick) {
+    public User(String first, String last, String nick) {
         firstName = first;
-        lastName = last;
         nickName = nick;
     }
 
-    public Friend(String name) {
+    public User(String name) {
         this.firstName = name;
     }
 
@@ -39,14 +39,6 @@ public class Friend {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getNickName() {
@@ -63,5 +55,13 @@ public class Friend {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public ArrayList<Friend> getFriends() {
+        return friends;
+    }
+
+    public void addFriend(String friend) {
+        this.friends.add(new Friend(friend));
     }
 }

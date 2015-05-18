@@ -1,17 +1,25 @@
 package com.example.quentin.cyoti;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.quentin.cyoti.adapters.CustomFragmentPagerAdapter;
+import com.example.quentin.cyoti.metier.User;
 import com.example.quentin.cyoti.utilities.FontsOverride;
 
+import java.util.ArrayList;
 
-public class ChallengeActivity extends ActionBarActivity {
+
+public class ChallengeActivity extends ActionBarActivity
+                                implements UserFragment.OnUserListener {
+
     private ViewPager viewPager;
     private CustomFragmentPagerAdapter mAdapter;
 
@@ -53,5 +61,35 @@ public class ChallengeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onUserConnected(User user) {
+        ProposeChallengeFragment frag = (ProposeChallengeFragment)
+                                        getSupportFragmentManager().findFragmentById(R.id.fragment_propose_challenge);
+
+        Bundle args = new Bundle();
+        ArrayList<String> friends = new ArrayList<String>();
+
+        for (int i=0; i<user.getFriends().size();i++) {
+            friends.add(user.getFriends().get(i).getFirstName());
+        }
+
+        args.putStringArrayList("friends", friends);
+
+        if (frag != null) {
+            frag.updateFriendsList(friends);
+        }
+
+        else {
+            ProposeChallengeFragment newFrag = new ProposeChallengeFragment();
+
+            newFrag.setArguments(args);
+
+            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+            fragTransaction.replace(R.id.fragment_propose_challenge, newFrag);
+            fragTransaction.addToBackStack(null);
+            fragTransaction.commit();
+        }
     }
 }

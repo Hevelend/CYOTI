@@ -65,7 +65,7 @@ public class MainActivityFragment extends Fragment {
                                     startActivity(intent);
                                     Toast.makeText(getActivity().getApplicationContext(),
                                             "Successfully Logged in",
-                                            Toast.LENGTH_LONG).show();
+                                            Toast.LENGTH_SHORT).show();
                                     getActivity().finish();
                                 } else {
                                     Toast.makeText(

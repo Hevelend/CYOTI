@@ -19,14 +19,14 @@ import java.util.ArrayList;
 /**
  * Created by Vincent on 13/05/2015.
  */
-public class FriendAdapter extends ArrayAdapter<Friend>{
-    public FriendAdapter(Context context, int resource, ArrayList<Friend> objects) {
+public class FriendAdapter extends ArrayAdapter<String>{
+    public FriendAdapter(Context context, int resource, ArrayList<String> objects) {
         super(context, resource, objects);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Friend f = this.getItem(position);
+        String f = this.getItem(position);
 
         Activity act = (Activity)getContext();
         LayoutInflater inflater = (act).getLayoutInflater();
@@ -34,7 +34,7 @@ public class FriendAdapter extends ArrayAdapter<Friend>{
         View v = inflater.inflate(R.layout.listitem_friend, parent, false);
 
         TextView tvFriend = (TextView)v.findViewById(R.id.tv_friend);
-        tvFriend.setText(f.getFirstName() + " " + f.getLastName());
+        tvFriend.setText(f);
 
         //ImageView imgFriend = (ImageView)v.findViewById(R.id.imageFriend);
         //imgFriend.setImageURI(Uri.parse(f.getImgPath()));
