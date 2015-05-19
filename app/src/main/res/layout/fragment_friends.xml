@@ -15,21 +15,37 @@
         android:layout_height="300dp"
         android:layout_marginTop="10dp" />
 
+    <Button
+        android:id="@+id/removeFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:padding="5dp"
+        android:text="Remove friends"
+        android:layout_below="@id/lv_friends"
+        android:layout_centerInParent="true"
+        android:background="@color/red"
+        android:textSize="30dp"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"/>
+
     <TextView
         android:id="@+id/tv_addFriend"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lv_friends"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/removeFriend"
+        android:layout_centerInParent="true"
         android:text="@string/tv_addFriend"
         android:textSize="30sp"
         android:textStyle="bold"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/ll_friend1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_addFriend"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_centerInParent="true">
 
         <EditText
             android:id="@+id/et_addFriend"
@@ -42,7 +58,7 @@
             android:id="@+id/ib_addFriend"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/ic_fb"/>
+            android:background="@drawable/ic_tick"/>
 
     </LinearLayout>
 
