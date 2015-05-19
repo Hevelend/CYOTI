@@ -42,7 +42,7 @@
             android:id="@+id/ib_addFriend"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/ic_fb"/>
+            android:background="@drawable/ic_tick"/>
 
     </LinearLayout>
 

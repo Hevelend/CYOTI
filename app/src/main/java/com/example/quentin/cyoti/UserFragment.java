@@ -16,7 +16,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.quentin.cyoti.adapters.ChallengeAdapter;
 import com.example.quentin.cyoti.adapters.FriendAdapter;
+import com.example.quentin.cyoti.metier.Challenge;
 import com.example.quentin.cyoti.metier.Friend;
 import com.example.quentin.cyoti.metier.User;
 import com.parse.ParseException;
@@ -27,6 +29,7 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,8 +37,14 @@ public class UserFragment extends Fragment {
     private View rootView;
     Button logout;
     private OnUserListener mCallback;
+    private ArrayList<String> challenges;
 
     public UserFragment() {
+        challenges = new ArrayList<String>();
+        Challenge challenge1 = new Challenge("Dance in McDonald's", new Date(), new Date(), new Friend("James", "Morrison", "Jim"), new Friend("Vincent", "Aunai", "Lodoss"));
+        Challenge challenge2 = new Challenge();
+        challenges.add(challenge1.getUserChallenger().getNickName() + " challenge you to " + challenge1.getDescription());
+        challenges.add(challenge2.getUserChallenger().getNickName() + " challenge you to " + challenge2.getDescription());
     }
 
     @Override
@@ -68,6 +77,16 @@ public class UserFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
+        //Liste des défis en attente
+        ListView listChallenges = (ListView)rootView.findViewById(R.id.lv_challenges);
+        listChallenges.setClickable(true);
+
+        ChallengeAdapter challengeAdapter = new ChallengeAdapter(rootView.getContext(),
+                R.layout.listitem_pending_challenge,
+                challenges);
+
+        listChallenges.setAdapter(challengeAdapter);
 
         // Ajout d'un ami si la liste est vide
         ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
