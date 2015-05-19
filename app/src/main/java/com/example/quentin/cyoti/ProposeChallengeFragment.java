@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quentin.cyoti.adapters.FriendAdapter;
@@ -59,8 +60,13 @@ public class ProposeChallengeFragment extends Fragment {
                 R.array.challenge_themes, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinner.setAdapter(adapter);
+
+        Bundle args = getArguments();
+
+        if (args != null) {
+            this.friends = args.getStringArrayList("friends");
+        }
 
         listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
         listFriends.setClickable(true);
@@ -86,16 +92,19 @@ public class ProposeChallengeFragment extends Fragment {
 
     public void updateFriendsList() {
         Bundle args = getArguments();
-        this.friends = args.getStringArrayList("friends");
+//        this.friends = args.getStringArrayList("friends");
+//
+//        if (this.friends.size() == 0) {
+//            Toast.makeText(getActivity().getApplicationContext(),
+//                    "liste friends vide",
+//                    Toast.LENGTH_SHORT).show();
+//
+//        }
+//
+//        else updateFriendsList(this.friends);
 
-        if (this.friends.size() == 0) {
-            Toast.makeText(getActivity().getApplicationContext(),
-                    "liste friends vide",
-                    Toast.LENGTH_SHORT).show();
-
-        }
-
-        else updateFriendsList(this.friends);
+        TextView tvWho = (TextView)rootView.findViewById(R.id.tv_who);
+        tvWho.setText(args.get("test").toString());
     }
 
     @Override

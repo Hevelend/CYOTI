@@ -77,6 +77,8 @@ public class ChallengeActivity extends ActionBarActivity
 
         args.putStringArrayList("friends", friends);
 
+
+
         if (frag != null) {
             frag.updateFriendsList(friends);
         }

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.metier.Friend;
 import com.example.quentin.cyoti.metier.User;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -34,6 +35,7 @@ public class UserFragment extends Fragment {
     private View rootView;
     Button logout;
     private OnUserListener mCallback;
+    private String tempObjectId;
 
     public UserFragment() {
     }
@@ -45,7 +47,7 @@ public class UserFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_user, container, false);
 
         // Retrieve current user from Parse.com
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        final ParseUser currentUser = ParseUser.getCurrentUser();
 
         // Convert currentUser into String
         String struser = currentUser.getUsername().toString();
@@ -72,10 +74,23 @@ public class UserFragment extends Fragment {
         // Ajout d'un ami si la liste est vide
         ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
         query.selectKeys(Arrays.asList("friend_list"));
+        query.whereEqualTo("username", currentUser.getUsername());
 
         try {
-            List<ParseObject> results = query.find();
-            int count = results.size();
+            query.getFirstInBackground(
+                new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject parseObject, ParseException e) {
+                        if (parseObject == null) {
+                            Log.d("thm", "The getFirst request failed.");
+                        } else {
+                            saveMyId(parseObject.getObjectId().toString());
+                            Log.d("thm", "Retrieved the object.");
+                        }
+                    }
+                });
+
+            int count = query.count();
 
             if (count == 0) {
                 Log.d("ct", "No friends");
@@ -90,35 +105,60 @@ public class UserFragment extends Fragment {
                     public void done(ParseException e) {
                         if (e == null) {
                             Log.d("chg", "Query object ok");
+                            saveMyId(currentUser.getObjectId());
                         } else {
                             Log.d("chg", "The put request failed.");
                         }
                     }
                 });
 
-                User user = new User();
 
+                query = ParseQuery.getQuery("User");
+                query.whereEqualTo("objectID", tempObjectId);
+                query.selectKeys(Arrays.asList("friend_list"));
+
+                query.getFirstInBackground(
+                        new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject parseObject, ParseException e) {
+                                if (parseObject == null) {
+                                    Log.d("thm", "The getFirst request failed.");
+                                } else {
+                                    saveMyId(parseObject.getObjectId().toString());
+                                    Log.d("thm", "Retrieved the object.");
+                                }
+                            }
+                        });
+
+                User user = new User();
                 user.setFirstName(currentUser.getUsername());
 
-
-                for (int i =0;i<results.size();i++) {
-                    user.addFriend(results.get(i).toString());
-                }
+//                for (int i =0;i<query.count();i++) {
+//                    user.addFriend(query.getList("friend_list").get(i).toString());
+//                }
 
                 mCallback.onUserConnected(user);
             }
 
             else {
-                Log.d("ctf", "Nombre amis :" + count);
+                query = ParseQuery.getQuery("User");
+                query.whereEqualTo("objectID", tempObjectId);
+                query.selectKeys(Arrays.asList("friend_list"));
 
-                //intent.putExtra("user", bundleUser);
+                //result = query.getFirst();
+
+                User user = new User();
+                user.setFirstName(currentUser.getUsername());
+
+//                for (int i =0;i<result.getList("friend_list").size();i++) {
+//                    user.addFriend(result.getList("friend_list").get(i).toString());
+//                }
+
+                mCallback.onUserConnected(user);
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-        //intent.putExtra("user", );
 
         return rootView;
     }
@@ -143,6 +183,10 @@ public class UserFragment extends Fragment {
     // Interface de communication avec l'activiy parente
     public interface OnUserListener {
         public void onUserConnected(User user);
+    }
+
+    public void saveMyId(String objectId) {
+        tempObjectId = objectId;
     }
 
 }
