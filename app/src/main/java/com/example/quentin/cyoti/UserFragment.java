@@ -38,11 +38,10 @@ public class UserFragment extends Fragment {
     private View rootView;
     Button logout;
     private OnUserListener mCallback;
-<<<<<<< HEAD
     private String tempObjectId;
-=======
     private ArrayList<String> challenges;
->>>>>>> origin/master
+    private static User user = new User();
+    private static List<String> friends = null;
 
     public UserFragment() {
         challenges = new ArrayList<String>();
@@ -93,94 +92,42 @@ public class UserFragment extends Fragment {
 
         listChallenges.setAdapter(challengeAdapter);
 
-        // Ajout d'un ami si la liste est vide
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-        query.selectKeys(Arrays.asList("friend_list"));
-        query.whereEqualTo("username", currentUser.getUsername());
 
-        try {
-            query.getFirstInBackground(
-                new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject parseObject, ParseException e) {
-                        if (parseObject == null) {
-                            Log.d("thm", "The getFirst request failed.");
-                        } else {
-                            saveMyId(parseObject.getObjectId().toString());
-                            Log.d("thm", "Retrieved the object.");
+
+        // On cherche la liste d'amis du currentUser
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+        query.getInBackground(currentUser.getObjectId(), new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                int result;
+
+                if (e == null) result = 1;
+                else result = 0;
+
+                switch(result) {
+                    case 0:
+                        Log.d("queryFail", "Query has failed \n" + e.toString());
+                        break;
+
+                    case 1:
+                        friends = parseObject.getList("friend_list");
+                        UserFragment.user.setFirstName(currentUser.getUsername().toString());
+
+                        if (friends.size() == 0) {
+                            Log.d("tab", "Liste d'amis vide");
                         }
-                    }
-                });
 
-            int count = query.count();
-
-            if (count == 0) {
-                Log.d("ct", "No friends");
-                ArrayList<String> friends = new ArrayList<String>();
-                Friend friend1 = new Friend();
-                Friend friend2 = new Friend("Vincent","Aunai","TiLodoss");
-                friends.add(friend1.getFirstName());
-                friends.add(friend2.getFirstName());
-                currentUser.put("friend_list", friends);
-
-                currentUser.saveInBackground(new SaveCallback() {
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Log.d("chg", "Query object ok");
-                            saveMyId(currentUser.getObjectId());
-                        } else {
-                            Log.d("chg", "The put request failed.");
-                        }
-                    }
-                });
-
-
-                query = ParseQuery.getQuery("User");
-                query.whereEqualTo("objectID", tempObjectId);
-                query.selectKeys(Arrays.asList("friend_list"));
-
-                query.getFirstInBackground(
-                        new GetCallback<ParseObject>() {
-                            @Override
-                            public void done(ParseObject parseObject, ParseException e) {
-                                if (parseObject == null) {
-                                    Log.d("thm", "The getFirst request failed.");
-                                } else {
-                                    saveMyId(parseObject.getObjectId().toString());
-                                    Log.d("thm", "Retrieved the object.");
-                                }
+                        else {
+                            for (int i=0;i<friends.size();i++) {
+                                UserFragment.user.addFriend(friends.get(i));
                             }
-                        });
+                        }
 
-                User user = new User();
-                user.setFirstName(currentUser.getUsername());
-
-//                for (int i =0;i<query.count();i++) {
-//                    user.addFriend(query.getList("friend_list").get(i).toString());
-//                }
-
-                mCallback.onUserConnected(user);
+                        mCallback.onUserConnected(UserFragment.user);
+                        break;
+                }
             }
-
-            else {
-                query = ParseQuery.getQuery("User");
-                query.whereEqualTo("objectID", tempObjectId);
-                query.selectKeys(Arrays.asList("friend_list"));
-
-                //result = query.getFirst();
-
-                User user = new User();
-                user.setFirstName(currentUser.getUsername());
-
-//                for (int i =0;i<result.getList("friend_list").size();i++) {
-//                    user.addFriend(result.getList("friend_list").get(i).toString());
-//                }
-
-                mCallback.onUserConnected(user);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        });
 
         return rootView;
     }
@@ -191,13 +138,12 @@ public class UserFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-
         // On regarde si l'activité implémente bien l'interface de communication
         try {
             mCallback = (OnUserListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnUserListener");
         }
     }
 

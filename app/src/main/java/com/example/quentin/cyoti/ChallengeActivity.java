@@ -68,30 +68,33 @@ public class ChallengeActivity extends ActionBarActivity
         ProposeChallengeFragment frag = (ProposeChallengeFragment)
                                         getSupportFragmentManager().findFragmentById(R.id.fragment_propose_challenge);
 
+
         Bundle args = new Bundle();
         ArrayList<String> friends = new ArrayList<String>();
 
-        for (int i=0; i<user.getFriends().size();i++) {
-            friends.add(user.getFriends().get(i).getFirstName());
-        }
+        if (user.getFriends().size() != 0) {
+            for (int i=0; i<user.getFriends().size();i++) {
+                friends.add(user.getFriends().get(i).getFirstName());
+            }
 
-        args.putStringArrayList("friends", friends);
+            args.putStringArrayList("friends", friends);
 
+            if (frag != null) {
+                Log.d("fragNNull", "Fragment ProposeChallengeFragment déjà existant");
+                frag.updateFriendsList(friends);
+            }
 
+            else {
+                Log.d("fragNull", "Fragment ProposeChallengeFragment non existant");
+                ProposeChallengeFragment newFrag = new ProposeChallengeFragment();
 
-        if (frag != null) {
-            frag.updateFriendsList(friends);
-        }
+                newFrag.setArguments(args);
 
-        else {
-            ProposeChallengeFragment newFrag = new ProposeChallengeFragment();
-
-            newFrag.setArguments(args);
-
-            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-            fragTransaction.replace(R.id.fragment_propose_challenge, newFrag);
-            fragTransaction.addToBackStack(null);
-            fragTransaction.commit();
+                FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+                fragTransaction.replace(R.id.fragment_propose_challenge, newFrag);
+                fragTransaction.addToBackStack(null);
+                fragTransaction.commit();
+            }
         }
     }
 }

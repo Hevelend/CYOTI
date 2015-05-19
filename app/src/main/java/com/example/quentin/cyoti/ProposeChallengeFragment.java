@@ -3,6 +3,7 @@ package com.example.quentin.cyoti;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class ProposeChallengeFragment extends Fragment {
         Bundle args = getArguments();
 
         if (args != null) {
+            Log.d("args", "ProposeChallengeFragment - args non null");
             this.friends = args.getStringArrayList("friends");
         }
 
@@ -82,29 +84,27 @@ public class ProposeChallengeFragment extends Fragment {
 
     public void updateFriendsList(ArrayList<String> friends) {
         this.friends = friends;
+        listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
 
-       FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(),
-                R.layout.listitem_friend,
-                this.friends);
+        FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(),
+                                                        R.layout.listitem_friend,
+                                                        this.friends);
 
         listFriends.setAdapter(friendAdapter);
     }
 
     public void updateFriendsList() {
         Bundle args = getArguments();
-//        this.friends = args.getStringArrayList("friends");
-//
-//        if (this.friends.size() == 0) {
-//            Toast.makeText(getActivity().getApplicationContext(),
-//                    "liste friends vide",
-//                    Toast.LENGTH_SHORT).show();
-//
-//        }
-//
-//        else updateFriendsList(this.friends);
+        this.friends = args.getStringArrayList("friends");
 
-        TextView tvWho = (TextView)rootView.findViewById(R.id.tv_who);
-        tvWho.setText(args.get("test").toString());
+        if (this.friends.size() == 0) {
+            Toast.makeText(getActivity().getApplicationContext(),
+                    "liste friends vide",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+
+        else updateFriendsList(this.friends);
     }
 
     @Override
