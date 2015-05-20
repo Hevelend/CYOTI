@@ -14,14 +14,18 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.metier.Friend;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -31,14 +35,17 @@ public class ProposeChallengeFragment extends Fragment {
     private View rootView;
     private ArrayList<String> tempFriends;
     private ArrayList<Friend> friends;
-    private ArrayList<Friend> friendsChecked;
+    private Friend friendSelected;
     private ListView listFriends;
     private ParseObject tempObject;
+    private String tempObjectID = "idTest";
+    private ParseUser currentUser;
+    private String themeID;
 
     public ProposeChallengeFragment() {
         tempFriends = new ArrayList<String>();
         friends = new ArrayList<Friend>();
-        friendsChecked = new ArrayList<Friend>();
+        currentUser = ParseUser.getCurrentUser();
     }
 
     @Override
@@ -47,8 +54,7 @@ public class ProposeChallengeFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_propose_challenge, container, false);
 
-        EditText writeChallenge = (EditText)rootView.findViewById(R.id.et_challenge);
-        writeChallenge.setFocusable(false);
+        final EditText writeChallenge = (EditText)rootView.findViewById(R.id.et_challenge);
 
         Spinner spinner = (Spinner)rootView.findViewById(R.id.sp_challenge_themes);
 
@@ -57,6 +63,18 @@ public class ProposeChallengeFragment extends Fragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                themeID = (String) parent.getAdapter().getItem(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 //        Bundle args = getArguments();
 //
@@ -91,6 +109,7 @@ public class ProposeChallengeFragment extends Fragment {
                 }
 
                 else {
+                    friendSelected = f;
                     f.setSelected(true);
                     tvFriendSelected.setText("Selected !");
                 }
@@ -101,7 +120,48 @@ public class ProposeChallengeFragment extends Fragment {
         btSendChallenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // ajout dans base
+                if (friendSelected != null) {
+                    // Add challenge in database
+                    final ParseObject mychallenge = new ParseObject("Challenge");
+
+                    if (writeChallenge.getText().toString().equals(writeChallenge.getHint())) {
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "You have to write a description !", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        mychallenge.put("challenge", writeChallenge.getText().toString());
+                    }
+
+                    if (themeID.equals("Choose a theme for your challenge")) {
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                        "You have to choose a theme !", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else {
+                        mychallenge.put("theme_id", themeID);
+                    }
+
+                    mychallenge.saveInBackground(new SaveCallback() {
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Log.d("chg", "Query object ok");
+                                saveMyID(mychallenge.getObjectId().toString());
+                            } else {
+                                Log.d("chg", "The getFirst request failed.");
+                            }
+                        }
+                    });
+
+                    String tempChallengeID = tempObjectID;
+
+                    // Attribute a challenge to a friend
+                    ParseObject myattributed = new ParseObject("Attributed_challenge");
+                    myattributed.put("challenge_id", tempChallengeID);
+                    myattributed.put("user_id", currentUser.getObjectId());
+                    myattributed.put("user_id_applicant", friendSelected.getFirstName());
+                    myattributed.put("sending_date", new Date());
+                    myattributed.saveInBackground();
+                }
             }
         });
 
@@ -121,7 +181,7 @@ public class ProposeChallengeFragment extends Fragment {
 
 
     public void getFriends() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
 
         try {
@@ -137,5 +197,9 @@ public class ProposeChallengeFragment extends Fragment {
                 friends.add(new Friend(tempFriends.get(i)));
             }
         }
+    }
+
+    public void saveMyID(String myid) {
+        tempObjectID = myid;
     }
 }
