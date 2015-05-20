@@ -38,10 +38,12 @@ public class UserFragment extends Fragment {
     private View rootView;
     Button logout;
     private OnUserListener mCallback;
-    private String tempObjectId;
+    private ParseObject tempObject = null;
     private ArrayList<String> challenges;
     private static User user = new User();
     private static List<String> friends = null;
+    private boolean queryOK = false;
+    private int i = 0;
 
     public UserFragment() {
         challenges = new ArrayList<String>();
@@ -94,40 +96,43 @@ public class UserFragment extends Fragment {
 
 
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                    /*TODO Ce bout de code sera à travailler plus tard... */
+
         // On cherche la liste d'amis du currentUser
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        query.getInBackground(currentUser.getObjectId(), new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                int result;
 
-                if (e == null) result = 1;
-                else result = 0;
 
-                switch(result) {
-                    case 0:
-                        Log.d("queryFail", "Query has failed \n" + e.toString());
-                        break;
 
-                    case 1:
-                        friends = parseObject.getList("friend_list");
-                        UserFragment.user.setFirstName(currentUser.getUsername().toString());
-
-                        if (friends.size() == 0) {
-                            Log.d("tab", "Liste d'amis vide");
-                        }
-
-                        else {
-                            for (int i=0;i<friends.size();i++) {
-                                UserFragment.user.addFriend(friends.get(i));
-                            }
-                        }
-
-                        mCallback.onUserConnected(UserFragment.user);
-                        break;
-                }
-            }
-        });
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+//
+//        try {
+//            tempObject = query.get(currentUser.getObjectId());
+//            Log.d("queryOK", "Results found in query");
+//        } catch (ParseException e) {
+//            Log.d("queryFail", "Query has failed : " + e.toString());
+//        }
+//
+//        if (tempObject != null) {
+//            Log.d("tpObj", "tempObject not null");
+//            user.setFirstName(tempObject.getString("username"));
+//
+//            friends = tempObject.getList("friend_list");
+//
+//            if (friends.size() == 0) {
+//                Log.d("tab", "Liste d'amis vide");
+//            }
+//
+//            else {
+//                for (int i = 0; i < friends.size(); i++) {
+//                    user.addFriend(friends.get(i));
+//                }
+//            }
+//
+//            mCallback.onUserConnected(user);
+//        }
+//
+//        else Log.d("tpObjNull", "tempObject is null");
 
         return rootView;
     }
@@ -153,8 +158,8 @@ public class UserFragment extends Fragment {
         public void onUserConnected(User user);
     }
 
-    public void saveMyId(String objectId) {
-        tempObjectId = objectId;
+    public void saveObject(ParseObject object) {
+        tempObject = object;
     }
 
 }

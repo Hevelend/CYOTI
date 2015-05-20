@@ -8,6 +8,7 @@ public class Friend {
     private String lastName;
     private String nickName;
     private String imgPath;
+    private boolean isChecked = false;
 
     public Friend() {
         firstName = "Mon";
@@ -63,5 +64,13 @@ public class Friend {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean check) {
+        isChecked = check;
     }
 }
