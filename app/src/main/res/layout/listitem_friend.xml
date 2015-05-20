@@ -4,22 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <CheckBox
-        android:id="@+id/cb_friendCkeck"
+    <!--<CheckBox
+        android:id="@+id/cb_friendCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40px"
         android:layout_marginLeft="20px"
-        android:focusable="false"/>
+        android:focusable="false"/>  -->
 
     <ImageView
         android:id="@+id/imageFriend"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_toRightOf="@id/cb_friendCkeck"
         android:layout_marginLeft="30px"
         android:layout_marginTop="25px"
         android:src="@mipmap/ic_app" />
+        <!--android:layout_toRightOf="@id/cb_friendCheck" -->
+
 
     <TextView
         android:id="@+id/tv_friend"
@@ -31,6 +32,18 @@
         android:layout_marginTop="30px"
         android:layout_marginLeft="30px"
         android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_friendSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imageFriend"
+        android:layout_toRightOf="@id/tv_friend"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="100dp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textSize="20dp" />
 
 
 

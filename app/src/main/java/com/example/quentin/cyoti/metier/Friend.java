@@ -8,7 +8,7 @@ public class Friend {
     private String lastName;
     private String nickName;
     private String imgPath;
-    private boolean isChecked = false;
+    private boolean isSelected = false;
 
     public Friend() {
         firstName = "Mon";
@@ -66,11 +66,11 @@ public class Friend {
         this.imgPath = imgPath;
     }
 
-    public boolean isChecked() {
-        return isChecked;
+    public boolean isSelected() {
+        return this.isSelected;
     }
 
-    public void setChecked(boolean check) {
-        isChecked = check;
+    public void setSelected(boolean select) {
+        this.isSelected = select;
     }
 }

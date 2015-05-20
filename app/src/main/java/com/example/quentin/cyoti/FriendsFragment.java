@@ -49,9 +49,7 @@ public class FriendsFragment extends Fragment {
         ListView listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
         listFriends.setClickable(true);
 
-        FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(),
-                R.layout.listitem_friend,
-                friends);
+        FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(), R.layout.listitem_friend, friends);
 
         listFriends.setAdapter(friendAdapter);
 

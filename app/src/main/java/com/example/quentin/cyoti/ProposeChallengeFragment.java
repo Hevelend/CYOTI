@@ -8,13 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-
+import android.widget.TextView;
 import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.metier.Friend;
 import com.parse.ParseException;
@@ -32,12 +31,14 @@ public class ProposeChallengeFragment extends Fragment {
     private View rootView;
     private ArrayList<String> tempFriends;
     private ArrayList<Friend> friends;
+    private ArrayList<Friend> friendsChecked;
     private ListView listFriends;
     private ParseObject tempObject;
 
     public ProposeChallengeFragment() {
         tempFriends = new ArrayList<String>();
         friends = new ArrayList<Friend>();
+        friendsChecked = new ArrayList<Friend>();
     }
 
     @Override
@@ -73,31 +74,34 @@ public class ProposeChallengeFragment extends Fragment {
         listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
         listFriends.setClickable(true);
 
-        if (listFriends.isClickable()) Log.d("pcfList", "liste clickable");
-
-        FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(),
-                                                        R.layout.listitem_friend,
-                                                        friends);
+        ArrayAdapter<Friend> friendAdapter = new FriendAdapter(rootView.getContext(), R.layout.listitem_friend, friends);
 
         listFriends.setAdapter(friendAdapter);
 
         listFriends.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("listclick", "click sur item "+position);
                 Friend f = (Friend)parent.getAdapter().getItem(position);
 
-                CheckBox cbFriend = (CheckBox)rootView.findViewById(R.id.cb_friendCkeck);
+                TextView tvFriendSelected = (TextView) view.findViewById(R.id.tv_friendSelected);
 
-                if (f.isChecked()) {
-                    cbFriend.setChecked(false);
-                    f.setChecked(false);
+                if (f.isSelected()) {
+                    f.setSelected(false);
+                    tvFriendSelected.setText("");
                 }
 
                 else {
-                    cbFriend.setChecked(true);
-                    f.setChecked(true);
+                    f.setSelected(true);
+                    tvFriendSelected.setText("Selected !");
                 }
+            }
+        });
+
+        Button btSendChallenge = (Button) rootView.findViewById(R.id.bt_sendChallenge);
+        btSendChallenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ajout dans base
             }
         });
 
@@ -122,14 +126,11 @@ public class ProposeChallengeFragment extends Fragment {
 
         try {
             tempObject = query.get(currentUser.getObjectId());
-            Log.d("queryOK", "Results found in query");
         } catch (ParseException e) {
             Log.d("queryFail", "Query has failed : " + e.toString());
         }
 
         if (tempObject != null) {
-            Log.d("tpObj", "tempObject not null");
-
             tempFriends = (ArrayList<String>) tempObject.get("friend_list");
 
             for (int i=0;i<tempFriends.size();i++) {
