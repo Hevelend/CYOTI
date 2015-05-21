@@ -13,11 +13,11 @@ public class Challenge {
     private Friend friendChallenger;
 
     public Challenge() {
-        this.description = "Sing in public";
-        this.createdDate = new Date(1432001045);
-        this.finishedDate = null;
-        this.friendChallenged = new Friend("John", "Smith","JS");
-        this.friendChallenger = new Friend("Jane", "Doe", "JD");
+//        this.description = "Sing in public";
+//        this.createdDate = new Date(1432001045);
+//        this.finishedDate = null;
+//        this.friendChallenged = new Friend("John", "Smith","JS");
+//        this.friendChallenger = new Friend("Jane", "Doe", "JD");
     }
 
     public Challenge(String description, Date creation, Date finish, Friend challenged, Friend challenger) {

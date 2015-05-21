@@ -41,6 +41,7 @@ public class ProposeChallengeFragment extends Fragment {
     private String tempObjectID = "idTest";
     private ParseUser currentUser;
     private String themeID;
+    private boolean friendsCollected = false;
 
     public ProposeChallengeFragment() {
         tempFriends = new ArrayList<String>();
@@ -87,7 +88,7 @@ public class ProposeChallengeFragment extends Fragment {
 //            Log.d("friendsNull", "liste friends vide");
 //        }
 
-        getFriends();
+        if (!friendsCollected) getFriends();
 
         listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
         listFriends.setClickable(true);
@@ -181,7 +182,6 @@ public class ProposeChallengeFragment extends Fragment {
 
 
     public void getFriends() {
-
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
 
         try {
@@ -197,6 +197,8 @@ public class ProposeChallengeFragment extends Fragment {
                 friends.add(new Friend(tempFriends.get(i)));
             }
         }
+
+        friendsCollected = true;
     }
 
     public void saveMyID(String myid) {
