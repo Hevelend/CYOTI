@@ -1,5 +1,7 @@
 package com.example.quentin.cyoti;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -100,19 +102,19 @@ public class ProposeChallengeFragment extends Fragment {
         listFriends.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Friend f = (Friend)parent.getAdapter().getItem(position);
+                Friend f = (Friend) parent.getAdapter().getItem(position);
 
-                TextView tvFriendSelected = (TextView) view.findViewById(R.id.tv_friendSelected);
+                TextView tvFriend = (TextView) view.findViewById(R.id.tv_friend);
 
                 if (f.isSelected()) {
                     f.setSelected(false);
-                    tvFriendSelected.setText("");
-                }
-
-                else {
+                    parent.getChildAt(position).setBackgroundColor(0);
+                    tvFriend.setTypeface(null, Typeface.NORMAL);
+                } else {
                     friendSelected = f;
                     f.setSelected(true);
-                    tvFriendSelected.setText("Selected !");
+                    tvFriend.setTypeface(null, Typeface.BOLD);
+                    parent.getChildAt(position).setBackgroundColor(Color.LTGRAY);
                 }
             }
         });
@@ -128,17 +130,14 @@ public class ProposeChallengeFragment extends Fragment {
                     if (writeChallenge.getText().toString().equals(writeChallenge.getHint())) {
                         Toast.makeText(getActivity().getApplicationContext(),
                                 "You have to write a description !", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         mychallenge.put("challenge", writeChallenge.getText().toString());
                     }
 
                     if (themeID.equals("Choose a theme for your challenge")) {
                         Toast.makeText(getActivity().getApplicationContext(),
-                                        "You have to choose a theme !", Toast.LENGTH_SHORT).show();
-                    }
-
-                    else {
+                                "You have to choose a theme !", Toast.LENGTH_SHORT).show();
+                    } else {
                         mychallenge.put("theme_id", themeID);
                     }
 
@@ -193,8 +192,10 @@ public class ProposeChallengeFragment extends Fragment {
         if (tempObject != null) {
             tempFriends = (ArrayList<String>) tempObject.get("friend_list");
 
-            for (int i=0;i<tempFriends.size();i++) {
-                friends.add(new Friend(tempFriends.get(i)));
+            if (tempFriends != null) {
+                for (int i = 0; i < tempFriends.size(); i++) {
+                    friends.add(new Friend(tempFriends.get(i)));
+                }
             }
         }
 

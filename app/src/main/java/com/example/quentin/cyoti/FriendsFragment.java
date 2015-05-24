@@ -1,6 +1,8 @@
 package com.example.quentin.cyoti;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -65,16 +67,18 @@ public class FriendsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friend f = (Friend) parent.getAdapter().getItem(position);
 
-                TextView tvFriendSelected = (TextView) view.findViewById(R.id.tv_friendSelected);
+                TextView tvFriend = (TextView) view.findViewById(R.id.tv_friend);
 
                 if (f.isSelected()) {
                     friendsSelected.remove(f);
                     f.setSelected(false);
-                    tvFriendSelected.setText("");
+                    parent.getChildAt(position).setBackgroundColor(0);
+                    tvFriend.setTypeface(null, Typeface.NORMAL);
                 } else {
                     friendsSelected.add(f);
                     f.setSelected(true);
-                    tvFriendSelected.setText("Selected !");
+                    tvFriend.setTypeface(null, Typeface.BOLD);
+                    parent.getChildAt(position).setBackgroundColor(Color.LTGRAY);
                 }
             }
         });
@@ -182,8 +186,11 @@ public class FriendsFragment extends Fragment {
         if (tempObject != null) {
             tempFriends = (ArrayList<String>) tempObject.get("friend_list");
 
-            for (int i=0;i<tempFriends.size();i++) {
-                friends.add(new Friend(tempFriends.get(i)));
+
+            if (tempFriends != null) {
+                for (int i = 0; i < tempFriends.size(); i++) {
+                    friends.add(new Friend(tempFriends.get(i)));
+                }
             }
         }
 

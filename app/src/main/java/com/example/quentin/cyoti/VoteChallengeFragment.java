@@ -62,44 +62,48 @@ public class VoteChallengeFragment extends Fragment {
         btLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseObject vote = new ParseObject("Vote");
-                vote.put("attributed_challenge_id", "idTest");
-                vote.put("vote_yes", true);
-                vote.put("vote_no", false);
-                vote.put("user_id", ParseUser.getCurrentUser().getObjectId());
+                if (!hasVoted()) {
+                    ParseObject vote = new ParseObject("Vote");
+                    vote.put("attributed_challenge_id", "idTest");
+                    vote.put("vote_yes", true);
+                    vote.put("vote_no", false);
+                    vote.put("user_id", ParseUser.getCurrentUser().getObjectId());
 
-                try {
-                    vote.save();
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    try {
+                        vote.save();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    updateProgressBar();
+
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Vote enregistré - Réussite du challenge", Toast.LENGTH_SHORT).show();
                 }
-
-                updateProgressBar();
-
-                Toast.makeText(getActivity().getApplicationContext(),
-                                "Vote enregistré - Réussite du challenge", Toast.LENGTH_SHORT).show();
             }
         });
 
         btUnlike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseObject vote = new ParseObject("Vote");
-                vote.put("attributed_challenge_id", "idTest");
-                vote.put("vote_yes", false);
-                vote.put("vote_no", true);
-                vote.put("user_id", ParseUser.getCurrentUser().getObjectId());
+                if (!hasVoted()) {
+                    ParseObject vote = new ParseObject("Vote");
+                    vote.put("attributed_challenge_id", "idTest");
+                    vote.put("vote_yes", false);
+                    vote.put("vote_no", true);
+                    vote.put("user_id", ParseUser.getCurrentUser().getObjectId());
 
-                try {
-                    vote.save();
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    try {
+                        vote.save();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    updateProgressBar();
+
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Vote enregistré - Défaite du challenge", Toast.LENGTH_SHORT).show();
                 }
-
-                updateProgressBar();
-
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Vote enregistré - Défaite du challenge", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -160,6 +164,7 @@ public class VoteChallengeFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         ParseQuery<ParseObject> queryVoteYes = ParseQuery.getQuery("Vote");
         queryVoteYes.whereEqualTo("attributed_challenge_id", "idTest");
         queryVoteYes.whereEqualTo("vote_yes", true);
@@ -177,5 +182,32 @@ public class VoteChallengeFragment extends Fragment {
         getPurcentageVote();
         vote.setProgress(purcentVote.intValue());
         tvPurcent.setText(String.valueOf(purcentVote.intValue()) + "%");
+    }
+
+    public boolean hasVoted() {
+        boolean hasVoted;
+        ParseQuery<ParseObject> queryUser= ParseQuery.getQuery("Vote");
+        queryUser.whereEqualTo("attributed_challenge_id", "idTest");
+        queryUser.whereEqualTo("user_id", ParseUser.getCurrentUser().getObjectId());
+
+        try {
+            ParseObject result = queryUser.getFirst();
+            String userID = result.get("user_id").toString();
+
+            if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                Toast.makeText(getActivity().getApplicationContext(),
+                                "Vous avez déjà voté pour ce challenge !",
+                                Toast.LENGTH_SHORT).show();
+
+                hasVoted = true;
+            }
+
+            else hasVoted =  false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            hasVoted = false;
+        }
+
+        return hasVoted;
     }
 }

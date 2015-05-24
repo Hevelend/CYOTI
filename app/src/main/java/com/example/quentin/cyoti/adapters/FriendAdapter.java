@@ -40,11 +40,6 @@ public class FriendAdapter extends ArrayAdapter<Friend>{
         TextView tvFriend = (TextView)v.findViewById(R.id.tv_friend);
         tvFriend.setText(f.getFirstName());
 
-        TextView tvFriendSelected = (TextView)v.findViewById(R.id.tv_friendSelected);
-
-        if (f.isSelected()) tvFriendSelected.setText("Selected !");
-        else tvFriendSelected.setText("");
-
 
 
         //ImageView imgFriend = (ImageView)v.findViewById(R.id.imageFriend);
