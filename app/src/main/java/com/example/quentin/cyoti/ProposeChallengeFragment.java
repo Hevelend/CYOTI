@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -37,7 +38,7 @@ public class ProposeChallengeFragment extends Fragment {
     private View rootView;
     private ArrayList<String> tempFriends;
     private ArrayList<Friend> friends;
-    private Friend friendSelected;
+    private ArrayList<Friend> friendsSelected;
     private ListView listFriends;
     private ParseObject tempObject;
     private String tempObjectID = "idTest";
@@ -48,6 +49,7 @@ public class ProposeChallengeFragment extends Fragment {
     public ProposeChallengeFragment() {
         tempFriends = new ArrayList<String>();
         friends = new ArrayList<Friend>();
+        friendsSelected = new ArrayList<Friend>();
         currentUser = ParseUser.getCurrentUser();
     }
 
@@ -103,17 +105,20 @@ public class ProposeChallengeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friend f = (Friend) parent.getAdapter().getItem(position);
-
                 TextView tvFriend = (TextView) view.findViewById(R.id.tv_friend);
+                CheckBox cbFriend = (CheckBox) view.findViewById(R.id.cb_friendCheck);
+
+                cbFriend.toggle();
 
                 if (f.isSelected()) {
+                    friendsSelected.remove(f);
                     f.setSelected(false);
                     parent.getChildAt(position).setBackgroundColor(0);
-                    tvFriend.setTypeface(null, Typeface.NORMAL);
                 } else {
-                    friendSelected = f;
+                    friendsSelected.add(f);
                     f.setSelected(true);
-                    tvFriend.setTypeface(null, Typeface.BOLD);
+
+                    /* TODO : Changer la couleur du background après la nouvelle interface */
                     parent.getChildAt(position).setBackgroundColor(Color.LTGRAY);
                 }
             }
@@ -123,7 +128,7 @@ public class ProposeChallengeFragment extends Fragment {
         btSendChallenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (friendSelected != null) {
+                if (friendsSelected != null || friendsSelected.size() != 0) {
                     // Add challenge in database
                     final ParseObject mychallenge = new ParseObject("Challenge");
 
@@ -155,12 +160,14 @@ public class ProposeChallengeFragment extends Fragment {
                     String tempChallengeID = tempObjectID;
 
                     // Attribute a challenge to a friend
-                    ParseObject myattributed = new ParseObject("Attributed_challenge");
-                    myattributed.put("challenge_id", tempChallengeID);
-                    myattributed.put("user_id", currentUser.getObjectId());
-                    myattributed.put("user_id_applicant", friendSelected.getFirstName());
-                    myattributed.put("sending_date", new Date());
-                    myattributed.saveInBackground();
+                    for (int i=0; i<friendsSelected.size(); i++) {
+                        ParseObject myattributed = new ParseObject("Attributed_challenge");
+                        myattributed.put("challenge_id", tempChallengeID);
+                        myattributed.put("user_id", currentUser.getObjectId());
+                        myattributed.put("user_id_applicant", friendsSelected.get(i).getFirstName());
+                        myattributed.put("sending_date", new Date());
+                        myattributed.saveInBackground();
+                    }
                 }
             }
         });
