@@ -151,8 +151,12 @@ public class ProposeChallengeFragment extends Fragment {
                             if (e == null) {
                                 Log.d("chg", "Query object ok");
                                 saveMyID(mychallenge.getObjectId().toString());
+                                Toast.makeText(getActivity().getApplicationContext(),
+                                                "Challenge sent !", Toast.LENGTH_SHORT).show();
                             } else {
                                 Log.d("chg", "The getFirst request failed.");
+                                Toast.makeText(getActivity().getApplicationContext(),
+                                        "Problem sending challenge. Please try later.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

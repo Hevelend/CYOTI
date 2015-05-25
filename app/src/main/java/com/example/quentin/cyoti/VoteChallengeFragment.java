@@ -78,7 +78,7 @@ public class VoteChallengeFragment extends Fragment {
                     updateProgressBar();
 
                     Toast.makeText(getActivity().getApplicationContext(),
-                            "Vote enregistré - Réussite du challenge", Toast.LENGTH_SHORT).show();
+                            "Vote saved - Victory", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -102,7 +102,7 @@ public class VoteChallengeFragment extends Fragment {
                     updateProgressBar();
 
                     Toast.makeText(getActivity().getApplicationContext(),
-                            "Vote enregistré - Défaite du challenge", Toast.LENGTH_SHORT).show();
+                            "Vote saved - Defeat", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -196,7 +196,7 @@ public class VoteChallengeFragment extends Fragment {
 
             if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
                 Toast.makeText(getActivity().getApplicationContext(),
-                                "Vous avez déjà voté pour ce challenge !",
+                                "You have already voted for this challenge !",
                                 Toast.LENGTH_SHORT).show();
 
                 hasVoted = true;

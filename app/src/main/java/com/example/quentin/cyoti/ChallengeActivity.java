@@ -1,5 +1,6 @@
 package com.example.quentin.cyoti;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -30,7 +31,7 @@ public class ChallengeActivity extends ActionBarActivity
 
         ActionBar ac = getSupportActionBar();
         ac.setTitle(R.string.title_fragment_propose_challenge);
-        ac.setDisplayShowHomeEnabled(true);
+        ac.setIcon(R.drawable.ic_app);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
@@ -55,8 +56,9 @@ public class ChallengeActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_profile) {
+            Intent i = new Intent(this, UserProfileActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);

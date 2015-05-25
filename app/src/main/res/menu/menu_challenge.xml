@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.quentin.cyoti.ChallengeActivity">
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item android:id="@+id/action_profile" android:title="@string/action_profile"
         android:orderInCategory="100" app:showAsAction="always"
         android:icon="@mipmap/ic_settings"/>
 
