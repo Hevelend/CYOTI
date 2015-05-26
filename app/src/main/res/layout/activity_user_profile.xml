@@ -25,12 +25,12 @@
         android:visibility="invisible"/>
 
     <RelativeLayout
-        android:id="@+id/userIdentity"
+        android:id="@+id/userAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/imageUser"
-        android:layout_marginTop="70px"
+        android:layout_marginTop="50dp"
         android:background="#ffffff">
 
         <TextView
@@ -38,25 +38,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tv_userAccount"
-            android:background="#ffc70618"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
-            android:textSize="15pt"
-            android:paddingTop="5px"
-            android:paddingLeft="30px" />
+            android:background="#4F5D73"
+            style="@style/SectionUserProfile" />
 
         <TextView
             android:id="@+id/tv_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30px"
             android:layout_below="@id/tv_userAccount"
             android:layout_alignLeft="@id/tv_userAccount"
-            android:layout_marginLeft="45px"
-            android:textColor="#fe7b7b7b"
-            android:text="@string/tv_userName"
-            android:textSize="10pt"
-            android:textStyle="bold"/>
+            style="@style/DetailUserProfile"
+            android:text="@string/tv_userName" />
 
         <EditText
             android:id="@+id/et_userName"
@@ -64,9 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_userName"
             android:layout_alignTop="@id/tv_userName"
-            android:layout_marginLeft="100px"
+            android:layout_marginLeft="80dp"
             android:textColor="#fe7b7b7b" />
-
 
         <TextView
             android:id="@+id/tv_userEmail"
@@ -74,12 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_userName"
             android:layout_alignLeft="@id/tv_userAccount"
-            android:layout_marginLeft="45px"
-            android:layout_marginTop="50px"
-            android:textColor="#fe7b7b7b"
-            android:text="@string/tv_userEmail"
-            android:textSize="10pt"
-            android:textStyle="bold"/>
+            style="@style/DetailUserProfile"
+            android:text="@string/tv_userEmail" />
 
         <EditText
             android:id="@+id/et_userEmail"
@@ -89,6 +76,76 @@
             android:layout_alignTop="@id/tv_userEmail"
             android:layout_alignLeft="@id/et_userName"
             android:textColor="#fe7b7b7b" />
+
+        <TextView
+            android:id="@+id/tv_userPwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_userEmail"
+            android:layout_alignLeft="@id/tv_userAccount"
+            style="@style/DetailUserProfile"
+            android:text="@string/tv_userPassword"/>
+
+        <EditText
+            android:id="@+id/et_userPwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:layout_alignTop="@+id/tv_userPwd"
+            android:layout_alignLeft="@+id/et_userName" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/userPreferences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/userAccount"
+        android:layout_marginTop="50dp"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/tv_userPreferences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_userPreferences"
+            android:background="#fff5bf73"
+            style="@style/SectionUserProfile" />
+
+        <TextView
+            android:id="@+id/tv_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_userPreferences"
+            style="@style/DetailUserProfile"
+            android:text="@string/tv_notifications" />
+
+        <Switch
+            android:id="@+id/sw_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_notification"
+            android:layout_alignTop="@id/tv_notification"
+            android:layout_marginLeft="60dp" />
+
+        <TextView
+            android:id="@+id/tv_mailNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_notification"
+            style="@style/DetailUserProfile"
+            android:text="@string/tv_mailNotification" />
+
+        <Switch
+            android:id="@+id/sw_mailNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_mailNotification"
+            android:layout_alignTop="@id/tv_mailNotification"
+            android:layout_alignLeft="@id/sw_notification" />
 
     </RelativeLayout>
 

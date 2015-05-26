@@ -17,4 +17,20 @@
         <item name="background">@color/purple</item>
     </style>
 
+    <style name="DetailUserProfile">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#fe7b7b7b</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginLeft">25dp</item>
+    </style>
+
+    <style name="SectionUserProfile">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+        <item name ="android:textSize">35sp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+
 </resources>

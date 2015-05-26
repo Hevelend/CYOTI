@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="25dp"
+        android:text="@string/tv_save"/>
+
+    <ImageButton
+        android:id="@+id/saveYes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_save"
+        android:layout_marginTop="25dp"
+        android:layout_alignRight="@id/tv_save"
+        android:src="@drawable/ic_tick"
+        android:background="#ffffff"/>
+
+    <ImageButton
+        android:id="@+id/saveNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_save"
+        android:layout_marginTop="25dp"
+        android:layout_alignLeft="@id/tv_save"
+        android:src="@drawable/ic_error"
+        android:background="#ffffff"/>
+</RelativeLayout>

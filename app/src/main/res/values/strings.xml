@@ -37,6 +37,11 @@
     <string name="tv_userAccount">Account</string>
     <string name="tv_userName">User</string>
     <string name="tv_userEmail">Email</string>
+    <string name="tv_userPassword">Password</string>
+    <string name="tv_userPreferences">Preferences</string>
+    <string name="tv_notifications">Notifications</string>
+    <string name="tv_mailNotification">Mailing</string>
+    <string name="tv_save">Would you want to save your changes ?</string>
 
     <string-array name="challenge_themes">
         <item>Choose a theme for your challenge</item>

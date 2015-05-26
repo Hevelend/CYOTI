@@ -1,5 +1,6 @@
 package com.example.quentin.cyoti;
 
+import android.app.AlertDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -21,6 +21,7 @@ public class UserProfileActivity extends ActionBarActivity {
     private ImageButton btEditPhoto;
     private EditText etUserName;
     private EditText etUserEmail;
+    private EditText etUserPassword;
     private ParseUser currentUser;
 
     public UserProfileActivity() {
@@ -53,6 +54,12 @@ public class UserProfileActivity extends ActionBarActivity {
 
         etUserEmail = (EditText) this.findViewById(R.id.et_userEmail);
         etUserEmail.setHint(currentUser.getEmail().toString());
+
+        etUserPassword = (EditText) this.findViewById(R.id.et_userPwd);
+        etUserPassword.setHint(currentUser.getString("password"));
+
+
+        //AlertDialog alertSave = new AlertDialog();
     }
 
     @Override
