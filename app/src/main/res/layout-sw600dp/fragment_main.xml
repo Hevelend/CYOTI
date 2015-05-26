@@ -23,7 +23,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="170dp"
-        android:id="@+id/linearLayout0"
+        android:id="@+id/linearLayout_title"
         android:layout_above="@+id/tv_signin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -52,7 +52,7 @@
         android:textSize="20sp"
         android:gravity="center"
         android:text="@string/tv_signin"
-        android:layout_above="@+id/linearLayout"
+        android:layout_above="@+id/linearLayout_socialnetwork"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <TextView
@@ -63,7 +63,7 @@
         android:textSize="30sp"
         android:id="@+id/textView"
         android:layout_marginBottom="66dp"
-        android:layout_above="@+id/linearLayout1"
+        android:layout_above="@+id/linearLayout_connection"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -73,7 +73,7 @@
         android:layout_height="75dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayout_socialnetwork"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
 
@@ -121,7 +121,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:id="@+id/linearLayout1"
+        android:id="@+id/linearLayout_connection"
         android:layout_above="@+id/login"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
