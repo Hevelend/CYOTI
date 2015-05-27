@@ -60,13 +60,23 @@ public class MainActivityFragment extends Fragment {
                         new LogInCallback() {
                             public void done(ParseUser user, ParseException e) {
                                 if (user != null) {
-                                    // If user exist and authenticated, send user to ChallengeActivity.class
-                                    Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
-                                    startActivity(intent);
-                                    Toast.makeText(getActivity().getApplicationContext(),
-                                            "Successfully Logged in",
-                                            Toast.LENGTH_SHORT).show();
-                                    getActivity().finish();
+                                    if (user.getBoolean("freeze_account") != true) {
+                                        // If user exist and authenticated and not freeezed, send user to ChallengeActivity.class
+                                        Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
+                                        startActivity(intent);
+                                        Toast.makeText(getActivity().getApplicationContext(),
+                                                "Successfully Logged in",
+                                                Toast.LENGTH_SHORT).show();
+                                        getActivity().finish();
+                                    }
+
+                                    else {
+                                        Toast.makeText(
+                                                getActivity().getApplicationContext(),
+                                                "No such user exist, please signup",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+
                                 } else {
                                     Toast.makeText(
                                             getActivity().getApplicationContext(),

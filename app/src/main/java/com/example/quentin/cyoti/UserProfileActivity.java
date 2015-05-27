@@ -160,18 +160,13 @@ public class UserProfileActivity extends ActionBarActivity {
 
                 // Removing informations about the user
                 ParseObject newUser = queryUser.get(currentUser.getObjectId());
-                newUser.remove("password");
                 newUser.remove("email");
                 newUser.remove("experience");
                 newUser.remove("facebook_account");
                 newUser.remove("friend_list");
                 newUser.remove("level");
-                newUser.remove("mail_checking");
                 newUser.remove("newsletter");
                 newUser.remove("twitter_account");
-                newUser.remove("createdAt");
-                newUser.remove("updatedAt");
-                newUser.remove("ACL");
 
                 // Freezing the account
                 newUser.put("freeze_account", true);
