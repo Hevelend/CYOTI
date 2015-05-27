@@ -3,6 +3,14 @@ package com.example.quentin.cyoti;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Parcel;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,6 +29,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.List;
+
 
 public class UserProfileActivity extends ActionBarActivity {
     private ImageButton btEditPhoto;
@@ -29,16 +39,20 @@ public class UserProfileActivity extends ActionBarActivity {
     private EditText etUserPassword;
     private Switch swNotificationsPush;
     private Switch swMailingNotifications;
+    private ImageView imageUser;
 
     private ParseUser currentUser;
 
     private boolean saveChanges = false;
     private boolean deleteProfile = false;
+    private boolean defaultProfileImage = true;
     private boolean notificationsPush;
     private boolean mailingNotifications;
+    private String imagePath = "";
 
     private final static int ACTION_SAVE_CHANGES   = 1;
     private final static int ACTION_DELETE_PROFILE = 2;
+    private final static String PREFS_NAME = "AppPrefs";
 
     public UserProfileActivity() {
         currentUser = ParseUser.getCurrentUser();
@@ -49,12 +63,21 @@ public class UserProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+
+        // Restore some settings
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        imagePath = settings.getString("imgPath","");
+        defaultProfileImage = settings.getBoolean("dlftImg", true);
+
         ActionBar ac = getSupportActionBar();
         ac.setTitle(R.string.title_activity_user_profile);
         ac.setIcon(R.drawable.ic_app);
 
-        ImageView imageUser = (ImageView) this.findViewById(R.id.imageUser);
+        imageUser = (ImageView) this.findViewById(R.id.imageUser);
         btEditPhoto = (ImageButton) this.findViewById(R.id.bt_editPhoto);
+
+        if (defaultProfileImage) imageUser.setImageResource(R.drawable.f_avatar);
+        else if (imagePath != "") imageUser.setImageBitmap(BitmapFactory.decodeFile(imagePath));
 
         imageUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +88,17 @@ public class UserProfileActivity extends ActionBarActivity {
             }
         });
 
+        btEditPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open Gallery app
+                Intent i = new Intent(
+                        Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, 1); // 1 is for selection mode
+            }
+        });
+
         etUserName = (EditText) this.findViewById(R.id.et_userName);
         etUserName.setText(currentUser.getUsername());
 
@@ -72,7 +106,7 @@ public class UserProfileActivity extends ActionBarActivity {
         etUserEmail.setText(currentUser.getEmail());
 
         etUserPassword = (EditText) this.findViewById(R.id.et_userPwd);
-        etUserPassword.setText(currentUser.getString("password"));
+        etUserPassword.setHint("Your password");
 
         swNotificationsPush = (Switch) this.findViewById(R.id.sw_notification);
         swNotificationsPush.setOnClickListener(new View.OnClickListener() {
@@ -136,10 +170,14 @@ public class UserProfileActivity extends ActionBarActivity {
 
                 newUser.put("username", etUserName.getText().toString());
                 newUser.put("email", etUserEmail.getText().toString());
-                newUser.put("password", etUserPassword.getText().toString());
-                newUser.put("newsletter", mailingNotifications);
 
-                /* TODO : ajouter champ notificationPush dans BDD */
+                String password = etUserPassword.getText().toString();
+
+                if (!password.equals("")) {
+                    newUser.put("password", password);
+                }
+
+                newUser.put("newsletter", mailingNotifications);
 
                 newUser.save();
             } catch (ParseException e) {
@@ -151,13 +189,22 @@ public class UserProfileActivity extends ActionBarActivity {
 
                 Log.d("majU", "Mise à jour du user échouée");
             }
+
+            if (!defaultProfileImage) {
+                // Save user's image path in application's preferences
+                SharedPreferences settings = getSharedPreferences("AppPrefs", 0);
+                SharedPreferences.Editor editor = settings.edit();
+
+                editor.putString("imgPath", imagePath);
+                editor.putBoolean("dlftImg", defaultProfileImage);
+                editor.commit();
+            }
         }
 
         else if(deleteProfile) {
             ParseQuery<ParseObject> queryUser = ParseQuery.getQuery("_User");
 
             try {
-
                 // Removing informations about the user
                 ParseObject newUser = queryUser.get(currentUser.getObjectId());
                 newUser.remove("email");
@@ -173,7 +220,6 @@ public class UserProfileActivity extends ActionBarActivity {
 
                 // Updating account
                 newUser.save();
-
 
                 // Show connection activity
                 Intent intent = new Intent(this, MainActivity.class);
@@ -244,6 +290,29 @@ public class UserProfileActivity extends ActionBarActivity {
                 });
 
                 alertDelete.show();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            imagePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            imageUser.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+
+            defaultProfileImage = false;
         }
     }
 }
