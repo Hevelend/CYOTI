@@ -24,6 +24,7 @@
         android:src="@drawable/ic_edit"
         android:visibility="invisible"/>
 
+
     <RelativeLayout
         android:id="@+id/userAccount"
         android:layout_width="match_parent"
@@ -31,14 +32,16 @@
         android:orientation="horizontal"
         android:layout_below="@id/imageUser"
         android:layout_marginTop="50dp"
-        android:background="#ffffff">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/layout_rectangle">
 
         <TextView
             android:id="@+id/tv_userAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tv_userAccount"
-            android:background="#4F5D73"
+            android:background="@drawable/user_account_rectangle"
             style="@style/SectionUserProfile" />
 
         <TextView
@@ -105,14 +108,16 @@
         android:orientation="horizontal"
         android:layout_below="@id/userAccount"
         android:layout_marginTop="50dp"
-        android:background="#ffffff" >
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/layout_rectangle" >
 
         <TextView
             android:id="@+id/tv_userPreferences"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tv_userPreferences"
-            android:background="#fff5bf73"
+            android:background="@drawable/user_preferences_rectangle"
             style="@style/SectionUserProfile" />
 
         <TextView
@@ -148,6 +153,17 @@
             android:layout_alignLeft="@id/sw_notification" />
 
     </RelativeLayout>
+
+
+    <ImageButton
+        android:id="@+id/bt_deleteProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/userPreferences"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_delete"
+        android:background="#fe7b7b7b" />
 
 
 
