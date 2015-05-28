@@ -153,7 +153,7 @@ public class FriendsFragment extends Fragment {
                     List<ParseObject> result = null;
 
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-                    query.whereContains("username", actvAddFriend.getText().toString());
+                    query.whereStartsWith("username", actvAddFriend.getText().toString());
                     query.setLimit(10);
                     try {
                         result = query.find();
@@ -164,18 +164,10 @@ public class FriendsFragment extends Fragment {
                     for (ParseObject po : result) {
                         matchFriends.add((String) po.get("username"));
                     }
-                    Log.d("test", matchFriends.toString());
 
+                    actvAdapter.clear();
+                    actvAdapter.addAll(matchFriends);
                     actvAdapter.notifyDataSetChanged();
-
-
-                    Log.d("test2", Integer.toString(actvAdapter.getCount()));
-                } else if (editable.length() > 2) {
-                    actvAdapter.getFilter().filter(actvAddFriend.getText(), null);
-                    Log.d("test2", Integer.toString(actvAdapter.getCount()));
-                    if (!actvAddFriend.isPopupShowing()) {
-                        actvAddFriend.showDropDown();
-                    }
                 }
             }
         });
