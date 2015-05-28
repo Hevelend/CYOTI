@@ -1,9 +1,6 @@
 package com.example.quentin.cyoti;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -17,17 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.adapters.StringAdapter;
 import com.example.quentin.cyoti.metier.Friend;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -35,7 +28,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -44,6 +36,9 @@ public class FriendsFragment extends Fragment {
     private boolean friendsCollected = false;
     private ArrayList<Friend> friendsSelected;
     private ParseUser currentUser;
+
+    private View rootView;
+    private ListView listFriends;
 
     public FriendsFragment() {
         currentUser = ParseUser.getCurrentUser();
@@ -56,16 +51,15 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView;
-
         rootView = inflater.inflate(R.layout.fragment_friends, container, false);
-
-        ListView listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
-        listFriends.setClickable(true);
 
         if (!friendsCollected) getFriends();
 
-        final FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(), R.layout.listitem_friend, friends);
+        listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
+        listFriends.setClickable(true);
+
+
+        final ArrayAdapter<Friend> friendAdapter = new FriendAdapter(rootView.getContext(), R.layout.listitem_friend, friends);
 
         listFriends.setAdapter(friendAdapter);
 
@@ -80,13 +74,14 @@ public class FriendsFragment extends Fragment {
                 if (f.isSelected()) {
                     friendsSelected.remove(f);
                     f.setSelected(false);
-                    parent.getChildAt(position).setBackgroundColor(0);
+
+                    ((View)cbFriend.getParent()).setBackgroundColor(0);
                 } else {
                     friendsSelected.add(f);
                     f.setSelected(true);
 
                     /* TODO : Changer la couleur du background après la nouvelle interface */
-                    parent.getChildAt(position).setBackgroundColor(Color.LTGRAY);
+                    ((View)cbFriend.getParent()).setBackgroundColor(Color.LTGRAY);
                 }
             }
         });
@@ -151,6 +146,7 @@ public class FriendsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                Log.d("test1", "lalala");
                 if (editable.length() > 2) {
 
                     List<ParseObject> result = null;

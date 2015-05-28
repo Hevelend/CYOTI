@@ -1,21 +1,20 @@
 package com.example.quentin.cyoti;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,13 +112,13 @@ public class ProposeChallengeFragment extends Fragment {
                 if (f.isSelected()) {
                     friendsSelected.remove(f);
                     f.setSelected(false);
-                    parent.getChildAt(position).setBackgroundColor(0);
+                    ((View)cbFriend.getParent()).setBackgroundColor(0);
                 } else {
                     friendsSelected.add(f);
                     f.setSelected(true);
 
                     /* TODO : Changer la couleur du background après la nouvelle interface */
-                    parent.getChildAt(position).setBackgroundColor(Color.LTGRAY);
+                    ((View)cbFriend.getParent()).setBackgroundColor(Color.LTGRAY);
                 }
             }
         });
