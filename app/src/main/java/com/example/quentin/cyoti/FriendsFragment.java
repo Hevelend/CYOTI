@@ -146,8 +146,9 @@ public class FriendsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("test1", "lalala");
-                if (editable.length() > 2) {
+                if (editable.length() == 2) {
+
+                    matchFriends.clear();
 
                     List<ParseObject> result = null;
 
@@ -166,6 +167,15 @@ public class FriendsFragment extends Fragment {
                     Log.d("test", matchFriends.toString());
 
                     actvAdapter.notifyDataSetChanged();
+
+
+                    Log.d("test2", Integer.toString(actvAdapter.getCount()));
+                } else if (editable.length() > 2) {
+                    actvAdapter.getFilter().filter(actvAddFriend.getText(), null);
+                    Log.d("test2", Integer.toString(actvAdapter.getCount()));
+                    if (!actvAddFriend.isPopupShowing()) {
+                        actvAddFriend.showDropDown();
+                    }
                 }
             }
         });
