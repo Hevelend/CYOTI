@@ -1,28 +1,34 @@
 package com.example.quentin.cyoti;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.quentin.cyoti.adapters.CustomFragmentPagerAdapter;
 import com.example.quentin.cyoti.metier.User;
 import com.example.quentin.cyoti.utilities.FontsOverride;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
 
-public class ChallengeActivity extends ActionBarActivity
+public class ChallengeActivity extends AppCompatActivity
                                 implements UserFragment.OnUserListener {
 
     private ViewPager viewPager;
     private CustomFragmentPagerAdapter mAdapter;
+    private ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +36,15 @@ public class ChallengeActivity extends ActionBarActivity
         setContentView(R.layout.activity_challenge);
 
         ActionBar ac = getSupportActionBar();
-        ac.setTitle(R.string.title_fragment_propose_challenge);
         ac.setIcon(R.drawable.ic_app);
+        ac.setTitle(R.string.title_fragment_propose_challenge);
+        ac.setDisplayUseLogoEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
+
+        addListenerOnBottomBar();
 
         FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
     }
@@ -56,12 +65,28 @@ public class ChallengeActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_profile) {
-            Intent i = new Intent(this, UserProfileActivity.class);
-            startActivity(i);
+        if(id == R.id.action_logout) {
+            ParseUser.logOut();
+            this.finish();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addListenerOnBottomBar() {
+
+        imageButton = (ImageButton) findViewById(R.id.action_profile);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(i);
+            }
+
+        });
+
     }
 
     @Override
