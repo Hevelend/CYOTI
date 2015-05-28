@@ -62,7 +62,7 @@ public class CreationUserFragment extends Fragment {
                             "Please complete the sign up form",
                             Toast.LENGTH_LONG).show();
                 } else if(!passwordtxt.equals(repeatpasswordtxt)) {
-                    // Vérification password
+                    // Vérificatiozn password
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Please enter the same password",
                             Toast.LENGTH_LONG).show();

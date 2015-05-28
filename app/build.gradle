@@ -30,5 +30,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.parse.bolts:bolts-android:1.+'
     compile fileTree(include: 'Parse-1.9.1.jar', dir: 'libs')
-    compile 'com.facebook.android:facebook-android-sdk:4.0.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.1.0'
+    compile files('libs/ParseFacebookUtilsV4-1.9.2.jar')
 }
