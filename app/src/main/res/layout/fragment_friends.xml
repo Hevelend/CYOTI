@@ -12,8 +12,9 @@
     <ListView
         android:id="@+id/lv_friends"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="10dp" />
+        android:layout_height="130dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true" />
 
     <Button
         android:id="@+id/bt_removeFriend"
@@ -25,7 +26,7 @@
         android:layout_below="@id/lv_friends"
         android:layout_centerInParent="true"
         android:background="@color/red"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textColor="#ffffff"
         android:textAllCaps="false"/>
 
@@ -51,7 +52,7 @@
             android:id="@+id/et_addFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/et_addFriend"/>
+            android:hint="@string/actv_addFriend"/>
 
         <ImageButton
             android:contentDescription="@string/ib_addFriend_description"
@@ -61,5 +62,13 @@
             android:background="@drawable/ic_tick"/>
 
     </LinearLayout>
+
+    <AutoCompleteTextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/actv_addFriend"
+        android:layout_below="@+id/ll_friend1"
+        android:layout_alignLeft="@id/ll_friend1"
+        android:layout_alignStart="@id/ll_friend1"/>
 
 </RelativeLayout>

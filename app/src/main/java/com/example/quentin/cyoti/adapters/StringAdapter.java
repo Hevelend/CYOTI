@@ -10,27 +10,34 @@ import android.widget.TextView;
 
 import com.example.quentin.cyoti.R;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import java.util.ArrayList;
 
 /**
  * Created by Gabriel on 18/05/2015.
  */
-public class ChallengeAdapter extends ArrayAdapter<String> {
-    public ChallengeAdapter(Context context, int resource, ArrayList<String> objects) {
+public class StringAdapter extends ArrayAdapter<String> {
+    private int listItemId;
+    private int idTextView;
+
+    public StringAdapter(Context context, int resource, ArrayList<String> objects, int idTV) {
         super(context, resource, objects);
+        this.listItemId = resource;
+        this.idTextView = idTV;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String f = this.getItem(position);
+        String s = this.getItem(position);
 
         Activity act = (Activity)getContext();
         LayoutInflater inflater = (act).getLayoutInflater();
 
-        View v = inflater.inflate(R.layout.listitem_pending_challenge, parent, false);
+        View v = inflater.inflate(listItemId, parent, false);
 
-        TextView tvChallenge = (TextView)v.findViewById(R.id.tv_challenge);
-        tvChallenge.setText(f);
+        TextView textView = (TextView)v.findViewById(idTextView);
+        textView.setText(s);
 
         return v;
     }

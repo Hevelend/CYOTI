@@ -1,6 +1,5 @@
 package com.example.quentin.cyoti.adapters;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
