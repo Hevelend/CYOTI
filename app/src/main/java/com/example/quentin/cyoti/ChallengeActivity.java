@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.quentin.cyoti.adapters.CustomFragmentPagerAdapter;
 import com.example.quentin.cyoti.metier.User;
 import com.example.quentin.cyoti.utilities.FontsOverride;
+import com.facebook.appevents.AppEventsLogger;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
