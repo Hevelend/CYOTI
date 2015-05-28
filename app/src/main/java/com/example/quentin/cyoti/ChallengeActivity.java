@@ -29,7 +29,8 @@ public class ChallengeActivity extends AppCompatActivity
 
     private ViewPager viewPager;
     private CustomFragmentPagerAdapter mAdapter;
-    private ImageButton imageButton;
+    private ImageButton imageButtonProfile;
+    private ImageButton imageButtonHistorique;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +77,24 @@ public class ChallengeActivity extends AppCompatActivity
 
     public void addListenerOnBottomBar() {
 
-        imageButton = (ImageButton) findViewById(R.id.action_profile);
+        imageButtonProfile = (ImageButton) findViewById(R.id.action_profile);
+        imageButtonHistorique = (ImageButton) findViewById(R.id.action_diploma);
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        imageButtonProfile.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(i);
+            }
+
+        });
+
+        imageButtonHistorique.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent i = new Intent(getApplicationContext(), HistoryActivity.class);
                 startActivity(i);
             }
 
