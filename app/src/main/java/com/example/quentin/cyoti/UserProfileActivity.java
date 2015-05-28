@@ -108,6 +108,8 @@ public class UserProfileActivity extends ActionBarActivity {
         etUserPassword = (EditText) this.findViewById(R.id.et_userPwd);
         etUserPassword.setHint("Your password");
 
+
+        /* TODO : gérer les notifications */
         swNotificationsPush = (Switch) this.findViewById(R.id.sw_notification);
         swNotificationsPush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,6 +312,7 @@ public class UserProfileActivity extends ActionBarActivity {
             imagePath = cursor.getString(columnIndex);
             cursor.close();
 
+            /* TODO : Améliorer affichage image */
             imageUser.setImageBitmap(BitmapFactory.decodeFile(imagePath));
 
             defaultProfileImage = false;
