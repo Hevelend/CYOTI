@@ -8,4 +8,12 @@
     <color name="purple">#BEBBFF</color>
     <color name="turquoise">#02BAD2</color>
     <color name="beige">#ffffdfba</color>
+	<color name="light_blue">#04bbd2</color>
+    <color name="bar_blue">#2493A1</color>
+    <color name="dark_beige">#DED3B5</color>
+    <color name="grey">#8999A2</color>
+    <color name="light_grey">#BABCBB</color>
+    <color name="hyperlight_grey">#EBECED</color>
+    <color name="bluemerica">#003594</color>
+    <color name="bluemerica_terne">#15557C</color>
 </resources>

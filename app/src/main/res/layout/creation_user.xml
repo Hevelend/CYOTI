@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@color/beige"
+    android:background="@color/dark_beige"
     android:padding="10dip" >
 
     <TextView
@@ -52,11 +52,27 @@
         android:layout_below="@+id/txtpassword"
         android:inputType="textPassword" />
 
+    <TextView
+        android:id="@+id/txtpasswordRepeat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_below="@id/password"
+        android:text="Repeat password" />
+
+    <EditText
+        android:id="@+id/passwordRepeat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtpasswordRepeat"
+        android:inputType="textPassword" />
+
     <Button
         android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
+        android:layout_below="@id/passwordRepeat"
         android:layout_centerHorizontal="true"
         android:background="@color/turquoise"
         android:layout_margin="20dp"

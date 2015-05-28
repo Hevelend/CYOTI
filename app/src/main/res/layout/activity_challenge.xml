@@ -1,41 +1,53 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+    <LinearLayout android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="fill_parent">
+        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
 
-    <fragment
-        android:id="@+id/fragment_user"
-        android:name="com.example.quentin.cyoti.UserFragment"
-        tools:layout="@layout/fragment_user"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <fragment
+            android:id="@+id/fragment_user"
+            android:name="com.example.quentin.cyoti.UserFragment"
+            tools:layout="@layout/fragment_user"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <fragment
-        android:id="@+id/fragment_propose_challenge"
-        android:name="com.example.quentin.cyoti.ProposeChallengeFragment"
-        tools:layout="@layout/fragment_propose_challenge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <fragment
+            android:id="@+id/fragment_propose_challenge"
+            android:name="com.example.quentin.cyoti.ProposeChallengeFragment"
+            tools:layout="@layout/fragment_propose_challenge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <fragment
-        android:id="@+id/fragment_vote_challenge"
-        android:name="com.example.quentin.cyoti.VoteChallengeFragment"
-        tools:layout="@layout/fragment_vote_challenge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <fragment
+            android:id="@+id/fragment_vote_challenge"
+            android:name="com.example.quentin.cyoti.VoteChallengeFragment"
+            tools:layout="@layout/fragment_vote_challenge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <fragment
-        android:id="@+id/fragment_friends"
-        android:name="com.example.quentin.cyoti.FriendsFragment"
-        tools:layout="@layout/fragment_friends"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <fragment
+            android:id="@+id/fragment_friends"
+            android:name="com.example.quentin.cyoti.FriendsFragment"
+            tools:layout="@layout/fragment_friends"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+  <RelativeLayout android:id="@+id/relativeLayout1" android:layout_alignBottom="@id/pager" android:background="@color/bar_blue" android:layout_height="@dimen/abc_action_bar_default_height_material" android:layout_width="match_parent">
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_profile" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_marginRight="10dp" android:padding="6dp" android:scaleType="fitCenter" android:layout_width="wrap_content" android:src="@mipmap/ic_settings"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_friends" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_toRightOf="@id/action_profile" android:layout_width="wrap_content" android:layout_marginRight="10dp" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_friends"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_diploma" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_toRightOf="@id/action_friends" android:layout_width="wrap_content" android:layout_marginRight="10dp" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_diploma"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_news" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_toRightOf="@id/action_diploma" android:layout_width="wrap_content" android:layout_marginRight="10dp" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_news"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_refresh" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="10dp" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_refresh"></ImageButton>
+      <ImageButton android:background="@color/bar_blue" android:id="@+id/action_cup" android:layout_alignParentTop="true" android:layout_toLeftOf="@id/action_refresh" android:layout_height="wrap_content" android:layout_width="wrap_content" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_cup"></ImageButton>
+  </RelativeLayout>
+
 </LinearLayout>

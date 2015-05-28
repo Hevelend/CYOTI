@@ -23,9 +23,11 @@ public class CreationUserFragment extends Fragment {
     Button signUp;
     EditText username;
     EditText password;
+    EditText repeatpassword;
     EditText mail;
     String usernametxt;
     String passwordtxt;
+    String repeatpasswordtxt;
     String mailtxt;
     View rootView;
 
@@ -38,6 +40,7 @@ public class CreationUserFragment extends Fragment {
     // Locate EditTexts in main.xml
             username = (EditText) rootView.findViewById(R.id.username);
             password = (EditText) rootView.findViewById(R.id.password);
+            repeatpassword = (EditText) rootView.findViewById(R.id.passwordRepeat);
             mail = (EditText) rootView.findViewById(R.id.mail);
 
             // Locate Buttons in main.xml
@@ -50,6 +53,7 @@ public class CreationUserFragment extends Fragment {
                 // Retrieve the text entered from the EditText
                 usernametxt = username.getText().toString();
                 passwordtxt = password.getText().toString();
+                repeatpasswordtxt = repeatpassword.getText().toString();
                 mailtxt = mail.getText().toString();
 
                 // Force user to fill up the form
@@ -57,7 +61,11 @@ public class CreationUserFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Please complete the sign up form",
                             Toast.LENGTH_LONG).show();
-
+                } else if(!passwordtxt.equals(repeatpasswordtxt)) {
+                    // Vérification password
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Please enter the same password",
+                            Toast.LENGTH_LONG).show();
                 } else {
                     // Save new user data into Parse.com Data Storage
                     ParseUser user = new ParseUser();

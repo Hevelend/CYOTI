@@ -1,30 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.quentin.cyoti.ChallengeActivity">
+    xmlns:compat="http://schemas.android.com/apk/res-auto" >
 
-    <item android:id="@+id/action_profile" android:title="@string/action_profile"
-        android:orderInCategory="100" app:showAsAction="always"
-        android:icon="@mipmap/ic_settings"/>
-
-    <item android:id="@+id/action_friends" android:title="Friends"
-        android:orderInCategory="100" app:showAsAction="always"
-        android:icon="@mipmap/ic_friends"/>
-
-    <item android:id="@+id/action_diploma" android:title="Diploma"
-        android:orderInCategory="100" app:showAsAction="always"
-        android:icon="@mipmap/ic_diploma" />
-
-    <item android:id="@+id/action_news" android:title="News"
-        android:orderInCategory="100" app:showAsAction="always"
-        android:icon="@mipmap/ic_news" />
-
-    <item android:id="@+id/action_cup" android:title="Cup"
-        android:orderInCategory="100" app:showAsAction="always"
-        android:icon="@mipmap/ic_cup" />
-
-    <item android:id="@+id/action_refresh" android:title="Refresh"
-        android:orderInCategory="100" app:showAsAction="always"
-        android:icon="@mipmap/ic_refresh" />
+    <item android:id="@+id/action_logout"
+        android:icon="@mipmap/ic_power"
+        android:title="@string/action_logout"
+        compat:showAsAction="always" />
 
 </menu>

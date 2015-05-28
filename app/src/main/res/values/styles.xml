@@ -11,10 +11,11 @@
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/purple</item>
+        <item name="android:background">@color/bar_blue</item>
+		<item name="android:icon">@drawable/ic_app</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@color/purple</item>
+        <item name="background">@color/bar_blue</item>
     </style>
 
     <style name="DetailUserProfile">

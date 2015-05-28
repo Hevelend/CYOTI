@@ -1,49 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp" >
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/listborder"
+        android:layout_marginTop="40dp" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_height="35dp"
+            android:background="@color/bluemerica"
+            android:alpha="0.9"
+            android:id="@+id/header" >
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:id="@+id/corps"
+            android:layout_below="@id/header" >
+
+            <TextView
+                android:id="@+id/tv_challenge"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="New Text"
+                android:layout_alignTop="@+id/imageFriend"
+                android:layout_toEndOf="@id/imageFriend"
+                android:layout_toRightOf="@+id/imageFriend"
+                android:padding="5dp"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_height="45dp"
+            android:layout_marginTop="3dp"
+            android:layout_below="@id/corps"
+            android:background="@color/bluemerica"
+            android:alpha="0.7" >
+
+            <ImageButton
+                android:id="@+id/ib_acceptChallenge"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="6dp"
+                android:src="@mipmap/ic_error"
+                android:background="@color/bluemerica" />
+
+            <ImageButton
+                android:id="@+id/ib_refuseChallenge"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_tick"
+                android:background="@color/bluemerica" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/imageFriend"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="25dp"
-        android:src="@mipmap/ic_app" />
-
-    <TextView
-        android:id="@+id/tv_challenge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:layout_alignTop="@+id/imageFriend"
-        android:layout_toEndOf="@id/imageFriend"
-        android:layout_toRightOf="@+id/imageFriend"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:textSize="20sp"/>
-
-    <ImageButton
-        android:id="@+id/ib_acceptChallenge"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/imageFriend"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="25dp"
-        android:src="@mipmap/ic_error" />
-
-    <ImageButton
-        android:id="@+id/ib_refuseChallenge"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/imageFriend"
-        android:layout_toEndOf="@id/ib_acceptChallenge"
-        android:layout_toRightOf="@id/ib_acceptChallenge"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="25dp"
-        android:src="@mipmap/ic_tick" />
-
-
+        android:src="@mipmap/ic_app"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>
