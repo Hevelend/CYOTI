@@ -34,6 +34,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class HistoryActivity extends AppCompatActivity {
@@ -44,12 +45,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     public HistoryActivity() {
         currentUser = ParseUser.getCurrentUser();
-
         challenges = new ArrayList<String>();
-        Challenge challenge1 = new Challenge("Dance in McDonald's", new Date(), new Date(), new Friend("James", "Morrison", "Jim"), new Friend("Vincent", "Aunai", "Lodoss"));
-        Challenge challenge2 = new Challenge("make a cookie in 5 minutes", new Date(), new Date(), new Friend("Toto", "Tutu", "TotoTutu"), new Friend("Martin", "Dupont", "mDupont"));
-        challenges.add(challenge1.getUserChallenger().getNickName() + " challenge you to " + challenge1.getDescription());
-        challenges.add(challenge2.getUserChallenger().getNickName() + " challenge you to " + challenge2.getDescription());
     }
 
     @Override
@@ -58,13 +54,14 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         addListenerOnBottomBar();
-
         FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
 
-        ListView listChallenges = (ListView) myView.findViewById(R.id.lv_history);
-        listChallenges.setClickable(true);
+        ListView listChallenges = (ListView) this.findViewById(R.id.Lv_history);
+        listChallenges.setClickable(false);
 
-        StringAdapter stringAdapter = new StringAdapter(myView.getContext(),
+        getHistory();
+
+        StringAdapter stringAdapter = new StringAdapter(this,
                 R.layout.listitem_history_challenge,
                 challenges,
                 R.id.tv_challenge);
@@ -102,11 +99,61 @@ public class HistoryActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                Intent i = new Intent(HistoryActivity.this, UserProfileActivity.class);
                 startActivity(i);
             }
 
         });
     }
 
+    public void getHistory() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Attributed_challenge");
+        query.whereEqualTo("user_id", currentUser.getObjectId());
+        query.whereNotEqualTo("finish_date", null);
+        /*query.whereEqualTo("success", true);
+        query.whereEqualTo("success", false);*/
+
+        List<ParseObject> tempObject = null;
+
+        try {
+            tempObject = query.find();
+        } catch (ParseException e) {
+            Log.d("queryFail", "Query Object has failed : " + e.toString());
+        }
+
+        if (tempObject != null) {
+            ParseObject tempObject2 = null;
+            ParseObject tempObject3 = null;
+            Challenge tempChallengeMetier = null;
+
+            for(int j = 0; j < tempObject.size(); j++) {
+                Date finishDate = (Date) tempObject.get(j).get("finish_date");
+                String tempApplicant = (String) tempObject.get(j).get("user_id_applicant");
+                String tempChallengeID = (String) tempObject.get(j).get("challenge_id");
+
+                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Challenge");
+                query2.whereEqualTo("objectId", tempObject.get(j).get("challenge_id"));
+
+                try {
+                    tempObject2 = query2.getFirst();
+                } catch (ParseException e) {
+                    Log.d("queryFail", "Query Challenge has failed : " + e.toString());
+                }
+
+                ParseQuery<ParseObject> query3 = ParseQuery.getQuery("_User");
+                query3.whereEqualTo("objectId", tempApplicant);
+
+                try {
+                    tempObject3 = query3.getFirst();
+                } catch (ParseException e) {
+                    Log.d("queryFail", "Query Applicant has failed : " + e.toString());
+                }
+
+
+                challenges.add(tempObject3.get("username").toString() + " challenge you to " + tempObject2.get("challenge"));
+
+            }
+
+        }
+    }
 }

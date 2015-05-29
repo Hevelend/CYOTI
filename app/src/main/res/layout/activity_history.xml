@@ -16,7 +16,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lv_history" />
+            android:id="@+id/Lv_history" />
 
     </LinearLayout>
 
