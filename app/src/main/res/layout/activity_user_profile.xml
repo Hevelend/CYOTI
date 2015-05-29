@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:clickable="true"
+        android:src="@drawable/default_avatar"
         android:contentDescription="your_image"/>
 
     <ImageButton

@@ -39,11 +39,11 @@ public class ProposeChallengeFragment extends Fragment {
     private ArrayList<Friend> friends;
     private ArrayList<Friend> friendsSelected;
     private ListView listFriends;
+    private ArrayAdapter<Friend> friendAdapter;
     private ParseObject tempObject;
     private String tempObjectID = "idTest";
     private ParseUser currentUser;
     private String themeID;
-    private boolean friendsCollected = false;
 
     public ProposeChallengeFragment() {
         tempFriends = new ArrayList<String>();
@@ -91,12 +91,12 @@ public class ProposeChallengeFragment extends Fragment {
 //            Log.d("friendsNull", "liste friends vide");
 //        }
 
-        if (!friendsCollected) getFriends();
+        getFriends();
 
         listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
         listFriends.setClickable(true);
 
-        ArrayAdapter<Friend> friendAdapter = new FriendAdapter(rootView.getContext(), R.layout.listitem_friend, friends);
+        friendAdapter = new FriendAdapter(rootView.getContext(), R.layout.listitem_friend, friends);
 
         listFriends.setAdapter(friendAdapter);
 
@@ -104,7 +104,6 @@ public class ProposeChallengeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friend f = (Friend) parent.getAdapter().getItem(position);
-                TextView tvFriend = (TextView) view.findViewById(R.id.tv_friend);
                 CheckBox cbFriend = (CheckBox) view.findViewById(R.id.cb_friendCheck);
 
                 cbFriend.toggle();
@@ -192,6 +191,7 @@ public class ProposeChallengeFragment extends Fragment {
 
     public void getFriends() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+        friends.clear();
 
         try {
             tempObject = query.get(currentUser.getObjectId());
@@ -208,11 +208,10 @@ public class ProposeChallengeFragment extends Fragment {
                 }
             }
         }
-
-        friendsCollected = true;
     }
 
     public void saveMyID(String myid) {
         tempObjectID = myid;
     }
+
 }

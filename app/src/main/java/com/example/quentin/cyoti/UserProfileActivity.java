@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -25,10 +26,16 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import android.net.Uri;
+import java.net.URL;
 import java.util.List;
 
 
@@ -52,7 +59,6 @@ public class UserProfileActivity extends ActionBarActivity {
 
     private final static int ACTION_SAVE_CHANGES   = 1;
     private final static int ACTION_DELETE_PROFILE = 2;
-    private final static String PREFS_NAME = "AppPrefs";
 
     public UserProfileActivity() {
         currentUser = ParseUser.getCurrentUser();
@@ -63,21 +69,14 @@ public class UserProfileActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-
-        // Restore some settings
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        imagePath = settings.getString("imgPath","");
-        defaultProfileImage = settings.getBoolean("dlftImg", true);
-
         ActionBar ac = getSupportActionBar();
         ac.setTitle(R.string.title_activity_user_profile);
         ac.setIcon(R.drawable.ic_app);
 
         imageUser = (ImageView) this.findViewById(R.id.imageUser);
-        btEditPhoto = (ImageButton) this.findViewById(R.id.bt_editPhoto);
+        getImageProfile();
 
-        if (defaultProfileImage) imageUser.setImageResource(R.drawable.f_avatar);
-        else if (imagePath != "") imageUser.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+        btEditPhoto = (ImageButton) this.findViewById(R.id.bt_editPhoto);
 
         imageUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +160,54 @@ public class UserProfileActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+
+            imagePath = selectedImage.getPath();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            try {
+                Bitmap imageBMP = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                imageBMP.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                byte[] imageBytes = stream.toByteArray();
+
+                ParseFile imageFile = new ParseFile(currentUser.getObjectId(), imageBytes);
+
+                currentUser.put("avatar", imageFile);
+                currentUser.save();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+//            Cursor cursor = getContentResolver().query(selectedImage,
+//                    filePathColumn, null, null, null);
+//            cursor.moveToFirst();
+//
+//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//            imagePath = cursor.getString(columnIndex);
+//            cursor.close();
+//
+//            /* TODO : Améliorer affichage image */
+//            imageUser.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+//
+//            defaultProfileImage = false;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        showAlertDialog(ACTION_SAVE_CHANGES);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
 
@@ -192,15 +239,17 @@ public class UserProfileActivity extends ActionBarActivity {
                 Log.d("majU", "Mise à jour du user échouée");
             }
 
-            if (!defaultProfileImage) {
-                // Save user's image path in application's preferences
-                SharedPreferences settings = getSharedPreferences("AppPrefs", 0);
-                SharedPreferences.Editor editor = settings.edit();
 
-                editor.putString("imgPath", imagePath);
-                editor.putBoolean("dlftImg", defaultProfileImage);
-                editor.commit();
-            }
+
+//            if (!defaultProfileImage) {
+//                // Save user's image path in application's preferences
+//                SharedPreferences settings = getSharedPreferences("AppPrefs", 0);
+//                SharedPreferences.Editor editor = settings.edit();
+//
+//                editor.putString("imgPath", imagePath);
+//                editor.putBoolean("dlftImg", defaultProfileImage);
+//                editor.commit();
+//            }
         }
 
         else if(deleteProfile) {
@@ -240,10 +289,6 @@ public class UserProfileActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        showAlertDialog(ACTION_SAVE_CHANGES);
-    }
 
     public void showAlertDialog(int action) {
         switch (action) {
@@ -292,30 +337,34 @@ public class UserProfileActivity extends ActionBarActivity {
                 });
 
                 alertDelete.show();
+
+                break;
+
+            default: break;
         }
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void getImageProfile() {
+        ParseQuery<ParseObject> queryImage = ParseQuery.getQuery("_User");
+        queryImage.whereEqualTo("objecId", currentUser.getObjectId());
 
-        if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        try {
+            ParseObject user = queryImage.getFirst();
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+            ParseFile imageFile = user.getParseFile("avatar");
+            String imageString = imageFile.getUrl();
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            imagePath = cursor.getString(columnIndex);
-            cursor.close();
+            Uri.Builder imageURIBuilder = new Uri.Builder();
+            imageURIBuilder.appendPath(imageString);
 
-            /* TODO : Améliorer affichage image */
-            imageUser.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+            Uri imageURI = imageURIBuilder.build();
 
-            defaultProfileImage = false;
+            imageUser.setImageURI(imageURI);
+        }
+        catch (ParseException e) {
+            Log.d("imgquery", e.getMessage());
         }
     }
+
 }
