@@ -19,22 +19,37 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.quentin.cyoti.adapters.StringAdapter;
+import com.example.quentin.cyoti.metier.Challenge;
+import com.example.quentin.cyoti.metier.Friend;
 import com.example.quentin.cyoti.utilities.FontsOverride;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 
 public class HistoryActivity extends AppCompatActivity {
+    private View myView;
     private ParseUser currentUser;
     private ImageButton imageButtonProfile;
+    private ArrayList<String> challenges;
 
     public HistoryActivity() {
         currentUser = ParseUser.getCurrentUser();
+
+        challenges = new ArrayList<String>();
+        Challenge challenge1 = new Challenge("Dance in McDonald's", new Date(), new Date(), new Friend("James", "Morrison", "Jim"), new Friend("Vincent", "Aunai", "Lodoss"));
+        Challenge challenge2 = new Challenge("make a cookie in 5 minutes", new Date(), new Date(), new Friend("Toto", "Tutu", "TotoTutu"), new Friend("Martin", "Dupont", "mDupont"));
+        challenges.add(challenge1.getUserChallenger().getNickName() + " challenge you to " + challenge1.getDescription());
+        challenges.add(challenge2.getUserChallenger().getNickName() + " challenge you to " + challenge2.getDescription());
     }
 
     @Override
@@ -45,6 +60,16 @@ public class HistoryActivity extends AppCompatActivity {
         addListenerOnBottomBar();
 
         FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
+
+        ListView listChallenges = (ListView) myView.findViewById(R.id.lv_history);
+        listChallenges.setClickable(true);
+
+        StringAdapter stringAdapter = new StringAdapter(myView.getContext(),
+                R.layout.listitem_history_challenge,
+                challenges,
+                R.id.tv_challenge);
+
+        listChallenges.setAdapter(stringAdapter);
     }
 
     @Override
