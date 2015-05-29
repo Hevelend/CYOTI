@@ -72,7 +72,7 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_profile, menu);
+        getMenuInflater().inflate(R.menu.menu_challenge, menu);
         return true;
     }
 
@@ -86,7 +86,8 @@ public class HistoryActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if(id == R.id.action_logout) {
             ParseUser.logOut();
-            this.finish();
+            finish();
+            System.exit(0);
         }
 
         return super.onOptionsItemSelected(item);
@@ -148,7 +149,6 @@ public class HistoryActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     Log.d("queryFail", "Query Applicant has failed : " + e.toString());
                 }
-
 
                 challenges.add(tempObject3.get("username").toString() + " challenge you to " + tempObject2.get("challenge"));
 

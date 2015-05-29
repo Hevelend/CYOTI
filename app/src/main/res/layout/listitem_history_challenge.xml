@@ -43,37 +43,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_height="45dp"
-            android:layout_marginTop="3dp"
-            android:layout_below="@id/corps"
-            android:background="@color/bluemerica"
-            android:alpha="0.7" >
-
-            <ImageButton
-                android:id="@+id/ib_acceptChallenge"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="2dp"
-                android:scaleType="fitCenter"
-                android:layout_marginRight="6dp"
-                android:src="@mipmap/ic_error"
-                android:background="@color/bluemerica" />
-
-            <ImageButton
-                android:id="@+id/ib_refuseChallenge"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="2dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_tick"
-                android:background="@color/bluemerica" />
-
-        </LinearLayout>
-
     </RelativeLayout>
 
     <ImageView
