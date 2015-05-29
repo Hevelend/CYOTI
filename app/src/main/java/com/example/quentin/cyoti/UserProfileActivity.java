@@ -354,11 +354,15 @@ public class UserProfileActivity extends ActionBarActivity {
 
             ParseFile imageFile = user.getParseFile("avatar");
 
-            byte[] imageBytes = imageFile.getData();
+            if (imageFile == null) imageUser.setImageResource(R.drawable.default_avatar);
 
-            Bitmap imageBMP = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            else {
+                byte[] imageBytes = imageFile.getData();
 
-            imageUser.setImageBitmap(imageBMP);
+                Bitmap imageBMP = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+                imageUser.setImageBitmap(imageBMP);
+            }
         }
         catch (ParseException e) {
             Log.d("imgquery", e.getMessage() + e.getCause().toString());
