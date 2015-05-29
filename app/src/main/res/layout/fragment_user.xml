@@ -49,7 +49,7 @@
     <ListView
         android:id="@+id/lv_challenges"
         android:layout_width="fill_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_below="@id/txtuser" />
 

@@ -11,7 +11,7 @@
     <string name="title_activity_challenge">ChallengeActivity</string>
     <string name="title_fragment_propose_challenge">Challenge your friends</string>
     <string name="title_activity_user_profile">Your profile</string>
-    <string name="title_activity_user_history">Your challenge history</string>
+    <string name="title_activity_user_history">Your history</string>
 
     <!-- Connexion Facebook-->
     <string name="facebook_app_id">858894070845214</string>

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.quentin.cyoti.utilities.FontsOverride;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -30,6 +31,7 @@ import com.parse.ParseUser;
 
 public class HistoryActivity extends AppCompatActivity {
     private ParseUser currentUser;
+    private ImageButton imageButtonProfile;
 
     public HistoryActivity() {
         currentUser = ParseUser.getCurrentUser();
@@ -38,7 +40,11 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_history);
+
+        addListenerOnBottomBar();
+
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
     }
 
     @Override
@@ -63,4 +69,19 @@ public class HistoryActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void addListenerOnBottomBar() {
+        imageButtonProfile = (ImageButton) findViewById(R.id.action_profile);
+
+        imageButtonProfile.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(i);
+            }
+
+        });
+    }
+
 }
