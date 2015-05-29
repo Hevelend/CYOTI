@@ -164,10 +164,11 @@ public class FriendsFragment extends Fragment {
                     for (ParseObject po : result) {
                         matchFriends.add((String) po.get("username"));
                     }
+                    matchFriends.removeAll(myStringListMaker(friends));
 
                     actvAdapter.clear();
                     actvAdapter.addAll(matchFriends);
-                    actvAdapter.notifyDataSetChanged();
+                    //actvAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -180,7 +181,11 @@ public class FriendsFragment extends Fragment {
                 String textAddFriend = actvAddFriend.getText().toString();
                 if (textAddFriend.isEmpty()) {
                     Toast.makeText(getActivity().getApplicationContext(),
-                            "You have to enter the pseudo of a friend !", Toast.LENGTH_SHORT).show();
+                            "You have to enter the pseudo of a friend", Toast.LENGTH_SHORT).show();
+                }
+                else if (myStringListMaker(friends).contains(textAddFriend)) {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Already in your friends", Toast.LENGTH_SHORT).show();
                 }
                 else {
 
@@ -202,6 +207,12 @@ public class FriendsFragment extends Fragment {
                         friends.add(new Friend(textAddFriend));
 
                         friendAdapter.notifyDataSetChanged();
+
+                        matchFriends.remove(textAddFriend);
+
+                        actvAdapter.clear();
+                        actvAdapter.addAll(matchFriends);
+                        actvAdapter.notifyDataSetChanged();
 
                         newFriends = myStringListMaker(friends);
 

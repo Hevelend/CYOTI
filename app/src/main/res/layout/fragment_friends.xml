@@ -48,10 +48,10 @@
         android:layout_below="@+id/tv_addFriend"
         android:layout_centerInParent="true">
 
-        <EditText
-            android:id="@+id/et_addFriend"
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:id="@+id/actv_addFriend"
             android:hint="@string/actv_addFriend"/>
 
         <ImageButton
@@ -63,12 +63,6 @@
 
     </LinearLayout>
 
-    <AutoCompleteTextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/actv_addFriend"
-        android:layout_below="@+id/ll_friend1"
-        android:layout_alignLeft="@id/ll_friend1"
-        android:layout_alignStart="@id/ll_friend1"/>
+
 
 </RelativeLayout>
