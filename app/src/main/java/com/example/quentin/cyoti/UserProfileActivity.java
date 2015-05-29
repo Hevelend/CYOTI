@@ -177,7 +177,7 @@ public class UserProfileActivity extends ActionBarActivity {
 
                 byte[] imageBytes = stream.toByteArray();
 
-                ParseFile imageFile = new ParseFile(currentUser.getObjectId(), imageBytes);
+                ParseFile imageFile = new ParseFile(currentUser.getObjectId() + "_avatar.png", imageBytes);
 
                 currentUser.put("avatar", imageFile);
                 currentUser.save();
@@ -347,23 +347,21 @@ public class UserProfileActivity extends ActionBarActivity {
 
     public void getImageProfile() {
         ParseQuery<ParseObject> queryImage = ParseQuery.getQuery("_User");
-        queryImage.whereEqualTo("objecId", currentUser.getObjectId());
+        queryImage.whereEqualTo("objectId", currentUser.getObjectId());
 
         try {
             ParseObject user = queryImage.getFirst();
 
             ParseFile imageFile = user.getParseFile("avatar");
-            String imageString = imageFile.getUrl();
 
-            Uri.Builder imageURIBuilder = new Uri.Builder();
-            imageURIBuilder.appendPath(imageString);
+            byte[] imageBytes = imageFile.getData();
 
-            Uri imageURI = imageURIBuilder.build();
+            Bitmap imageBMP = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
-            imageUser.setImageURI(imageURI);
+            imageUser.setImageBitmap(imageBMP);
         }
         catch (ParseException e) {
-            Log.d("imgquery", e.getMessage());
+            Log.d("imgquery", e.getMessage() + e.getCause().toString());
         }
     }
 
