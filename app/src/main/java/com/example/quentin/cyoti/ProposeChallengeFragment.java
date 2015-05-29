@@ -111,13 +111,13 @@ public class ProposeChallengeFragment extends Fragment {
                 if (f.isSelected()) {
                     friendsSelected.remove(f);
                     f.setSelected(false);
-                    ((View)cbFriend.getParent()).setBackgroundColor(0);
+                    ((View) cbFriend.getParent()).setBackgroundColor(0);
                 } else {
                     friendsSelected.add(f);
                     f.setSelected(true);
 
                     /* TODO : Changer la couleur du background après la nouvelle interface */
-                    ((View)cbFriend.getParent()).setBackgroundColor(Color.LTGRAY);
+                    ((View) cbFriend.getParent()).setBackgroundColor(Color.LTGRAY);
                 }
             }
         });
@@ -144,35 +144,54 @@ public class ProposeChallengeFragment extends Fragment {
                         mychallenge.put("theme_id", themeID);
                     }
 
-                    mychallenge.saveInBackground(new SaveCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Log.d("chg", "Query object ok");
-                                saveMyID(mychallenge.getObjectId().toString());
+                    try {
+                        mychallenge.save();
+
+                        for (int i = 0; i < friendsSelected.size(); i++) {
+                            ParseObject myattributed = new ParseObject("Attributed_challenge");
+                            ParseQuery<ParseObject> queryFriend = ParseQuery.getQuery("_User");
+                            queryFriend.whereEqualTo("username", friendsSelected.get(i).getFirstName());
+
+                            ParseObject friend = null;
+
+                            try {
+                                friend = queryFriend.getFirst();
+                                myattributed.put("user_id", friend.getObjectId());
+                                myattributed.put("challenge_id", mychallenge.getObjectId());
+                                myattributed.put("user_id_applicant", currentUser.getObjectId());
+                                myattributed.put("sending_date", new Date());
+                                myattributed.save();
+
+                            } catch (ParseException e) {
+                                Log.d("attChal", e.getMessage());
                                 Toast.makeText(getActivity().getApplicationContext(),
-                                                "Challenge sent !", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Log.d("chg", "The getFirst request failed.");
-                                Toast.makeText(getActivity().getApplicationContext(),
-                                        "Problem sending challenge. Please try later.", Toast.LENGTH_SHORT).show();
+                                        "Problem attributing challenge. Please try later.", Toast.LENGTH_SHORT).show();
                             }
+
+
                         }
-                    });
-
-                    String tempChallengeID = tempObjectID;
-
-                    // Attribute a challenge to a friend
-                    for (int i=0; i<friendsSelected.size(); i++) {
-                        ParseObject myattributed = new ParseObject("Attributed_challenge");
-                        myattributed.put("challenge_id", tempChallengeID);
-                        myattributed.put("user_id", currentUser.getObjectId());
-                        myattributed.put("user_id_applicant", friendsSelected.get(i).getFirstName());
-                        myattributed.put("sending_date", new Date());
-                        myattributed.saveInBackground();
+                    } catch (ParseException e) {
+                        Log.d("addChal", e.getMessage());
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Problem sending challenge. Please try later.", Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                // Unselect friends
+                for (int i=0; i<friendsSelected.size(); i++) {
+                    friendsSelected.get(i).setSelected(false);
+                }
+
+                // Clear friends list
+                friendsSelected.clear();
+
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Challenge sent !", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
 
         return rootView;
     }
