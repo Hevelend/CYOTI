@@ -53,6 +53,9 @@
             android:label="@string/title_activity_user_history"
             android:icon="@mipmap/ic_app" >
         </activity>
+        <activity android:name=".PendingChallengesActivity"
+            android:label="@string/title_activity_pending_challenges">
+        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="02b13739ff6e4de733061305c1b4fc2ff26478b6" />

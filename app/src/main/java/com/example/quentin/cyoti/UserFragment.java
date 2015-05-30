@@ -45,11 +45,6 @@ public class UserFragment extends Fragment {
     private int i = 0;
 
     public UserFragment() {
-        challenges = new ArrayList<String>();
-        Challenge challenge1 = new Challenge("Dance in McDonald's", new Date(), new Date(), new Friend("James", "Morrison", "Jim"), new Friend("Vincent", "Aunai", "Lodoss"));
-        Challenge challenge2 = new Challenge("make a cookie in 5 minutes", new Date(), new Date(), new Friend("Toto", "Tutu", "TotoTutu"), new Friend("Martin", "Dupont", "mDupont"));
-        challenges.add(challenge1.getUserChallenger().getNickName() + " challenge you to " + challenge1.getDescription());
-        challenges.add(challenge2.getUserChallenger().getNickName() + " challenge you to " + challenge2.getDescription());
     }
 
     @Override
@@ -69,20 +64,6 @@ public class UserFragment extends Fragment {
 
         // Set the currentUser String into TextView
         txtuser.setText("You are logged in as " + struser);
-
-        //Liste des défis en attente
-        ListView listChallenges = (ListView)rootView.findViewById(R.id.lv_challenges);
-        listChallenges.setClickable(true);
-
-        StringAdapter stringAdapter = new StringAdapter(rootView.getContext(),
-                R.layout.listitem_pending_challenge,
-                challenges,
-                R.id.tv_challenge);
-
-        listChallenges.setAdapter(stringAdapter);
-
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
                     /*TODO Ce bout de code sera à travailler plus tard... */

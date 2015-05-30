@@ -44,6 +44,7 @@ public class HistoryActivity extends AppCompatActivity {
     private View myView;
     private ParseUser currentUser;
     private ImageButton imageButtonProfile;
+    private ImageButton imageButtonPendingChallenges;
     private ArrayList<String> challenges;
     private ArrayList<Boolean> listSuccess;
     private ArrayList<String> dateChallenge;
@@ -106,6 +107,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     public void addListenerOnBottomBar() {
         imageButtonProfile = (ImageButton) findViewById(R.id.action_profile);
+        imageButtonPendingChallenges = (ImageButton) findViewById(R.id.action_cup);
 
         imageButtonProfile.setOnClickListener(new View.OnClickListener() {
 
@@ -115,6 +117,14 @@ public class HistoryActivity extends AppCompatActivity {
                 startActivity(i);
             }
 
+        });
+
+        imageButtonPendingChallenges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), PendingChallengesActivity.class);
+                startActivity(i);
+            }
         });
     }
 
