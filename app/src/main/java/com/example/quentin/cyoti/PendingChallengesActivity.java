@@ -1,29 +1,15 @@
 package com.example.quentin.cyoti;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import com.example.quentin.cyoti.adapters.HistoryAdapter;
 import com.example.quentin.cyoti.adapters.StringAdapter;
 import com.example.quentin.cyoti.metier.Challenge;
 import com.example.quentin.cyoti.metier.Friend;
@@ -33,52 +19,45 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-public class HistoryActivity extends AppCompatActivity {
+/**
+ * Created by Gabriel on 30/05/2015.
+ */
+public class PendingChallengesActivity extends AppCompatActivity {
     private View myView;
     private ParseUser currentUser;
     private ImageButton imageButtonProfile;
-    private ImageButton imageButtonPendingChallenges;
+    private ImageButton imageButtonHistory;
     private ArrayList<String> challenges;
-    private ArrayList<Boolean> listSuccess;
-    private ArrayList<String> dateChallenge;
 
-    public HistoryActivity() {
+    public PendingChallengesActivity() {
         currentUser = ParseUser.getCurrentUser();
         challenges = new ArrayList<String>();
-        listSuccess = new ArrayList<Boolean>();
-        dateChallenge = new ArrayList<String>();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+        setContentView(R.layout.activity_pending_challenges);
 
         addListenerOnBottomBar();
         FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
 
-        ListView listChallenges = (ListView) this.findViewById(R.id.Lv_history);
-        listChallenges.setClickable(false);
+        getPendingChallenge();
 
-        getHistory();
+        //Liste des défis en attente
+        ListView listChallenges = (ListView) this.findViewById(R.id.lv_pending_challenges);
 
-        HistoryAdapter historyAdapter = new HistoryAdapter(this,
-                R.layout.listitem_history_challenge,
+        StringAdapter stringAdapter = new StringAdapter(this,
+                R.layout.listitem_pending_challenge,
                 challenges,
-                listSuccess,
-                dateChallenge,
-                R.id.tv_challenge,
-                R.id.imageResult,
-                R.id.tv_date);
+                R.id.tv_challenge);
 
-        listChallenges.setAdapter(historyAdapter);
+        listChallenges.setAdapter(stringAdapter);
     }
 
     @Override
@@ -107,31 +86,33 @@ public class HistoryActivity extends AppCompatActivity {
 
     public void addListenerOnBottomBar() {
         imageButtonProfile = (ImageButton) findViewById(R.id.action_profile);
-        imageButtonPendingChallenges = (ImageButton) findViewById(R.id.action_cup);
+        imageButtonHistory = (ImageButton) findViewById(R.id.action_diploma);
 
         imageButtonProfile.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                Intent i = new Intent(HistoryActivity.this, UserProfileActivity.class);
+                Intent i = new Intent(PendingChallengesActivity.this, UserProfileActivity.class);
                 startActivity(i);
             }
 
         });
 
-        imageButtonPendingChallenges.setOnClickListener(new View.OnClickListener() {
+        imageButtonHistory.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), PendingChallengesActivity.class);
+            public void onClick(View arg0) {
+                Intent i = new Intent(PendingChallengesActivity.this, HistoryActivity.class);
                 startActivity(i);
             }
+
         });
     }
 
-    public void getHistory() {
+    public void getPendingChallenge() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Attributed_challenge");
         query.whereEqualTo("user_id", currentUser.getObjectId());
-        query.whereNotEqualTo("finish_date", null);
+        query.whereEqualTo("accepting_date", null);
 
         List<ParseObject> tempObject = null;
 
@@ -144,13 +125,9 @@ public class HistoryActivity extends AppCompatActivity {
         if (tempObject != null) {
             ParseObject tempObject2 = null;
             ParseObject tempObject3 = null;
-            Challenge tempChallengeMetier = null;
 
             for(int j = 0; j < tempObject.size(); j++) {
-                Date finishDate = (Date) tempObject.get(j).get("finish_date");
                 String tempApplicant = (String) tempObject.get(j).get("user_id_applicant");
-                String tempChallengeID = (String) tempObject.get(j).get("challenge_id");
-                boolean tempSuccess = Boolean.parseBoolean(tempObject.get(j).get("success").toString());
 
                 ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Challenge");
                 query2.whereEqualTo("objectId", tempObject.get(j).get("challenge_id"));
@@ -170,15 +147,11 @@ public class HistoryActivity extends AppCompatActivity {
                     Log.d("queryFail", "Query Applicant has failed : " + e.toString());
                 }
 
-                SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy");
-                String myFinishDate = format.format(finishDate);
-
-                dateChallenge.add("Challenge finished on " + myFinishDate);
                 challenges.add(tempObject3.get("username").toString() + " challenge you to " + tempObject2.get("challenge"));
-                listSuccess.add(tempSuccess);
 
             }
 
         }
     }
+
 }

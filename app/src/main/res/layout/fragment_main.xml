@@ -68,13 +68,14 @@
         <RelativeLayout
             android:layout_width="75dp"
             android:layout_height="75dp">
-            <ImageButton
+            <com.facebook.login.widget.LoginButton
                 android:id="@+id/fb"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/ic_fb"
-                android:layout_margin="10dp"
-                />
+                android:layout_marginBottom="30dp" />
         </RelativeLayout>
 
         <RelativeLayout android:layout_width="75dp"
