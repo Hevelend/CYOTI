@@ -51,7 +51,7 @@
         <activity
             android:name=".HistoryActivity"
             android:label="@string/title_activity_user_history"
-            android:icon="@mipmap/ic_app" >
+            android:icon="@mipmap/ic_app">
         </activity>
         <meta-data
             android:name="io.fabric.ApiKey"

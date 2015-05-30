@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:clickable="false"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="5dp" >
@@ -9,7 +8,6 @@
 
 
     <RelativeLayout
-        android:id="@+id/layoutCorps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/listborder"
@@ -23,15 +21,6 @@
             android:background="@color/bluemerica"
             android:alpha="0.9"
             android:id="@+id/header" >
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="New Text"
-                android:layout_marginLeft="100dp"
-                android:padding="5dp"
-                android:textSize="20sp"/>
 
         </RelativeLayout>
 
@@ -63,14 +52,5 @@
         android:layout_marginLeft="30dp"
         android:src="@mipmap/ic_app"
         android:layout_marginTop="5dp" />
-
-    <ImageView
-        android:id="@+id/imageResult"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="-40dp"
-        android:src="@mipmap/ic_fail"
-        android:layout_below="@id/layoutCorps" />
 
 </RelativeLayout>
