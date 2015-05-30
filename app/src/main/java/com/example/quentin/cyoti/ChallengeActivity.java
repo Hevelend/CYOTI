@@ -31,7 +31,6 @@ public class ChallengeActivity extends AppCompatActivity
     private CustomFragmentPagerAdapter mAdapter;
     private ImageButton imageButtonProfile;
     private ImageButton imageButtonHistorique;
-    private ImageButton imageButtonPendingChallenges;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,6 @@ public class ChallengeActivity extends AppCompatActivity
 
         imageButtonProfile = (ImageButton) findViewById(R.id.action_profile);
         imageButtonHistorique = (ImageButton) findViewById(R.id.action_diploma);
-        imageButtonPendingChallenges = (ImageButton) findViewById(R.id.action_cup);
 
         imageButtonProfile.setOnClickListener(new View.OnClickListener() {
 
@@ -100,14 +98,6 @@ public class ChallengeActivity extends AppCompatActivity
                 startActivity(i);
             }
 
-        });
-
-        imageButtonPendingChallenges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), PendingChallengesActivity.class);
-                startActivity(i);
-            }
         });
 
     }

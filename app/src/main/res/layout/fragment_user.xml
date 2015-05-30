@@ -27,4 +27,30 @@
         android:textSize="30sp"
         android:layout_centerHorizontal="true" />
 
+    <!--
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_panda"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/txtuser"/>
+        -->
+
+    <!--<ImageButton
+        android:id="@+id/logout"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="2dp"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="6dp"
+        android:src="@mipmap/power"
+        android:background="@color/bar_blue"/>-->
+
+    <ListView
+        android:id="@+id/lv_challenges"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/txtuser" />
+
 </RelativeLayout>

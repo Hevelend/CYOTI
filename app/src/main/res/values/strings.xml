@@ -12,7 +12,6 @@
     <string name="title_fragment_propose_challenge">Challenge your friends</string>
     <string name="title_activity_user_profile">Your profile</string>
     <string name="title_activity_user_history">Your history</string>
-    <string name="title_activity_pending_challenges">Your pending challenges</string>
     <string name="welcome">Welcome</string>
 
     <!-- Connexion Facebook-->
@@ -38,8 +37,6 @@
     <string name="tv_addFriend">Add a friend ?</string>
     <string name="actv_addFriend">Pseudo of your friend</string>
     <string name="ib_addFriend_description">Validation of adding a friend</string>
-
-    <!-- PendingChallengesActivity -->
 
     <!-- UserProfileActivity -->
     <string name="tv_userAccount">Account</string>
