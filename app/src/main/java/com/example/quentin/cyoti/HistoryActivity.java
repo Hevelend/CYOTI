@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.quentin.cyoti.adapters.HistoryAdapter;
 import com.example.quentin.cyoti.adapters.StringAdapter;
 import com.example.quentin.cyoti.metier.Challenge;
 import com.example.quentin.cyoti.metier.Friend;
@@ -32,6 +33,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,10 +45,14 @@ public class HistoryActivity extends AppCompatActivity {
     private ParseUser currentUser;
     private ImageButton imageButtonProfile;
     private ArrayList<String> challenges;
+    private ArrayList<Boolean> listSuccess;
+    private ArrayList<String> dateChallenge;
 
     public HistoryActivity() {
         currentUser = ParseUser.getCurrentUser();
         challenges = new ArrayList<String>();
+        listSuccess = new ArrayList<Boolean>();
+        dateChallenge = new ArrayList<String>();
     }
 
     @Override
@@ -61,12 +68,16 @@ public class HistoryActivity extends AppCompatActivity {
 
         getHistory();
 
-        StringAdapter stringAdapter = new StringAdapter(this,
+        HistoryAdapter historyAdapter = new HistoryAdapter(this,
                 R.layout.listitem_history_challenge,
                 challenges,
-                R.id.tv_challenge);
+                listSuccess,
+                dateChallenge,
+                R.id.tv_challenge,
+                R.id.imageResult,
+                R.id.tv_date);
 
-        listChallenges.setAdapter(stringAdapter);
+        listChallenges.setAdapter(historyAdapter);
     }
 
     @Override
@@ -111,8 +122,6 @@ public class HistoryActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Attributed_challenge");
         query.whereEqualTo("user_id", currentUser.getObjectId());
         query.whereNotEqualTo("finish_date", null);
-        /*query.whereEqualTo("success", true);
-        query.whereEqualTo("success", false);*/
 
         List<ParseObject> tempObject = null;
 
@@ -131,6 +140,7 @@ public class HistoryActivity extends AppCompatActivity {
                 Date finishDate = (Date) tempObject.get(j).get("finish_date");
                 String tempApplicant = (String) tempObject.get(j).get("user_id_applicant");
                 String tempChallengeID = (String) tempObject.get(j).get("challenge_id");
+                boolean tempSuccess = Boolean.parseBoolean(tempObject.get(j).get("success").toString());
 
                 ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Challenge");
                 query2.whereEqualTo("objectId", tempObject.get(j).get("challenge_id"));
@@ -150,7 +160,12 @@ public class HistoryActivity extends AppCompatActivity {
                     Log.d("queryFail", "Query Applicant has failed : " + e.toString());
                 }
 
+                SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy");
+                String myFinishDate = format.format(finishDate);
+
+                dateChallenge.add("Challenge finished on " + myFinishDate);
                 challenges.add(tempObject3.get("username").toString() + " challenge you to " + tempObject2.get("challenge"));
+                listSuccess.add(tempSuccess);
 
             }
 
