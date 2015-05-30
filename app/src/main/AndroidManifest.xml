@@ -24,7 +24,6 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -54,6 +53,9 @@
             android:label="@string/title_activity_user_history"
             android:icon="@mipmap/ic_app">
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="02b13739ff6e4de733061305c1b4fc2ff26478b6" />
     </application>
 
 </manifest>
