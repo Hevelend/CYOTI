@@ -19,7 +19,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +36,10 @@ public class PendingChallengesActivity extends AppCompatActivity {
     public PendingChallengesActivity() {
         currentUser = ParseUser.getCurrentUser();
         challenges = new ArrayList<String>();
+        Challenge challenge1 = new Challenge("Dance in McDonald's", new Date(), new Date(), new Friend("James", "Morrison", "Jim"), new Friend("Vincent", "Aunai", "Lodoss"));
+        Challenge challenge2 = new Challenge("make a cookie in 5 minutes", new Date(), new Date(), new Friend("Toto", "Tutu", "TotoTutu"), new Friend("Martin", "Dupont", "mDupont"));
+        challenges.add(challenge1.getUserChallenger().getNickName() + " challenge you to " + challenge1.getDescription());
+        challenges.add(challenge2.getUserChallenger().getNickName() + " challenge you to " + challenge2.getDescription());
     }
 
     @Override
@@ -46,8 +49,6 @@ public class PendingChallengesActivity extends AppCompatActivity {
 
         addListenerOnBottomBar();
         FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
-
-        getPendingChallenge();
 
         //Liste des défis en attente
         ListView listChallenges = (ListView) this.findViewById(R.id.lv_pending_challenges);
@@ -107,51 +108,6 @@ public class PendingChallengesActivity extends AppCompatActivity {
             }
 
         });
-    }
-
-    public void getPendingChallenge() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Attributed_challenge");
-        query.whereEqualTo("user_id", currentUser.getObjectId());
-        query.whereEqualTo("accepting_date", null);
-
-        List<ParseObject> tempObject = null;
-
-        try {
-            tempObject = query.find();
-        } catch (ParseException e) {
-            Log.d("queryFail", "Query Object has failed : " + e.toString());
-        }
-
-        if (tempObject != null) {
-            ParseObject tempObject2 = null;
-            ParseObject tempObject3 = null;
-
-            for(int j = 0; j < tempObject.size(); j++) {
-                String tempApplicant = (String) tempObject.get(j).get("user_id_applicant");
-
-                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Challenge");
-                query2.whereEqualTo("objectId", tempObject.get(j).get("challenge_id"));
-
-                try {
-                    tempObject2 = query2.getFirst();
-                } catch (ParseException e) {
-                    Log.d("queryFail", "Query Challenge has failed : " + e.toString());
-                }
-
-                ParseQuery<ParseObject> query3 = ParseQuery.getQuery("_User");
-                query3.whereEqualTo("objectId", tempApplicant);
-
-                try {
-                    tempObject3 = query3.getFirst();
-                } catch (ParseException e) {
-                    Log.d("queryFail", "Query Applicant has failed : " + e.toString());
-                }
-
-                challenges.add(tempObject3.get("username").toString() + " challenge you to " + tempObject2.get("challenge"));
-
-            }
-
-        }
     }
 
 }
