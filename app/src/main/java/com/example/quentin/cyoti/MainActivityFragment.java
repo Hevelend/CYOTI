@@ -1,9 +1,12 @@
 package com.example.quentin.cyoti;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,23 +19,20 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.facebook.FacebookSdk;
-import com.parse.ParseTwitterUtils;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
 import java.util.Collection;
 import java.lang.String;
-
-import android.content.Intent;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 
 /**
@@ -45,13 +45,11 @@ public class MainActivityFragment extends Fragment {
     EditText password;
     Button signUp;
     Button login;
-    ImageButton twitter;
     String usernametxt;
     String passwordtxt;
     Collection<String> permissions;
     CallbackManager callbackManager;
     LoginButton loginButton;
-    TwitterLoginButton loginButtonTwitter;
 
     private View rootView;
 
@@ -64,6 +62,24 @@ public class MainActivityFragment extends Fragment {
         //initialisation connexion avec facebook
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
+/*
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // App code
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });*/
     }
 
     @Override
@@ -79,33 +95,12 @@ public class MainActivityFragment extends Fragment {
         login = (Button) rootView.findViewById(R.id.login);
         signUp = (Button) rootView.findViewById(R.id.signup);
 
-        // Bouton de Login pour facebook
         loginButton = (LoginButton) rootView.findViewById(R.id.fb);
         loginButton.setBackgroundResource(R.drawable.ic_fb);
 
         loginButton.setReadPermissions("user_friends");
         // If using in a fragment
         loginButton.setFragment(this);
-
-        twitter = (ImageButton) rootView.findViewById(R.id.twitter);
-        //Bouton login pour twitter
-      /*  loginButtonTwitter = (TwitterLoginButton) rootView.findViewById(R.id.twitter_login_button);
-        loginButtonTwitter.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-                Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
-                startActivity(intent);
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Successfully Logged in",
-                        Toast.LENGTH_SHORT).show();
-                getActivity().finish();
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                // Do something on failure
-            }
-        });*/
 
         // Login Button Click Listener
         login.setOnClickListener(new View.OnClickListener() {
@@ -158,25 +153,6 @@ public class MainActivityFragment extends Fragment {
                 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
             }
         });
-
-        twitter.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View arg0) {
-                ParseTwitterUtils.logIn(getActivity(), new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException err) {
-                        if (user == null) {
-                            Log.d("MyApp", "Uh oh. The user cancelled the Twitter login.");
-                        } else if (user.isNew()) {
-                            Log.d("MyApp", "User signed up and logged in through Twitter!");
-                        } else {
-                            Log.d("MyApp", "User logged in through Twitter!");
-                        }
-                    }
-                });
-            }
-        });
-
 /*
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,12 +173,10 @@ public class MainActivityFragment extends Fragment {
 
         });*/
 
-            // Callback registration
-            loginButton.registerCallback(callbackManager,new FacebookCallback<LoginResult>()
-
-            {
-                @Override
-                public void onSuccess (LoginResult loginResult){
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
                 Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
                 startActivity(intent);
                 Toast.makeText(getActivity().getApplicationContext(),
@@ -211,8 +185,8 @@ public class MainActivityFragment extends Fragment {
                 getActivity().finish();
             }
 
-                @Override
-                public void onCancel () {
+            @Override
+            public void onCancel() {
                 Toast.makeText(
                         getActivity().getApplicationContext(),
                         "No such user exist, please signup",
@@ -220,8 +194,8 @@ public class MainActivityFragment extends Fragment {
 
             }
 
-                @Override
-                public void onError (FacebookException exception){
+            @Override
+            public void onError(FacebookException exception) {
                 Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
                 startActivity(intent);
                 Toast.makeText(getActivity().getApplicationContext(),
@@ -229,18 +203,15 @@ public class MainActivityFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
                 getActivity().finish();
             }
-            }
+        });
 
-            );
-
-            return rootView;
-        }
-
-        @Override
+        return rootView;
+    }
+/*
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-       //loginButtonTwitter.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 }
 

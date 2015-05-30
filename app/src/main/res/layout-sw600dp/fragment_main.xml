@@ -100,14 +100,6 @@
                 android:background="@drawable/ic_twitter"
                 android:layout_margin="10dp"
                 />
-            <!--
-            <com.twitter.sdk.android.core.identity.TwitterLoginButton
-                android:id="@+id/twitter_login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_twitter"
-                android:layout_centerInParent="true"/>
-            -->
         </RelativeLayout>
         <RelativeLayout android:layout_width="fill_parent"
             android:layout_height="75dp"
