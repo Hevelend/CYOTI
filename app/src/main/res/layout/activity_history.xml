@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:clickable="false"
     android:background="@color/dark_beige" >
 
     <LinearLayout
@@ -18,8 +19,8 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Lv_history"
-            android:clickable="false" />
+            android:clickable="false"
+            android:id="@+id/Lv_history" />
 
     </LinearLayout>
 
