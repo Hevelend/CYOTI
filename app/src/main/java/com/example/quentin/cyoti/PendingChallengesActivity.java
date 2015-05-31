@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -32,11 +33,16 @@ public class PendingChallengesActivity extends AppCompatActivity {
     private ParseUser currentUser;
     private ImageButton imageButtonProfile;
     private ImageButton imageButtonHistory;
+    private ImageButton imageButtonAccept;
+    private ImageButton imageButtonCancel;
     private ArrayList<String> challenges;
+    private ArrayList<String> idChallenges;
+    private int itemSelect;
 
     public PendingChallengesActivity() {
         currentUser = ParseUser.getCurrentUser();
         challenges = new ArrayList<String>();
+        idChallenges = new ArrayList<String>();
     }
 
     @Override
@@ -51,6 +57,52 @@ public class PendingChallengesActivity extends AppCompatActivity {
 
         //Liste des défis en attente
         ListView listChallenges = (ListView) this.findViewById(R.id.lv_pending_challenges);
+        listChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                imageButtonAccept = (ImageButton) findViewById(R.id.ib_acceptChallenge);
+                imageButtonCancel = (ImageButton) findViewById(R.id.ib_refuseChallenge);
+
+                imageButtonAccept.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
+                        ParseObject myChallenge = null;
+
+                        try {
+                            myChallenge = queryChallenge.get(idChallenges.get(itemSelect));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            Log.d("GET Attributed_CHG", "GET attributed_challenge");
+                        }
+                        myChallenge.put("accepting_date", new Date());
+
+                        try {
+                            myChallenge.save();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            Log.d("SAVE Challenge", "Mise à jour du attributed_challenge");
+                        }
+
+                        finish();
+                        startActivity(getIntent());
+                    }
+
+                });
+
+                imageButtonCancel.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+
+                    }
+
+                });
+            }
+        });
 
         StringAdapter stringAdapter = new StringAdapter(this,
                 R.layout.listitem_pending_challenge,
@@ -128,6 +180,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
 
             for(int j = 0; j < tempObject.size(); j++) {
                 String tempApplicant = (String) tempObject.get(j).get("user_id_applicant");
+                String idAttributedChallenge = tempObject.get(j).getObjectId().toString();
 
                 ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Challenge");
                 query2.whereEqualTo("objectId", tempObject.get(j).get("challenge_id"));
@@ -148,6 +201,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
                 }
 
                 challenges.add(tempObject3.get("username").toString() + " challenge you to " + tempObject2.get("challenge"));
+                idChallenges.add(idAttributedChallenge);
 
             }
 
