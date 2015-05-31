@@ -54,7 +54,7 @@ public class VoteChallengeFragment extends Fragment {
         vote.setProgress(purcentVote.intValue());
 
         tvPurcent = (TextView) rootView.findViewById(R.id.tv_purcent);
-        tvPurcent.setText(String.valueOf(purcentVote) + "%");
+        tvPurcent.setText(String.format("%.1f", purcentVote) + "%");
 
         ImageButton btLike = (ImageButton) rootView.findViewById(R.id.bt_like);
         ImageButton btUnlike = (ImageButton) rootView.findViewById(R.id.bt_unlike);
@@ -181,7 +181,7 @@ public class VoteChallengeFragment extends Fragment {
     public void updateProgressBar() {
         getPurcentageVote();
         vote.setProgress(purcentVote.intValue());
-        tvPurcent.setText(String.valueOf(purcentVote.intValue()) + "%");
+        tvPurcent.setText(String.format("%.1f", purcentVote) + "%");
     }
 
     public boolean hasVoted() {

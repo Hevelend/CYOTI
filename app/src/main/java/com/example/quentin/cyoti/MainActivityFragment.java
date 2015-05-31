@@ -28,11 +28,11 @@ import java.util.Collection;
 import java.lang.String;
 
 import android.content.Intent;
-import com.twitter.sdk.android.core.Callback;
+/*import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;*/
 
 
 /**
@@ -51,7 +51,7 @@ public class MainActivityFragment extends Fragment {
     Collection<String> permissions;
     CallbackManager callbackManager;
     LoginButton loginButton;
-    TwitterLoginButton loginButtonTwitter;
+    /*TwitterLoginButton loginButtonTwitter;*/
 
     private View rootView;
 
