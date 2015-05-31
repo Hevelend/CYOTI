@@ -115,7 +115,7 @@ public class VoteChallengeFragment extends Fragment {
         ParseObject parseChallenge;
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Challenge");
-        query.whereEqualTo("objectId", "bEAxCfTnKK");
+        query.whereEqualTo("objectId", "w0FzgnFaJp");
 
         try {
             parseChallenge = query.getFirst();
@@ -127,26 +127,34 @@ public class VoteChallengeFragment extends Fragment {
 
     public void getAttributedChallenge() {
         ParseObject parseAttributedChallenge;
+        ParseObject parseUserApplicant;
         ParseObject parseUser;
         String userChallengerID = null;
+        String userChallengedID = null;
 
         ParseQuery<ParseObject> queryAttributed = ParseQuery.getQuery("Attributed_challenge");
-        queryAttributed.whereEqualTo("challenge_id", "idTest");
+        queryAttributed.whereEqualTo("challenge_id", "w0FzgnFaJp");
 
         try {
             parseAttributedChallenge = queryAttributed.getFirst();
-            userChallengerID = parseAttributedChallenge.get("user_id").toString();
-            friendChallenged = new Friend(parseAttributedChallenge.get("user_id_applicant").toString());
+            userChallengerID = parseAttributedChallenge.get("user_id_applicant").toString();
+            userChallengedID = parseAttributedChallenge.get("user_id").toString();
+            //friendChallenged = new Friend(parseAttributedChallenge.get("user_id_applicant").toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        ParseQuery<ParseObject> queryUser = ParseQuery.getQuery("_User");
-        queryUser.whereEqualTo("objectId", userChallengerID);
+        ParseQuery<ParseObject> queryUserApplicant = ParseQuery.getQuery("_User");
+        queryUserApplicant.whereEqualTo("objectId", userChallengerID);
+
+        ParseQuery<ParseObject> queryUser = ParseQuery.getQuery("_User");;
+        queryUser.whereEqualTo("objectId", userChallengedID);
 
         try {
+            parseUserApplicant = queryUserApplicant.getFirst();
             parseUser = queryUser.getFirst();
-            friendChallenger = new Friend(parseUser.get("username").toString());
+            friendChallenger = new Friend(parseUserApplicant.get("username").toString());
+            friendChallenged = new Friend(parseUser.get("username").toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
