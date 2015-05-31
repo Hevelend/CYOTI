@@ -1,14 +1,10 @@
 package com.example.quentin.cyoti;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,7 +12,6 @@ import android.widget.Toast;
 
 import com.example.quentin.cyoti.metier.Challenge;
 import com.example.quentin.cyoti.metier.Friend;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -27,10 +22,10 @@ public class VoteChallengeFragment extends Fragment {
     private Friend friendChallenger;
     private Friend friendChallenged;
     private Challenge challenge = new Challenge();
-    private Double purcentVote = 0.0;
+    private Double percentVote = 0.0;
     private View rootView;
     private ProgressBar vote;
-    private TextView tvPurcent;
+    private TextView tvPercent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,7 +33,7 @@ public class VoteChallengeFragment extends Fragment {
         // Inflate the layout for this fragment
         getChallenge();
         getAttributedChallenge();
-        getPurcentageVote();
+        getPercentageVote();
 
         rootView = inflater.inflate(R.layout.fragment_vote_challenge, container, false);
 
@@ -51,10 +46,10 @@ public class VoteChallengeFragment extends Fragment {
 
         vote = (ProgressBar) rootView.findViewById(R.id.pb_vote);
         vote.setRotation(90f);
-        vote.setProgress(purcentVote.intValue());
+        vote.setProgress(percentVote.intValue());
 
-        tvPurcent = (TextView) rootView.findViewById(R.id.tv_purcent);
-        tvPurcent.setText(String.format("%.1f", purcentVote) + "%");
+        tvPercent = (TextView) rootView.findViewById(R.id.tv_percent);
+        tvPercent.setText(String.format("%.1f", percentVote) + "%");
 
         ImageButton btLike = (ImageButton) rootView.findViewById(R.id.bt_like);
         ImageButton btUnlike = (ImageButton) rootView.findViewById(R.id.bt_unlike);
@@ -160,7 +155,7 @@ public class VoteChallengeFragment extends Fragment {
         }
     }
 
-    public void getPurcentageVote() {
+    public void getPercentageVote() {
         double nbVotes = 0;
         double nbVotesYes = 0;
 
@@ -183,13 +178,13 @@ public class VoteChallengeFragment extends Fragment {
             e.printStackTrace();
         }
 
-        purcentVote = (nbVotesYes / nbVotes) * 100.0;
+        percentVote = (nbVotesYes / nbVotes) * 100.0;
     }
 
     public void updateProgressBar() {
-        getPurcentageVote();
-        vote.setProgress(purcentVote.intValue());
-        tvPurcent.setText(String.format("%.1f", purcentVote) + "%");
+        getPercentageVote();
+        vote.setProgress(percentVote.intValue());
+        tvPercent.setText(String.format("%.1f", percentVote) + "%");
     }
 
     public boolean hasVoted() {
