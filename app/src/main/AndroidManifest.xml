@@ -39,6 +39,7 @@
             android:icon="@drawable/ic_app"
             android:label="@string/title_activity_challenge"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
