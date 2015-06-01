@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quentin.cyoti.adapters.StringAdapter;
 import com.example.quentin.cyoti.adapters.FriendAdapter;
@@ -30,21 +31,35 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 
 public class UserFragment extends Fragment {
     private View rootView;
+    private final ParseUser currentUser;
+    private ArrayList<Friend> friends;
+    private ListView listChallenges;
+    private Hashtable<String,String> friendsDic;
+    //private ArrayList<String> friendsIDs;
+    private ArrayList<String> challenges;
+    private List<ParseObject> listTempObject = null;
+
     private OnUserListener mCallback;
     private ParseObject tempObject = null;
-    private ArrayList<String> challenges;
     private static User user = new User();
-    private static List<String> friends = null;
     private boolean queryOK = false;
     private int i = 0;
 
     public UserFragment() {
+        currentUser = ParseUser.getCurrentUser();
+        friends = new ArrayList<Friend>();
+        //friendsIDs = new ArrayList<String>();
+        challenges = new ArrayList<String>();
+        friendsDic = new Hashtable<String, String>();
     }
 
     @Override
@@ -52,9 +67,6 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_user, container, false);
-
-        // Retrieve current user from Parse.com
-        final ParseUser currentUser = ParseUser.getCurrentUser();
 
         // Convert currentUser into String
         String struser = currentUser.getUsername().toString();
@@ -64,6 +76,108 @@ public class UserFragment extends Fragment {
 
         // Set the currentUser String into TextView
         txtuser.setText("You are logged in as " + struser);
+
+
+
+        // Getting friends' challenges acceptations and achieved
+        challenges.clear();
+
+        // Get actual friends of user and friends IDs
+        getFriends();
+        for (int i=0; i<friends.size(); i++) {
+            ParseQuery<ParseObject> queryFriend = ParseQuery.getQuery("_User");
+            queryFriend.whereEqualTo("username", friends.get(i).getFirstName());
+            ParseObject friend = null;
+            try {
+                friend = queryFriend.getFirst();
+                friendsDic.put(friend.getObjectId(), friends.get(i).getFirstName());
+                //friendsIDs.add(friend.getObjectId());
+            } catch (ParseException e) {
+                Log.d("getFriendID", e.getMessage());
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Problem getting friends informations. Please try later.", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        // Get challenges
+        ParseQuery<ParseObject> queryChallengesChallenger = ParseQuery.getQuery("Attributed_challenge");
+        queryChallengesChallenger.whereContainedIn("user_id_applicant", Collections.list(friendsDic.keys()));
+        ParseQuery<ParseObject> queryChallengesChallenged = ParseQuery.getQuery("Attributed_challenge");
+        queryChallengesChallenged.whereContainedIn("user_id", Collections.list(friendsDic.keys()));
+        ParseQuery<ParseObject> queryChallenges = ParseQuery.or(Arrays.asList(queryChallengesChallenged, queryChallengesChallenger));
+
+        queryChallenges.addDescendingOrder("createdAt");
+        queryChallenges.setLimit(10);
+
+        try {
+            listTempObject = queryChallenges.find();
+        } catch (ParseException e) {
+            Log.d("queryFail", "Query Object has failed : " + e.toString());
+        }
+
+        for (int j=0; j<listTempObject.size(); j++) {
+            ParseQuery<ParseObject> queryOneChallenge = ParseQuery.getQuery("Challenge");
+            queryOneChallenge.whereEqualTo("objectId", listTempObject.get(j).get("challenge_id"));
+
+            ParseQuery<ParseObject> queryChallenger = ParseQuery.getQuery("_User");
+            queryChallenger.whereEqualTo("objectId", listTempObject.get(j).get("user_id_applicant"));
+
+            ParseQuery<ParseObject> queryChallenged = ParseQuery.getQuery("_User");
+            queryChallenged.whereEqualTo("objectId", listTempObject.get(j).get("user_id"));
+
+            ParseObject tempChallenge = null;
+            ParseObject tempFriend = null;
+            String display = null;
+
+            try {
+                tempChallenge = queryOneChallenge.getFirst();
+            } catch (ParseException e) {
+                Log.d("queryFail", "Query Object has failed : " + e.toString());
+            }
+
+            if (Collections.list(friendsDic.keys()).contains(listTempObject.get(j).get("user_id"))) {
+                try {
+                    tempFriend = queryChallenger.getFirst();
+                } catch (ParseException e) {
+                    Log.d("queryFail", "Query Object has failed : " + e.toString());
+                }
+
+                display = tempFriend.get("username") + " challenges " + friendsDic.get(listTempObject.get(j).get("user_id")) + " to " + tempChallenge.get("challenge");
+
+
+            } else if (Collections.list(friendsDic.keys()).contains(listTempObject.get(j).get("user_id_applicant"))) {
+                try {
+                    tempFriend = queryChallenged.getFirst();
+                } catch (ParseException e) {
+                    Log.d("queryFail", "Query Object has failed : " + e.toString());
+                }
+
+                display = friendsDic.get(listTempObject.get(j).get("user_id_applicant")) + " challenges " + tempFriend.get("username") + " to " + tempChallenge.get("challenge");
+            }
+
+            if (listTempObject.get(j).get("success") != null) {
+                String tempSuccess = listTempObject.get(j).get("success").toString();
+                 if (Boolean.parseBoolean(tempSuccess)) {display += " REUSSITE";} else {display += " ECHEC";}
+            }
+
+            challenges.add(display);
+
+        }
+
+        Log.d("test",challenges.toString());
+
+        // Fill the ListView
+        listChallenges = (ListView) rootView.findViewById(R.id.lv_challenges);
+
+        final StringAdapter challengesAdapter = new StringAdapter(rootView.getContext(),
+                R.layout.listitem_news,
+                challenges,
+                R.id.tv_challenge);
+
+        listChallenges.setAdapter(challengesAdapter);
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
                     /*TODO Ce bout de code sera à travailler plus tard... */
@@ -128,6 +242,30 @@ public class UserFragment extends Fragment {
 
     public void saveObject(ParseObject object) {
         tempObject = object;
+    }
+
+    public void getFriends() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+
+        ParseObject tempObject = null;
+        ArrayList<String> tempFriends;
+
+        try {
+            tempObject = query.get(currentUser.getObjectId());
+        } catch (ParseException e) {
+            Log.d("queryFail", "Query has failed : " + e.toString());
+        }
+
+        if (tempObject != null) {
+            tempFriends = (ArrayList<String>) tempObject.get("friend_list");
+
+
+            if (tempFriends != null) {
+                for (int i = 0; i < tempFriends.size(); i++) {
+                    friends.add(new Friend(tempFriends.get(i)));
+                }
+            }
+        }
     }
 
 }

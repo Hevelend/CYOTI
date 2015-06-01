@@ -27,4 +27,11 @@
         android:textSize="30sp"
         android:layout_centerHorizontal="true" />
 
+    <ListView
+        android:id="@+id/lv_challenges"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/txtuser"
+        android:layout_marginTop="15dp"/>
+
 </RelativeLayout>

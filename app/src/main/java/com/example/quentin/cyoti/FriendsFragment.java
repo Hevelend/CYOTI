@@ -59,7 +59,7 @@ public class FriendsFragment extends Fragment {
         listFriends.setClickable(true);
 
 
-        final ArrayAdapter<Friend> friendAdapter = new FriendAdapter(rootView.getContext(), R.layout.listitem_friend, friends);
+        final FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(), R.layout.listitem_friend, friends);
 
         listFriends.setAdapter(friendAdapter);
 
