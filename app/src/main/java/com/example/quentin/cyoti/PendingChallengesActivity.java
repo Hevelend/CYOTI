@@ -57,13 +57,16 @@ public class PendingChallengesActivity extends AppCompatActivity {
 
         //Liste des défis en attente
         ListView listChallenges = (ListView) this.findViewById(R.id.lv_pending_challenges);
+
         listChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                imageButtonAccept = (ImageButton) findViewById(R.id.ib_acceptChallenge);
-                imageButtonCancel = (ImageButton) findViewById(R.id.ib_refuseChallenge);
+                Log.d("listen", "Item click list challenge");
+
+                imageButtonAccept = (ImageButton) view.findViewById(R.id.ib_acceptChallenge);
+                imageButtonCancel = (ImageButton) view.findViewById(R.id.ib_refuseChallenge);
 
                 imageButtonAccept.setOnClickListener(new View.OnClickListener() {
 
