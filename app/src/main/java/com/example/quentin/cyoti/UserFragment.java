@@ -116,6 +116,7 @@ public class UserFragment extends Fragment {
             Log.d("queryFail", "Query Object has failed : " + e.toString());
         }
 
+
         for (int j=0; j<listTempObject.size(); j++) {
             ParseQuery<ParseObject> queryOneChallenge = ParseQuery.getQuery("Challenge");
             queryOneChallenge.whereEqualTo("objectId", listTempObject.get(j).get("challenge_id"));
@@ -164,8 +165,6 @@ public class UserFragment extends Fragment {
             challenges.add(display);
 
         }
-
-        Log.d("test",challenges.toString());
 
         // Fill the ListView
         listChallenges = (ListView) rootView.findViewById(R.id.lv_challenges);

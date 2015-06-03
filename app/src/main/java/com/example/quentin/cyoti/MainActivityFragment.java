@@ -121,7 +121,7 @@ public class MainActivityFragment extends Fragment {
                             public void done(ParseUser user, ParseException e) {
                                 if (user != null) {
                                     if (user.getBoolean("freeze_account") != true) {
-                                        // If user exist and authenticated and not freeezed, send user to ChallengeActivity.class
+                                        // If user exist and authenticated and not frozen, send user to ChallengeActivity.class
                                         Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
                                         startActivity(intent);
                                         Toast.makeText(getActivity().getApplicationContext(),
@@ -131,14 +131,14 @@ public class MainActivityFragment extends Fragment {
                                     } else {
                                         Toast.makeText(
                                                 getActivity().getApplicationContext(),
-                                                "No such user exist, please signup",
+                                                "Account frozen",
                                                 Toast.LENGTH_LONG).show();
                                     }
 
                                 } else {
                                     Toast.makeText(
                                             getActivity().getApplicationContext(),
-                                            "No such user exist, please signup",
+                                            "Username/Password incorrect, you may need to sign up",
                                             Toast.LENGTH_LONG).show();
                                 }
                             }
@@ -198,38 +198,36 @@ public class MainActivityFragment extends Fragment {
         });*/
 
             // Callback registration
-            loginButton.registerCallback(callbackManager,new FacebookCallback<LoginResult>()
+            loginButton.registerCallback(callbackManager,new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess (LoginResult loginResult){
+                    Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Successfully Logged in",
+                            Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                    }
 
-            {
-                @Override
-                public void onSuccess (LoginResult loginResult){
-                Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
-                startActivity(intent);
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Successfully Logged in",
-                        Toast.LENGTH_SHORT).show();
-                getActivity().finish();
-            }
+                    @Override
+                    public void onCancel () {
+                    Toast.makeText(
+                            getActivity().getApplicationContext(),
+                            "No such user exist, please signup",
+                            Toast.LENGTH_LONG).show();
 
-                @Override
-                public void onCancel () {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        "No such user exist, please signup",
-                        Toast.LENGTH_LONG).show();
+                    }
 
-            }
-
-                @Override
-                public void onError (FacebookException exception){
-                Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
-                startActivity(intent);
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Successfully Logged in",
-                        Toast.LENGTH_SHORT).show();
-                getActivity().finish();
-            }
-            }
+                    @Override
+                    public void onError (FacebookException exception){
+                    Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Successfully Logged in",
+                            Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                    }
+                }
 
             );
 

@@ -38,6 +38,7 @@
     <string name="tv_addFriend">Add a friend ?</string>
     <string name="actv_addFriend">Pseudo of your friend</string>
     <string name="ib_addFriend_description">Validation of adding a friend</string>
+    <string name="bt_remove_text">Remove Friends</string>
 
     <!-- PendingChallengesActivity -->
 

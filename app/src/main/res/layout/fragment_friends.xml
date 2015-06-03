@@ -9,60 +9,68 @@
     android:background="@color/dark_beige"
     tools:context="com.example.quentin.cyoti.FriendsFragment">
 
-    <ListView
-        android:id="@+id/lv_friends"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginTop="10dp"
-        android:clickable="true" />
-
-    <Button
-        android:id="@+id/bt_removeFriend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:padding="5dp"
-        android:text="Remove friends"
-        android:layout_below="@id/lv_friends"
-        android:layout_centerInParent="true"
-        android:background="@color/red"
-        android:textSize="30sp"
-        android:textColor="#ffffff"
-        android:textAllCaps="false"/>
-
-    <TextView
-        android:id="@+id/tv_addFriend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/bt_removeFriend"
-        android:layout_centerInParent="true"
-        android:text="@string/tv_addFriend"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
 
     <LinearLayout
-        android:id="@+id/ll_friend1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_addFriend"
-        android:layout_centerInParent="true">
+        android:id="@+id/ll_list_friend"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-        <AutoCompleteTextView
-            android:layout_width="250dp"
+        <ListView
+            android:id="@+id/lv_friends"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="top"
+            android:layout_marginTop="10dp"
+            android:clickable="true" />
+
+        <Button
+            android:id="@+id/bt_removeFriend"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/actv_addFriend"
-            android:hint="@string/actv_addFriend"/>
+            android:layout_marginTop="25dp"
+            android:padding="5dp"
+            android:text="@string/bt_remove_text"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/red"
+            android:textSize="30sp"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"/>
 
-        <ImageButton
-            android:contentDescription="@string/ib_addFriend_description"
-            android:id="@+id/ib_addFriend"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_tick"/>
+        <TextView
+            android:id="@+id/tv_addFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/tv_addFriend"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/ll_friend1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/actv_addFriend"
+                android:hint="@string/actv_addFriend"/>
+
+            <ImageButton
+                android:contentDescription="@string/ib_addFriend_description"
+                android:id="@+id/ib_addFriend"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_tick"/>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-
 
 </RelativeLayout>
