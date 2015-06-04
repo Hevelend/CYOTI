@@ -3,7 +3,8 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="5dp" >
+    android:layout_marginBottom="5dp"
+    android:descendantFocusability="blocksDescendants" >
 
 
 
@@ -61,7 +62,8 @@
                 android:scaleType="fitCenter"
                 android:layout_marginRight="6dp"
                 android:src="@mipmap/ic_error"
-                android:background="@color/bluemerica" />
+                android:background="@color/bluemerica"
+                android:focusableInTouchMode="true" />
 
             <ImageButton
                 android:id="@+id/ib_refuseChallenge"
@@ -70,7 +72,8 @@
                 android:padding="2dp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_tick"
-                android:background="@color/bluemerica" />
+                android:background="@color/bluemerica"
+                android:focusableInTouchMode="true" />
 
         </LinearLayout>
 

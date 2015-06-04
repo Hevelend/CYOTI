@@ -6,11 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.quentin.cyoti.adapters.PendingChallengeAdapter;
 import com.example.quentin.cyoti.adapters.StringAdapter;
 import com.example.quentin.cyoti.metier.Challenge;
 import com.example.quentin.cyoti.metier.Friend;
@@ -37,7 +41,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
     private ImageButton imageButtonCancel;
     private ArrayList<String> challenges;
     private ArrayList<String> idChallenges;
-    private int itemSelect;
+    private static int pos;
 
     public PendingChallengesActivity() {
         currentUser = ParseUser.getCurrentUser();
@@ -58,25 +62,34 @@ public class PendingChallengesActivity extends AppCompatActivity {
         //Liste des défis en attente
         ListView listChallenges = (ListView) this.findViewById(R.id.lv_pending_challenges);
 
+        PendingChallengeAdapter pendingChallengeAdapter = new PendingChallengeAdapter(this,
+                R.layout.listitem_pending_challenge,
+                challenges,
+                idChallenges,
+                R.id.tv_challenge,
+                R.id.imageFriend,
+                R.id.ib_acceptChallenge,
+                R.id.ib_refuseChallenge);
+
+        listChallenges.setAdapter(pendingChallengeAdapter);
+
         listChallenges.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                pos = position;
 
-                Log.d("listen", "Item click list challenge");
-
-                imageButtonAccept = (ImageButton) view.findViewById(R.id.ib_acceptChallenge);
-                imageButtonCancel = (ImageButton) view.findViewById(R.id.ib_refuseChallenge);
-
-                imageButtonAccept.setOnClickListener(new View.OnClickListener() {
+                /*ImageButton imgbA = (ImageButton) view.findViewById(R.id.ib_acceptChallenge);
+                imgbA.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
+
                         ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
                         ParseObject myChallenge = null;
 
                         try {
-                            myChallenge = queryChallenge.get(idChallenges.get(itemSelect));
+                            myChallenge = queryChallenge.get(idChallenges.get(pos));
                         } catch (ParseException e) {
                             e.printStackTrace();
                             Log.d("GET Attributed_CHG", "GET attributed_challenge");
@@ -90,29 +103,11 @@ public class PendingChallengesActivity extends AppCompatActivity {
                             Log.d("SAVE Challenge", "Mise à jour du attributed_challenge");
                         }
 
-                        finish();
-                        startActivity(getIntent());
                     }
+                });*/
 
-                });
-
-                imageButtonCancel.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-
-                    }
-
-                });
             }
         });
-
-        StringAdapter stringAdapter = new StringAdapter(this,
-                R.layout.listitem_pending_challenge,
-                challenges,
-                R.id.tv_challenge);
-
-        listChallenges.setAdapter(stringAdapter);
     }
 
     @Override
