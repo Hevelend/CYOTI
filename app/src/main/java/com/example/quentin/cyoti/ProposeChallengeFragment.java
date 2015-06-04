@@ -21,7 +21,9 @@ import android.widget.Toast;
 import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.metier.Friend;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -162,13 +164,24 @@ public class ProposeChallengeFragment extends Fragment {
                                 myattributed.put("sending_date", new Date());
                                 myattributed.save();
 
+                                // Create notification
+                                ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("_User");
+                                userQuery.whereEqualTo("objectId", friend.getObjectId());
+
+                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                                pushQuery.whereEqualTo("user", userQuery);
+
+                                // Send notification
+                                ParsePush push = new ParsePush();
+                                push.setQuery(pushQuery);
+                                push.setMessage(currentUser.getUsername() + "challenged you !");
+                                push.sendInBackground();
+
                             } catch (ParseException e) {
                                 Log.d("attChal", e.getMessage());
                                 Toast.makeText(getActivity().getApplicationContext(),
                                         "Problem attributing challenge. Please try later.", Toast.LENGTH_SHORT).show();
                             }
-
-
                         }
                     } catch (ParseException e) {
                         Log.d("addChal", e.getMessage());
@@ -189,9 +202,6 @@ public class ProposeChallengeFragment extends Fragment {
                         "Challenge sent !", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
 
         return rootView;
     }
