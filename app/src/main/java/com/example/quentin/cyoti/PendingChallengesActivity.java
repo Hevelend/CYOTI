@@ -110,6 +110,73 @@ public class PendingChallengesActivity extends AppCompatActivity {
         });
     }
 
+    public void clickA(View v) {
+        ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
+        queryChallenge.whereEqualTo("objectId", idChallenges.get(0));
+        ParseObject myChallenge = null;
+
+        try {
+            myChallenge = queryChallenge.getFirst();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("GET Attributed_CHG", "GET attributed_challenge");
+        }
+
+        Date d = new Date();
+        myChallenge.put("accepting_date", d);
+
+        try {
+            myChallenge.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("SAVE Challenge", "Echec de la mise à jour du attributed_challenge");
+        }
+
+        finish();
+        startActivity(getIntent());
+    }
+
+    public void clickR(View v) {
+        ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
+        queryChallenge.whereEqualTo("objectId", idChallenges.get(0));
+        ParseObject myChallenge = null;
+
+        try {
+            myChallenge = queryChallenge.getFirst();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("GET Attributed_CHG", "GET attributed_challenge");
+        }
+
+        ParseQuery<ParseObject> queryDeleteC = ParseQuery.getQuery("Challenge");
+        queryDeleteC.whereEqualTo("objectId", myChallenge.get("challenge_id"));
+        ParseObject deletedChallenge = null;
+
+        try {
+            deletedChallenge = queryDeleteC.getFirst();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("GET Challenge", "Echec du get challenge");
+        }
+
+        try {
+            deletedChallenge.delete();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("Delete Challenge", "Echec de la suppression du challenge");
+        }
+
+        try {
+            myChallenge.delete();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("Delete Attributed_Chg", "Echec de la suppression attributed_challenge");
+        }
+
+        finish();
+        startActivity(getIntent());
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

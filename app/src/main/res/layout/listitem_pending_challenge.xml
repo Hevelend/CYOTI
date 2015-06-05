@@ -63,7 +63,8 @@
                 android:layout_marginRight="6dp"
                 android:src="@mipmap/ic_error"
                 android:background="@color/bluemerica"
-                android:focusableInTouchMode="true" />
+                android:focusable="true"
+                android:onClick="clickA" />
 
             <ImageButton
                 android:id="@+id/ib_refuseChallenge"
@@ -73,7 +74,8 @@
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_tick"
                 android:background="@color/bluemerica"
-                android:focusableInTouchMode="true" />
+                android:focusable="true"
+                android:onClick="clickR" />
 
         </LinearLayout>
 
