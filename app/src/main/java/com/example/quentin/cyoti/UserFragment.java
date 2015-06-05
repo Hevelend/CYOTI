@@ -278,7 +278,7 @@ public class UserFragment extends Fragment {
         installation.put("newFriend", true);
         installation.put("newEvidence", true);
         installation.put("newVote", true);
-        installation.put("user", currentUser);
+        installation.put("user_id", currentUser);
 
         installation.saveInBackground();
     }
