@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -37,6 +38,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
     private ParseUser currentUser;
     private ImageButton imageButtonProfile;
     private ImageButton imageButtonHistory;
+    private ListView listChallenges;
     private ImageButton imageButtonAccept;
     private ImageButton imageButtonCancel;
     private ArrayList<String> challenges;
@@ -60,7 +62,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
         getPendingChallenge();
 
         //Liste des défis en attente
-        ListView listChallenges = (ListView) this.findViewById(R.id.lv_pending_challenges);
+        listChallenges = (ListView) this.findViewById(R.id.lv_pending_challenges);
 
         PendingChallengeAdapter pendingChallengeAdapter = new PendingChallengeAdapter(this,
                 R.layout.listitem_pending_challenge,
@@ -83,6 +85,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
     }
 
     public void clickA(View v) {
+        pos = listChallenges.getPositionForView(v);
         ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
         queryChallenge.whereEqualTo("objectId", idChallenges.get(pos));
         ParseObject myChallenge = null;
@@ -109,6 +112,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
     }
 
     public void clickR(View v) {
+        pos = listChallenges.getPositionForView(v);
         ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
         queryChallenge.whereEqualTo("objectId", idChallenges.get(pos));
         ParseObject myChallenge = null;

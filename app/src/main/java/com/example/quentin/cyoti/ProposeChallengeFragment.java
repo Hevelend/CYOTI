@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.metier.Friend;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -148,6 +149,11 @@ public class ProposeChallengeFragment extends Fragment {
                     }
 
                     try {
+                        ParseACL accl = new ParseACL();
+                        accl.setPublicWriteAccess(true);
+                        accl.setPublicReadAccess(true);
+                        mychallenge.setACL(accl);
+
                         mychallenge.save();
 
                         for (int i = 0; i < friendsSelected.size(); i++) {
@@ -163,6 +169,12 @@ public class ProposeChallengeFragment extends Fragment {
                                 myattributed.put("challenge_id", mychallenge.getObjectId());
                                 myattributed.put("user_id_applicant", currentUser.getObjectId());
                                 myattributed.put("sending_date", new Date());
+
+                                ParseACL acccl = new ParseACL();
+                                accl.setPublicWriteAccess(true);
+                                accl.setPublicReadAccess(true);
+                                myattributed.setACL(acccl);
+
                                 myattributed.save();
 
                                 // Create notification
