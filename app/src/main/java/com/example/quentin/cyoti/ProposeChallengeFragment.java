@@ -170,11 +170,7 @@ public class ProposeChallengeFragment extends Fragment {
                                 myattributed.put("user_id_applicant", currentUser.getObjectId());
                                 myattributed.put("sending_date", new Date());
 
-                                ParseACL acccl = new ParseACL();
-                                accl.setPublicWriteAccess(true);
-                                accl.setPublicReadAccess(true);
-                                myattributed.setACL(acccl);
-
+                                myattributed.setACL(accl);
                                 myattributed.save();
 
                                 // Create notification
