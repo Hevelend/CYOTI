@@ -26,6 +26,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -271,16 +272,14 @@ public class UserFragment extends Fragment {
     }
 
     public void createParseInstallation() {
-        // Get current installation
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
-        // Put susbcriptions to notifications
         installation.put("newChallenge", true);
         installation.put("newFriend", true);
         installation.put("newEvidence", true);
         installation.put("newVote", true);
+        installation.put("user", currentUser);
 
-        // Save installation to Parse
         installation.saveInBackground();
     }
 

@@ -27,6 +27,7 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.SendCallback;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -165,15 +166,25 @@ public class ProposeChallengeFragment extends Fragment {
                                 myattributed.save();
 
                                 // Create notification
-                                ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("_User");
-                                userQuery.whereEqualTo("objectId", friend.getObjectId());
-
-                                ParseQuery pushQuery = ParseInstallation.getQuery();
-                                pushQuery.whereEqualTo("user", userQuery);
+//                                ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("_User");
+//                                userQuery.whereEqualTo("username", friend.get("username"));
+//
+//                                ParseQuery pushQuery = ParseInstallation.getQuery();
+//                                pushQuery.whereEqualTo("friendsList", userQuery);
 
                                 // Send notification
+//                                ParsePush push = new ParsePush();
+//                                push.setQuery(pushQuery);
+//                                push.setMessage(currentUser.getUsername() + "challenged you !");
+//                                push.sendInBackground(new SendCallback() {
+//                                    @Override
+//                                    public void done(ParseException e) {
+//                                        Log.d("push", "Sending push ok");
+//                                    }
+//                                });
+
                                 ParsePush push = new ParsePush();
-                                push.setQuery(pushQuery);
+                                push.setChannel(friendsSelected.get(i).getFirstName());
                                 push.setMessage(currentUser.getUsername() + "challenged you !");
                                 push.sendInBackground();
 
