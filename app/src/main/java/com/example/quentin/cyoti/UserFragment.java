@@ -120,7 +120,6 @@ public class UserFragment extends Fragment {
             Log.d("queryFail", "Query Object has failed : " + e.toString());
         }
 
-
         for (int j=0; j<listTempObject.size(); j++) {
             ParseQuery<ParseObject> queryOneChallenge = ParseQuery.getQuery("Challenge");
             queryOneChallenge.whereEqualTo("objectId", listTempObject.get(j).get("challenge_id"));
