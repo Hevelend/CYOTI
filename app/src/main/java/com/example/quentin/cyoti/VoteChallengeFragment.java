@@ -37,70 +37,74 @@ public class VoteChallengeFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_vote_challenge, container, false);
 
-        TextView descriptionChallenge = (TextView) rootView.findViewById(R.id.tv_descriptionChallenge);
-        descriptionChallenge.setText(friendChallenger.getFirstName()
-                + " challenged "
-                + friendChallenged.getFirstName()
-                + " to "
-                + challenge.getDescription());
+        if(challenge.getCreatedDate() != null) {
 
-        vote = (ProgressBar) rootView.findViewById(R.id.pb_vote);
-        vote.setRotation(90f);
-        vote.setProgress(percentVote.intValue());
+            TextView descriptionChallenge = (TextView) rootView.findViewById(R.id.tv_descriptionChallenge);
+            descriptionChallenge.setText(friendChallenger.getFirstName()
+                    + " challenged "
+                    + friendChallenged.getFirstName()
+                    + " to "
+                    + challenge.getDescription());
 
-        tvPercent = (TextView) rootView.findViewById(R.id.tv_percent);
-        tvPercent.setText(String.format("%.1f", percentVote) + "%");
+            vote = (ProgressBar) rootView.findViewById(R.id.pb_vote);
+            vote.setRotation(90f);
+            vote.setProgress(percentVote.intValue());
 
-        ImageButton btLike = (ImageButton) rootView.findViewById(R.id.bt_like);
-        ImageButton btUnlike = (ImageButton) rootView.findViewById(R.id.bt_unlike);
+            tvPercent = (TextView) rootView.findViewById(R.id.tv_percent);
+            tvPercent.setText(String.format("%.1f", percentVote) + "%");
 
-        btLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!hasVoted()) {
-                    ParseObject vote = new ParseObject("Vote");
-                    vote.put("attributed_challenge_id", "idTest");
-                    vote.put("vote_yes", true);
-                    vote.put("vote_no", false);
-                    vote.put("user_id", ParseUser.getCurrentUser().getObjectId());
+            ImageButton btLike = (ImageButton) rootView.findViewById(R.id.bt_like);
+            ImageButton btUnlike = (ImageButton) rootView.findViewById(R.id.bt_unlike);
 
-                    try {
-                        vote.save();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+            btLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!hasVoted()) {
+                        ParseObject vote = new ParseObject("Vote");
+                        vote.put("attributed_challenge_id", "idTest");
+                        vote.put("vote_yes", true);
+                        vote.put("vote_no", false);
+                        vote.put("user_id", ParseUser.getCurrentUser().getObjectId());
+
+                        try {
+                            vote.save();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        updateProgressBar();
+
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Vote saved - Victory", Toast.LENGTH_SHORT).show();
                     }
-
-                    updateProgressBar();
-
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            "Vote saved - Victory", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
 
-        btUnlike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!hasVoted()) {
-                    ParseObject vote = new ParseObject("Vote");
-                    vote.put("attributed_challenge_id", "idTest");
-                    vote.put("vote_yes", false);
-                    vote.put("vote_no", true);
-                    vote.put("user_id", ParseUser.getCurrentUser().getObjectId());
+            btUnlike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!hasVoted()) {
+                        ParseObject vote = new ParseObject("Vote");
+                        vote.put("attributed_challenge_id", "idTest");
+                        vote.put("vote_yes", false);
+                        vote.put("vote_no", true);
+                        vote.put("user_id", ParseUser.getCurrentUser().getObjectId());
 
-                    try {
-                        vote.save();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                        try {
+                            vote.save();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        updateProgressBar();
+
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Vote saved - Defeat", Toast.LENGTH_SHORT).show();
                     }
-
-                    updateProgressBar();
-
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            "Vote saved - Defeat", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
+
+        }
 
         return rootView;
     }

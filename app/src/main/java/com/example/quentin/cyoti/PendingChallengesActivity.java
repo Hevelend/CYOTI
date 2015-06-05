@@ -78,41 +78,13 @@ public class PendingChallengesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 pos = position;
-
-                /*ImageButton imgbA = (ImageButton) view.findViewById(R.id.ib_acceptChallenge);
-                imgbA.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View arg0) {
-
-                        ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
-                        ParseObject myChallenge = null;
-
-                        try {
-                            myChallenge = queryChallenge.get(idChallenges.get(pos));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            Log.d("GET Attributed_CHG", "GET attributed_challenge");
-                        }
-                        myChallenge.put("accepting_date", new Date());
-
-                        try {
-                            myChallenge.save();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            Log.d("SAVE Challenge", "Mise à jour du attributed_challenge");
-                        }
-
-                    }
-                });*/
-
             }
         });
     }
 
     public void clickA(View v) {
         ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
-        queryChallenge.whereEqualTo("objectId", idChallenges.get(0));
+        queryChallenge.whereEqualTo("objectId", idChallenges.get(pos));
         ParseObject myChallenge = null;
 
         try {
@@ -138,7 +110,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
 
     public void clickR(View v) {
         ParseQuery<ParseObject> queryChallenge = ParseQuery.getQuery("Attributed_challenge");
-        queryChallenge.whereEqualTo("objectId", idChallenges.get(0));
+        queryChallenge.whereEqualTo("objectId", idChallenges.get(pos));
         ParseObject myChallenge = null;
 
         try {
