@@ -81,13 +81,20 @@
             android:layout_width="fill_parent"
             android:layout_height="75dp"
             android:layout_weight="1">
-            <com.facebook.login.widget.LoginButton
+           <!-- <com.facebook.login.widget.LoginButton
                 xmlns:fb="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/fb"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
-                android:background="@drawable/ic_fb" />
+                android:background="@drawable/ic_fb" />-->
+            <ImageButton
+                android:id="@+id/fb"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/ic_fb"
+                android:layout_margin="10dp"
+                />
         </RelativeLayout>
 
         <RelativeLayout android:layout_width="fill_parent"
