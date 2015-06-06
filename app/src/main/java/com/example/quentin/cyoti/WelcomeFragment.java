@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class WelcomeFragment extends Fragment {
     public int XPuser;
     public int levelNumber;
     public String titleLevel;
+    public ImageView iv_user;
 
     public WelcomeFragment(){
         currentUser = ParseUser.getCurrentUser();
@@ -46,7 +48,7 @@ public class WelcomeFragment extends Fragment {
         TextView txtuser = (TextView) rootView.findViewById(R.id.txtuser);
 
         // Set the currentUser String into TextView
-        txtuser.setText("You are logged in as " + struser);
+        txtuser.setText(struser);
 
         String txtUserID = currentUser.getObjectId().toString();
 
@@ -56,11 +58,8 @@ public class WelcomeFragment extends Fragment {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     XPuser = object.getInt("experience");
-                    Log.d("test", "Retrieved " + XPuser);
 
-                    TextView txtXP = (TextView) rootView.findViewById(R.id.txtXP);
-                    txtXP.setText("You have: " + XPuser + " experience points");
-
+                    //on crée les contraintes pour récupérer le level du user
                     ParseQuery<ParseObject> levelQuery = ParseQuery.getQuery("Level");
                     levelQuery.whereLessThanOrEqualTo("scoreMin", XPuser);
                     levelQuery.whereGreaterThanOrEqualTo("scoreMax", XPuser);
@@ -68,9 +67,13 @@ public class WelcomeFragment extends Fragment {
                         public void done(ParseObject object, ParseException e) {
                             if (e == null) {
                                 levelNumber = object.getInt("level");
-                                TextView txtLevel = (TextView) rootView.findViewById(R.id.txtLevel);
-                                txtLevel.setText("You are actually Level " + levelNumber);
 
+                                //on récupère le level et on l'affiche
+                                TextView txtLevel = (TextView) rootView.findViewById(R.id.txtLevel);
+                                txtLevel.setText(""+levelNumber);
+
+
+                                //on crée les contraintes pour récupérer le titre du user
                                 ParseQuery<ParseObject> titleQuery = ParseQuery.getQuery("titleByLevel");
                                 titleQuery.whereLessThanOrEqualTo("levelMin", levelNumber);
                                 titleQuery.whereGreaterThanOrEqualTo("levelMax", levelNumber);
@@ -78,6 +81,8 @@ public class WelcomeFragment extends Fragment {
                                     public void done(ParseObject object, ParseException e) {
                                         if (e == null) {
                                             titleLevel = object.getString("title");
+
+                                            //on affiche le titre du user
                                             TextView txtLevel = (TextView) rootView.findViewById(R.id.txtTitle);
                                             txtLevel.setText("You are a great " + titleLevel);
                                         } else {

@@ -9,45 +9,74 @@
     android:background="@color/dark_beige"
     tools:context="com.example.quentin.cyoti.UserFragment">
 
-    <TextView
-        android:id="@+id/txtwelcome"
+    <ImageView
+        android:id="@+id/iv_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/circle"
+        android:src="@drawable/ic_panda"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_width="500dp"
+        android:layout_height="75dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:text="@string/welcome" />
+        android:layout_below="@+id/iv_user">
 
-    <TextView
-        android:id="@+id/txtuser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtwelcome"
-        android:textSize="30sp"
-        android:layout_centerHorizontal="true" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/txtXP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtuser"
-        android:textSize="30sp"
-        android:layout_centerHorizontal="true" />
+            <TextView
+                android:id="@+id/txtWelcome"
+                android:gravity="end"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Welcome"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_margin="10dp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/txtuser"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_margin="10dp"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txtLevel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtXP"
-        android:textSize="30sp"
-        android:layout_centerHorizontal="true" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/circle_level"
+        android:layout_alignTop="@+id/iv_user"
+        android:layout_alignRight="@+id/iv_user"
+        android:layout_alignEnd="@+id/iv_user" />
 
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtLevel"
+        android:layout_below="@id/linearLayout"
         android:textSize="30sp"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
