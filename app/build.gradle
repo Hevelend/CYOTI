@@ -47,4 +47,8 @@ dependencies {
         transitive = true;
     }
     compile files('libs/android-viewbadger.jar')
+
+    compile fileTree(include: 'activation.jar', dir: 'libs')
+    compile fileTree(include: 'additionnal.jar', dir: 'libs')
+    compile fileTree(include: 'mail.jar', dir: 'libs')
 }
