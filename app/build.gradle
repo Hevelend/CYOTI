@@ -46,4 +46,5 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:1.5.1@aar') {
         transitive = true;
     }
+    compile files('libs/android-viewbadger.jar')
 }

@@ -19,7 +19,11 @@ import com.example.quentin.cyoti.adapters.CustomFragmentPagerAdapter;
 import com.example.quentin.cyoti.metier.User;
 import com.example.quentin.cyoti.utilities.FontsOverride;
 import com.facebook.appevents.AppEventsLogger;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.readystatesoftware.viewbadger.BadgeView;
 
 import java.util.ArrayList;
 
@@ -32,6 +36,7 @@ public class ChallengeActivity extends AppCompatActivity
     private ImageButton imageButtonProfile;
     private ImageButton imageButtonHistorique;
     private ImageButton imageButtonPendingChallenges;
+    private BadgeView badge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,11 @@ public class ChallengeActivity extends AppCompatActivity
         addListenerOnBottomBar();
 
         FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
+
+        View target = findViewById(R.id.action_cup);
+        badge = new BadgeView(this, target);
+
+        getNBPending();
     }
 
 
@@ -145,5 +155,35 @@ public class ChallengeActivity extends AppCompatActivity
 //                fragTransaction.commit();
 //            }
 //        }
+    }
+
+    public void getNBPending() {
+        String tempUser = ParseUser.getCurrentUser().getObjectId();
+        ParseQuery<ParseObject> queryCount = ParseQuery.getQuery("Attributed_challenge");
+        queryCount.whereEqualTo("user_id", tempUser);
+        queryCount.whereEqualTo("accepting_date", null);
+
+        int tempCount = 0;
+
+        try {
+            tempCount = queryCount.count();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(tempCount > 0) {
+            if(!badge.isShown()) {
+                badge.setText(Integer.toString(tempCount));
+                badge.show();
+            } else {
+                badge.setText(Integer.toString(tempCount));
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        getNBPending();
     }
 }
