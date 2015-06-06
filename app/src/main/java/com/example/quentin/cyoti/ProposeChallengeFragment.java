@@ -1,6 +1,7 @@
 package com.example.quentin.cyoti;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,20 +16,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.metier.Friend;
+import com.example.quentin.cyoti.utilities.Mail;
+import com.example.quentin.cyoti.utilities.PushNotification;
 import com.parse.ParseACL;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
-import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.parse.SendCallback;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +46,8 @@ public class ProposeChallengeFragment extends Fragment {
     private String tempObjectID = "idTest";
     private ParseUser currentUser;
     private String themeID;
+
+    private ParseObject friendDB;
 
     public ProposeChallengeFragment() {
         tempFriends = new ArrayList<String>();
@@ -161,11 +161,9 @@ public class ProposeChallengeFragment extends Fragment {
                             ParseQuery<ParseObject> queryFriend = ParseQuery.getQuery("_User");
                             queryFriend.whereEqualTo("username", friendsSelected.get(i).getFirstName());
 
-                            ParseObject friend = null;
-
                             try {
-                                friend = queryFriend.getFirst();
-                                myattributed.put("user_id", friend.getObjectId());
+                                friendDB = queryFriend.getFirst();
+                                myattributed.put("user_id", friendDB.getObjectId());
                                 myattributed.put("challenge_id", mychallenge.getObjectId());
                                 myattributed.put("user_id_applicant", currentUser.getObjectId());
                                 myattributed.put("sending_date", new Date());
@@ -173,25 +171,62 @@ public class ProposeChallengeFragment extends Fragment {
                                 myattributed.setACL(accl);
                                 myattributed.save();
 
-                                // Create notification
-                                ParseQuery userQuery = ParseUser.getQuery();
-                                userQuery.whereEqualTo("username", friend.get("username"));
-//                                ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("_User");
-//                                userQuery.whereEqualTo("username", friend.get("username"));
+                                PushNotification.sendNotification(currentUser, friendDB, PushNotification.NEW_CHALLENGE_NOTIFICATION);
 
-                                ParseQuery pushQuery = ParseInstallation.getQuery();
-                                pushQuery.whereMatchesQuery("user_id", userQuery);
+                                Mail m = new Mail();
+                                AsyncTask<Mail,ParseObject,String> sendingTask = new AsyncTask<Mail, ParseObject, String>() {
 
-                                // Send notification
-                                ParsePush push = new ParsePush();
-                                push.setQuery(pushQuery);
-                                push.setMessage(currentUser.getUsername() + " challenged you !");
-                                push.sendInBackground(new SendCallback() {
                                     @Override
-                                    public void done(ParseException e) {
-                                        Log.d("push", "Sending push ok");
+                                    protected String doInBackground(Mail... mails) {
+                                        int nbMails = mails.length;
+                                        String result = null;
+
+                                        for (int i=0; i<nbMails; i++) {
+                                            String[] receiver = {friendDB.get("email").toString()};
+                                            mails[i].setReceiver(receiver);
+                                            mails[i].setSubject(Mail.NEW_CHALLENGE_SUBJECT);
+                                            mails[i].setBody("Test body.");
+
+                                            try {
+                                                if(mails[i].sendMail()) {
+                                                    Toast.makeText(getActivity().getApplicationContext(),
+                                                            "Email was sent successfully.", Toast.LENGTH_LONG).show();
+
+                                                    result = "Mail OK !";
+                                                } else {
+                                                    Toast.makeText(getActivity().getApplicationContext(),
+                                                            "Email was not sent.", Toast.LENGTH_LONG).show();
+
+                                                    result = "Mail NOK !";
+                                                }
+                                            } catch(Exception e) {
+                                                Log.e("mail", "Could not send email", e);
+                                                result = "Mail exception !";
+                                            }
+
+                                        }
+                                        return result;
                                     }
-                                });
+                                }.execute(m);
+
+//                                Mail m = new Mail();
+//
+//                                String[] receiver = {friend.get("email").toString()};
+//                                m.setReceiver(receiver);
+//                                m.setSubject(Mail.NEW_CHALLENGE_SUBJECT);
+//                                m.setBody("Email body.");
+//
+//                                try {
+//                                    if(m.sendMail()) {
+//                                        Toast.makeText(getActivity().getApplicationContext(),
+//                                                        "Email was sent successfully.", Toast.LENGTH_LONG).show();
+//                                    } else {
+//                                        Toast.makeText(getActivity().getApplicationContext(),
+//                                                        "Email was not sent.", Toast.LENGTH_LONG).show();
+//                                    }
+//                                } catch(Exception e) {
+//                                    Log.e("mail", "Could not send email", e);
+//                                }
 
                             } catch (ParseException e) {
                                 Log.d("attChal", e.getMessage());
@@ -209,6 +244,7 @@ public class ProposeChallengeFragment extends Fragment {
                 // Unselect friends
                 for (int i=0; i<friendsSelected.size(); i++) {
                     friendsSelected.get(i).setSelected(false);
+                    friendAdapter.notifyDataSetChanged();
                 }
 
                 // Clear friends list
