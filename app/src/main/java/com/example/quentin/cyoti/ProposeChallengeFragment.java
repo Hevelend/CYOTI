@@ -174,27 +174,24 @@ public class ProposeChallengeFragment extends Fragment {
                                 myattributed.save();
 
                                 // Create notification
+                                ParseQuery userQuery = ParseUser.getQuery();
+                                userQuery.whereEqualTo("username", friend.get("username"));
 //                                ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("_User");
 //                                userQuery.whereEqualTo("username", friend.get("username"));
-//
-//                                ParseQuery pushQuery = ParseInstallation.getQuery();
-//                                pushQuery.whereEqualTo("friendsList", userQuery);
+
+                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                                pushQuery.whereMatchesQuery("user_id", userQuery);
 
                                 // Send notification
-//                                ParsePush push = new ParsePush();
-//                                push.setQuery(pushQuery);
-//                                push.setMessage(currentUser.getUsername() + "challenged you !");
-//                                push.sendInBackground(new SendCallback() {
-//                                    @Override
-//                                    public void done(ParseException e) {
-//                                        Log.d("push", "Sending push ok");
-//                                    }
-//                                });
-
                                 ParsePush push = new ParsePush();
-                                push.setChannel(friendsSelected.get(i).getFirstName());
-                                push.setMessage(currentUser.getUsername() + "challenged you !");
-                                push.sendInBackground();
+                                push.setQuery(pushQuery);
+                                push.setMessage(currentUser.getUsername() + " challenged you !");
+                                push.sendInBackground(new SendCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        Log.d("push", "Sending push ok");
+                                    }
+                                });
 
                             } catch (ParseException e) {
                                 Log.d("attChal", e.getMessage());

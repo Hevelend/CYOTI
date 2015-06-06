@@ -1,41 +1,29 @@
 package com.example.quentin.cyoti;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quentin.cyoti.adapters.StringAdapter;
-import com.example.quentin.cyoti.adapters.FriendAdapter;
-import com.example.quentin.cyoti.metier.Challenge;
 import com.example.quentin.cyoti.metier.Friend;
 import com.example.quentin.cyoti.metier.User;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
-import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
-import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -72,17 +60,6 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_user, container, false);
-
-        // Convert currentUser into String
-        String struser = currentUser.getUsername().toString();
-
-        // Locate TextView in welcome.xml
-        TextView txtuser = (TextView) rootView.findViewById(R.id.txtuser);
-
-        // Set the currentUser String into TextView
-        txtuser.setText("You are logged in as " + struser);
-
-
 
         // Getting friends' challenges acceptations and achieved
         challenges.clear();
