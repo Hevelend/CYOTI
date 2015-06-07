@@ -1,6 +1,12 @@
 package com.example.quentin.cyoti.utilities;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -146,6 +152,72 @@ public class Mail extends javax.mail.Authenticator{
     public String getSenderMail() { return this.senderMail; }
     //public String getSenderName() { return this.senderName; }
     public String getSenderPwd() { return this.senderPwd; }
+
+
+    public void sendNewChallengeAsyncMail(final Mail m, final ParseObject friend, final String description) {
+        AsyncTask<Mail,ParseObject,String> sendingTask = new AsyncTask<Mail, ParseObject, String>() {
+
+            @Override
+            protected String doInBackground(Mail... mails) {
+                int nbMails = mails.length;
+                String result = null;
+
+                for (int i=0; i<nbMails; i++) {
+                    String[] receiver = {friend.get("email").toString()};
+                    mails[i].setReceiver(receiver);
+                    mails[i].setSubject(Mail.NEW_CHALLENGE_SUBJECT);
+                    mails[i].setBody(friend.get("username") + " challenged you to " + description
+                                        + "\nWould you rise to this challenge ?");
+
+                    try {
+                        if(mails[i].sendMail()) {
+                            result = "Mail OK !";
+                        } else {
+                            result = "Mail NOK !";
+                        }
+                    } catch(Exception e) {
+                        Log.e("mail", "Could not send email", e);
+                        result = "Mail exception !";
+                    }
+
+                }
+                return result;
+            }
+        }.execute(m);
+    }
+
+
+    public void sendNewFriendAsyncMail(final Mail m, final ParseUser sender, final ParseObject friend) {
+        AsyncTask<Mail,ParseUser,String> sendingTask = new AsyncTask<Mail, ParseUser, String>() {
+
+            @Override
+            protected String doInBackground(Mail... mails) {
+                int nbMails = mails.length;
+                String result = null;
+
+                for (int i=0; i<nbMails; i++) {
+                    String[] receiver = {friend.get("email").toString()};
+                    mails[i].setReceiver(receiver);
+                    mails[i].setSubject(Mail.NEW_FRIEND_SUBJECT);
+                    mails[i].setBody(sender.get("username") + " wants to be your friend."
+                                        + "\nGo on your profile and accept his request !");
+
+                    try {
+                        if(mails[i].sendMail()) {
+                            result = "Mail OK !";
+                        } else {
+                            result = "Mail NOK !";
+                        }
+                    } catch(Exception e) {
+                        Log.e("mail", "Could not send email", e);
+                        result = "Mail exception !";
+                    }
+
+                }
+                return result;
+            }
+        }.execute(m);
+    }
 
 
     @Override

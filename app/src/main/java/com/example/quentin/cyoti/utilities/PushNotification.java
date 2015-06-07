@@ -52,9 +52,9 @@ public class PushNotification {
         });
     }
 
-    private static void sendNewFriendNotification(ParseUser sender, ParseObject reveicer) {
+    private static void sendNewFriendNotification(ParseUser sender, ParseObject receiver) {
         ParseQuery userQuery = ParseUser.getQuery();
-        userQuery.whereEqualTo("username", reveicer.get("username"));
+        userQuery.whereEqualTo("username", receiver.get("username"));
 
         ParseQuery pushQuery = ParseInstallation.getQuery();
         pushQuery.whereMatchesQuery("user_id", userQuery);

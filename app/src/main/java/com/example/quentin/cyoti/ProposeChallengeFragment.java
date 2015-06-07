@@ -174,59 +174,7 @@ public class ProposeChallengeFragment extends Fragment {
                                 PushNotification.sendNotification(currentUser, friendDB, PushNotification.NEW_CHALLENGE_NOTIFICATION);
 
                                 Mail m = new Mail();
-                                AsyncTask<Mail,ParseObject,String> sendingTask = new AsyncTask<Mail, ParseObject, String>() {
-
-                                    @Override
-                                    protected String doInBackground(Mail... mails) {
-                                        int nbMails = mails.length;
-                                        String result = null;
-
-                                        for (int i=0; i<nbMails; i++) {
-                                            String[] receiver = {friendDB.get("email").toString()};
-                                            mails[i].setReceiver(receiver);
-                                            mails[i].setSubject(Mail.NEW_CHALLENGE_SUBJECT);
-                                            mails[i].setBody("Test body.");
-
-                                            try {
-                                                if(mails[i].sendMail()) {
-                                                    Toast.makeText(getActivity().getApplicationContext(),
-                                                            "Email was sent successfully.", Toast.LENGTH_LONG).show();
-
-                                                    result = "Mail OK !";
-                                                } else {
-                                                    Toast.makeText(getActivity().getApplicationContext(),
-                                                            "Email was not sent.", Toast.LENGTH_LONG).show();
-
-                                                    result = "Mail NOK !";
-                                                }
-                                            } catch(Exception e) {
-                                                Log.e("mail", "Could not send email", e);
-                                                result = "Mail exception !";
-                                            }
-
-                                        }
-                                        return result;
-                                    }
-                                }.execute(m);
-
-//                                Mail m = new Mail();
-//
-//                                String[] receiver = {friend.get("email").toString()};
-//                                m.setReceiver(receiver);
-//                                m.setSubject(Mail.NEW_CHALLENGE_SUBJECT);
-//                                m.setBody("Email body.");
-//
-//                                try {
-//                                    if(m.sendMail()) {
-//                                        Toast.makeText(getActivity().getApplicationContext(),
-//                                                        "Email was sent successfully.", Toast.LENGTH_LONG).show();
-//                                    } else {
-//                                        Toast.makeText(getActivity().getApplicationContext(),
-//                                                        "Email was not sent.", Toast.LENGTH_LONG).show();
-//                                    }
-//                                } catch(Exception e) {
-//                                    Log.e("mail", "Could not send email", e);
-//                                }
+                                m.sendNewChallengeAsyncMail(m, friendDB, writeChallenge.getText().toString());
 
                             } catch (ParseException e) {
                                 Log.d("attChal", e.getMessage());

@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.adapters.StringAdapter;
 import com.example.quentin.cyoti.metier.Friend;
+import com.example.quentin.cyoti.utilities.Mail;
+import com.example.quentin.cyoti.utilities.PushNotification;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -194,44 +196,84 @@ public class FriendsFragment extends Fragment {
                     int count = 0;
                     try {
                         count = query.count();
+                        ParseObject friend = query.getFirst();
+
+                        if (count < 1) {
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    "This user does not exist", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            friends.add(new Friend(textAddFriend));
+
+                            friendAdapter.notifyDataSetChanged();
+
+                            matchFriends.remove(textAddFriend);
+
+                            actvAdapter.clear();
+                            actvAdapter.addAll(matchFriends);
+                            actvAdapter.notifyDataSetChanged();
+
+                            newFriends = myStringListMaker(friends);
+
+                            currentUser.put("friend_list", newFriends);
+
+                            currentUser.saveInBackground(new SaveCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        Log.d("chg", "Query object ok");
+                                        Toast.makeText(getActivity().getApplicationContext(), "Friend added", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Log.d("chg", "The getFirst request failed.");
+                                    }
+                                }
+                            });
+
+                            currentUser.saveInBackground();
+
+                            PushNotification.sendNotification(currentUser, friend, PushNotification.NEW_FRIEND_NOTIFICATION);
+
+                            Mail m = new Mail();
+                            m.sendNewFriendAsyncMail(m, currentUser, friend);
+
+                        }
                     } catch (ParseException e) {
                         Log.d("queryFail", "Query has failed : " + e.toString());
                     }
 
 
-                    if (count < 1) {
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                "This user does not exist", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        friends.add(new Friend(textAddFriend));
-
-                        friendAdapter.notifyDataSetChanged();
-
-                        matchFriends.remove(textAddFriend);
-
-                        actvAdapter.clear();
-                        actvAdapter.addAll(matchFriends);
-                        actvAdapter.notifyDataSetChanged();
-
-                        newFriends = myStringListMaker(friends);
-
-                        currentUser.put("friend_list", newFriends);
-
-                        currentUser.saveInBackground(new SaveCallback() {
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    Log.d("chg", "Query object ok");
-                                    Toast.makeText(getActivity().getApplicationContext(), "Friend added", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Log.d("chg", "The getFirst request failed.");
-                                }
-                            }
-                        });
-
-                        currentUser.saveInBackground();
-
-                    }
+//                    if (count < 1) {
+//                        Toast.makeText(getActivity().getApplicationContext(),
+//                                "This user does not exist", Toast.LENGTH_SHORT).show();
+//                    }
+//                    else {
+//                        friends.add(new Friend(textAddFriend));
+//
+//                        friendAdapter.notifyDataSetChanged();
+//
+//                        matchFriends.remove(textAddFriend);
+//
+//                        actvAdapter.clear();
+//                        actvAdapter.addAll(matchFriends);
+//                        actvAdapter.notifyDataSetChanged();
+//
+//                        newFriends = myStringListMaker(friends);
+//
+//                        currentUser.put("friend_list", newFriends);
+//
+//                        currentUser.saveInBackground(new SaveCallback() {
+//                            public void done(ParseException e) {
+//                                if (e == null) {
+//                                    Log.d("chg", "Query object ok");
+//                                    Toast.makeText(getActivity().getApplicationContext(), "Friend added", Toast.LENGTH_LONG).show();
+//                                } else {
+//                                    Log.d("chg", "The getFirst request failed.");
+//                                }
+//                            }
+//                        });
+//
+//                        currentUser.saveInBackground();
+//
+//                    }
                 }
             }
         });
