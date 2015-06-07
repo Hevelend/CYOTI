@@ -15,8 +15,8 @@ import com.parse.SendCallback;
  */
 public class PushNotification {
     public final static int NEW_CHALLENGE_NOTIFICATION = 1;
-    public final static int NEW_FRIEND_NOTIFICATION    = 2;
-    public final static int NEW_EVIDENCE_NOTIFICATION  = 3;
+    public final static int NEW_FRIEND_NOTIFICATION = 2;
+    public final static int NEW_EVIDENCE_NOTIFICATION = 3;
 
     public static void sendNotification(ParseUser sender, ParseObject receiver, int type) {
         switch (type) {
@@ -88,5 +88,22 @@ public class PushNotification {
                 Log.d("push", "Sending push ok");
             }
         });
+    }
+
+
+    public static boolean  isNotificationsAllowed(ParseObject receiver) {
+        ParseQuery userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("username", receiver.get("username"));
+
+        try {
+            ParseObject user = userQuery.getFirst();
+            boolean pushNotifications = user.getBoolean("notification");
+
+            return pushNotifications;
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+            return false;
+        }
     }
 }

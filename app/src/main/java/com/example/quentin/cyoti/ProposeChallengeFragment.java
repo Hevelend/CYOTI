@@ -171,10 +171,16 @@ public class ProposeChallengeFragment extends Fragment {
                                 myattributed.setACL(accl);
                                 myattributed.save();
 
-                                PushNotification.sendNotification(currentUser, friendDB, PushNotification.NEW_CHALLENGE_NOTIFICATION);
+                                if (PushNotification.isNotificationsAllowed(friendDB)) {
+                                    PushNotification.sendNotification(currentUser, friendDB,
+                                            PushNotification.NEW_CHALLENGE_NOTIFICATION);
+                                }
 
                                 Mail m = new Mail();
-                                m.sendNewChallengeAsyncMail(m, friendDB, writeChallenge.getText().toString());
+
+                                if (m.isMailingAllowed(friendDB)) {
+                                    m.sendNewChallengeAsyncMail(m, currentUser, friendDB, writeChallenge.getText().toString());
+                                }
 
                             } catch (ParseException e) {
                                 Log.d("attChal", e.getMessage());

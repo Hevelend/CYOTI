@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -53,7 +54,7 @@ public class UserProfileActivity extends ActionBarActivity {
     private boolean saveChanges = false;
     private boolean deleteProfile = false;
     private boolean defaultProfileImage = true;
-    private boolean notificationsPush;
+    private boolean pushNotifications;
     private boolean mailingNotifications;
     private String imagePath = "";
 
@@ -62,6 +63,8 @@ public class UserProfileActivity extends ActionBarActivity {
 
     public UserProfileActivity() {
         currentUser = ParseUser.getCurrentUser();
+        pushNotifications = currentUser.getBoolean("notification");
+        mailingNotifications = currentUser.getBoolean("newsletter");
     }
 
     @Override
@@ -110,15 +113,19 @@ public class UserProfileActivity extends ActionBarActivity {
 
         /* TODO : gérer les notifications */
         swNotificationsPush = (Switch) this.findViewById(R.id.sw_notification);
+        swNotificationsPush.setChecked(pushNotifications);
+
         swNotificationsPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (swNotificationsPush.isChecked()) notificationsPush = true;
-                else notificationsPush = false;
+                if (swNotificationsPush.isChecked()) pushNotifications = true;
+                else pushNotifications = false;
             }
         });
 
         swMailingNotifications = (Switch) this.findViewById(R.id.sw_mailNotification);
+        swMailingNotifications.setChecked(mailingNotifications);
+
         swMailingNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,23 +219,18 @@ public class UserProfileActivity extends ActionBarActivity {
         super.onStop();
 
         if (saveChanges) {
-            ParseQuery<ParseObject> queryUser = ParseQuery.getQuery("_User");
-
             try {
-                ParseObject newUser = queryUser.get(currentUser.getObjectId());
-
-                newUser.put("username", etUserName.getText().toString());
-                newUser.put("email", etUserEmail.getText().toString());
+                currentUser.put("username", etUserName.getText().toString());
+                currentUser.put("email", etUserEmail.getText().toString());
 
                 String password = etUserPassword.getText().toString();
 
-                if (!password.equals("")) {
-                    newUser.put("password", password);
-                }
+                if(!password.equals("")) currentUser.put("password", password);
 
-                newUser.put("newsletter", mailingNotifications);
+                currentUser.put("newsletter", mailingNotifications);
+                currentUser.put("notification", pushNotifications);
 
-                newUser.save();
+                currentUser.save();
             } catch (ParseException e) {
                 e.printStackTrace();
 
@@ -238,18 +240,6 @@ public class UserProfileActivity extends ActionBarActivity {
 
                 Log.d("majU", "Mise à jour du user échouée");
             }
-
-
-
-//            if (!defaultProfileImage) {
-//                // Save user's image path in application's preferences
-//                SharedPreferences settings = getSharedPreferences("AppPrefs", 0);
-//                SharedPreferences.Editor editor = settings.edit();
-//
-//                editor.putString("imgPath", imagePath);
-//                editor.putBoolean("dlftImg", defaultProfileImage);
-//                editor.commit();
-//            }
         }
 
         else if(deleteProfile) {

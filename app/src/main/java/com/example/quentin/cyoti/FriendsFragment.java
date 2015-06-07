@@ -230,10 +230,16 @@ public class FriendsFragment extends Fragment {
 
                             currentUser.saveInBackground();
 
-                            PushNotification.sendNotification(currentUser, friend, PushNotification.NEW_FRIEND_NOTIFICATION);
+                            if (PushNotification.isNotificationsAllowed(friend)) {
+                                PushNotification.sendNotification(currentUser, friend,
+                                        PushNotification.NEW_CHALLENGE_NOTIFICATION);
+                            }
 
                             Mail m = new Mail();
-                            m.sendNewFriendAsyncMail(m, currentUser, friend);
+
+                            if (m.isMailingAllowed(friend)) {
+                                m.sendNewFriendAsyncMail(m, currentUser, friend);
+                            }
 
                         }
                     } catch (ParseException e) {

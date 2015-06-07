@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import javax.mail.MessagingException;
@@ -154,8 +156,8 @@ public class Mail extends javax.mail.Authenticator{
     public String getSenderPwd() { return this.senderPwd; }
 
 
-    public void sendNewChallengeAsyncMail(final Mail m, final ParseObject friend, final String description) {
-        AsyncTask<Mail,ParseObject,String> sendingTask = new AsyncTask<Mail, ParseObject, String>() {
+    public void sendNewChallengeAsyncMail(final Mail m, final ParseUser user, final ParseObject friend, final String description) {
+        AsyncTask<Mail,Void,String> sendingTask = new AsyncTask<Mail, Void, String>() {
 
             @Override
             protected String doInBackground(Mail... mails) {
@@ -166,7 +168,7 @@ public class Mail extends javax.mail.Authenticator{
                     String[] receiver = {friend.get("email").toString()};
                     mails[i].setReceiver(receiver);
                     mails[i].setSubject(Mail.NEW_CHALLENGE_SUBJECT);
-                    mails[i].setBody(friend.get("username") + " challenged you to " + description
+                    mails[i].setBody(user.get("username") + " challenged you to " + description
                                         + "\nWould you rise to this challenge ?");
 
                     try {
@@ -188,7 +190,7 @@ public class Mail extends javax.mail.Authenticator{
 
 
     public void sendNewFriendAsyncMail(final Mail m, final ParseUser sender, final ParseObject friend) {
-        AsyncTask<Mail,ParseUser,String> sendingTask = new AsyncTask<Mail, ParseUser, String>() {
+        AsyncTask<Mail,Void,String> sendingTask = new AsyncTask<Mail, Void, String>() {
 
             @Override
             protected String doInBackground(Mail... mails) {
@@ -217,6 +219,54 @@ public class Mail extends javax.mail.Authenticator{
                 return result;
             }
         }.execute(m);
+    }
+
+    public void sendNewEvidenceAsyncMail(final Mail m, final ParseUser sender, final ParseObject friend) {
+        AsyncTask<Mail,Void,String> sendingTask = new AsyncTask<Mail, Void, String>() {
+
+            @Override
+            protected String doInBackground(Mail... mails) {
+                int nbMails = mails.length;
+                String result = null;
+
+                for (int i=0; i<nbMails; i++) {
+                    String[] receiver = {friend.get("email").toString()};
+                    mails[i].setReceiver(receiver);
+                    mails[i].setSubject(Mail.NEW_EVIDENCE_SUBJECT);
+                    mails[i].setBody(sender.get("username") + " posted an evidence for your challenge."
+                            + "\nGo on the app to see it !");
+
+                    try {
+                        if(mails[i].sendMail()) {
+                            result = "Mail OK !";
+                        } else {
+                            result = "Mail NOK !";
+                        }
+                    } catch(Exception e) {
+                        Log.e("mail", "Could not send email", e);
+                        result = "Mail exception !";
+                    }
+
+                }
+                return result;
+            }
+        }.execute(m);
+    }
+
+    public boolean isMailingAllowed(ParseObject receiver) {
+        ParseQuery userQuery = ParseUser.getQuery();
+        userQuery.whereEqualTo("username", receiver.get("username"));
+
+        try {
+            ParseObject user = userQuery.getFirst();
+            boolean mailingNotifications = user.getBoolean("newsletter");
+
+            return mailingNotifications;
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+            return false;
+        }
     }
 
 
