@@ -66,6 +66,9 @@
         <activity android:name=".PendingChallengesActivity"
             android:label="@string/title_activity_pending_challenges">
         </activity>
+        <activity android:name=".DescriptionChallengeActivity"
+            android:label="@string/title_activity_description_challenge">
+        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="02b13739ff6e4de733061305c1b4fc2ff26478b6" />

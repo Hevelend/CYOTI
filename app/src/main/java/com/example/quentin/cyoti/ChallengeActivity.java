@@ -36,6 +36,7 @@ public class ChallengeActivity extends AppCompatActivity
     private ImageButton imageButtonProfile;
     private ImageButton imageButtonHistorique;
     private ImageButton imageButtonPendingChallenges;
+    private ImageButton imageButtonRefresh;
     private BadgeView badge;
 
     @Override
@@ -91,6 +92,7 @@ public class ChallengeActivity extends AppCompatActivity
         imageButtonProfile = (ImageButton) findViewById(R.id.action_profile);
         imageButtonHistorique = (ImageButton) findViewById(R.id.action_diploma);
         imageButtonPendingChallenges = (ImageButton) findViewById(R.id.action_cup);
+        imageButtonRefresh = (ImageButton) findViewById(R.id.action_refresh);
 
         imageButtonProfile.setOnClickListener(new View.OnClickListener() {
 
@@ -116,6 +118,14 @@ public class ChallengeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), PendingChallengesActivity.class);
+                startActivity(i);
+            }
+        });
+
+        imageButtonRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), DescriptionChallengeActivity.class);
                 startActivity(i);
             }
         });
