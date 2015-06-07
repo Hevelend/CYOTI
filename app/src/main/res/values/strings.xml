@@ -34,6 +34,10 @@
     <string name="tv_descriptionChallenge">Impossible to load challenge\'s description</string>
     <string name="bt_validChallenge">Accept victory</string>
     <string name="bt_proposeChallenge">Propose this challenge</string>
+    <string name="dialog_message">list of friend here</string>
+    <string name="dialog_title">Choose a friend</string>
+    <string name="yes_propose">Your proposition to your friend has been sent</string>
+    <string name="no_propose">Your proposition hasn\'t been sent</string>
 
     <!-- FriendsFragment -->
     <string name="tv_addFriend">Add a friend ?</string>

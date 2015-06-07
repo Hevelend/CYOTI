@@ -1,10 +1,13 @@
 package com.example.quentin.cyoti;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +39,44 @@ public class VoteChallengeFragment extends Fragment {
         getPercentageVote();
 
         rootView = inflater.inflate(R.layout.fragment_vote_challenge, container, false);
+
+        Button btnPropose = (Button) rootView.findViewById(R.id.bt_proposeChallenge);
+        btnPropose.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+                // Creating alert Dialog with two Buttons
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+
+                // Setting Dialog Title
+                alertDialog.setTitle(R.string.dialog_title);
+
+                // Setting Dialog Message
+                alertDialog.setMessage(R.string.dialog_message);
+
+                // Setting Positive "Yes" Button
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int which) {
+                                // Write your code here to execute after dialog
+                                Toast.makeText(getActivity().getApplicationContext(),R.string.yes_propose, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                // Setting Negative "NO" Button
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,	int which) {
+                                // Write your code here to execute after dialog
+                                Toast.makeText(getActivity().getApplicationContext(), R.string.no_propose, Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
+                        });
+
+                // Showing Alert Message
+                alertDialog.show();
+
+            }
+        });
 
         if(challenge.getCreatedDate() != null) {
 
@@ -108,7 +149,6 @@ public class VoteChallengeFragment extends Fragment {
 
         return rootView;
     }
-
 
     public void getChallenge() {
         ParseObject parseChallenge;
