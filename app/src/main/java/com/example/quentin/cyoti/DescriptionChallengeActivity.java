@@ -1,5 +1,6 @@
 package com.example.quentin.cyoti;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,19 +21,20 @@ import com.parse.ParseQuery;
  * Created by Gabriel on 05/06/2015.
  */
 public class DescriptionChallengeActivity extends AppCompatActivity {
-    // TODO Changer ces valeurs qui sont en dur pour l'instant
-    private String description = "Gabriel challenges admin to se deguiser en clown";
-    private String challengeID = "Rs5JmZXtjn";
+    private String description;
+    private String challengeID;
     private Bitmap proof;
 
-    /*public DescriptionChallengeActivity (String desc, String id) {
-        this.description = desc;
-        this.challengeID = id;
-    }*/
+    public DescriptionChallengeActivity () {
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description_challenge);
+
+        Intent intent = getIntent();
+        this.description = intent.getExtras().getString("description");
+        this.challengeID = intent.getExtras().getString("challengeID");
 
         TextView tvDescription = (TextView) this.findViewById(R.id.tv_description);
         tvDescription.setText(description);

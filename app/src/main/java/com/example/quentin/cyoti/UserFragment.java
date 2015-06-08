@@ -47,7 +47,6 @@ public class UserFragment extends Fragment {
     public UserFragment() {
         currentUser = ParseUser.getCurrentUser();
         friends = new ArrayList<Friend>();
-        //friendsIDs = new ArrayList<String>();
         challenges = new ArrayList<String>();
         friendsDic = new Hashtable<String, String>();
 
@@ -73,7 +72,6 @@ public class UserFragment extends Fragment {
             try {
                 friend = queryFriend.getFirst();
                 friendsDic.put(friend.getObjectId(), friends.get(i).getFirstName());
-                //friendsIDs.add(friend.getObjectId());
             } catch (ParseException e) {
                 Log.d("getFriendID", e.getMessage());
                 Toast.makeText(getActivity().getApplicationContext(),
@@ -87,7 +85,8 @@ public class UserFragment extends Fragment {
         queryChallengesChallenger.whereContainedIn("user_id_applicant", Collections.list(friendsDic.keys()));
         ParseQuery<ParseObject> queryChallengesChallenged = ParseQuery.getQuery("Attributed_challenge");
         queryChallengesChallenged.whereContainedIn("user_id", Collections.list(friendsDic.keys()));
-        ParseQuery<ParseObject> queryChallenges = ParseQuery.or(Arrays.asList(queryChallengesChallenged, queryChallengesChallenger));
+        queryChallengesChallenged.whereNotEqualTo("user_id_applicant",currentUser.getObjectId());
+        ParseQuery<ParseObject> queryChallenges = ParseQuery.or(Arrays.asList(queryChallengesChallenger, queryChallengesChallenged));
 
         queryChallenges.addDescendingOrder("createdAt");
         queryChallenges.setLimit(10);

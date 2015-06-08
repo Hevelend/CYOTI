@@ -25,7 +25,7 @@
         android:id="@+id/linearLayout"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/iv_user">
+        android:layout_below="@id/iv_user">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -68,9 +68,9 @@
         android:textStyle="bold"
         android:gravity="center"
         android:background="@drawable/circle_level"
-        android:layout_alignTop="@+id/iv_user"
-        android:layout_alignRight="@+id/iv_user"
-        android:layout_alignEnd="@+id/iv_user" />
+        android:layout_alignTop="@id/iv_user"
+        android:layout_alignRight="@id/iv_user"
+        android:layout_alignEnd="@id/iv_user" />
 
     <TextView
         android:id="@+id/txtTitle"
