@@ -34,7 +34,6 @@ public class UserFragment extends Fragment {
     private ArrayList<Friend> friends;
     private ListView listChallenges;
     private Hashtable<String,String> friendsDic;
-    //private ArrayList<String> friendsIDs;
     private ArrayList<String> challenges;
     private List<ParseObject> listTempObject = null;
 
@@ -61,6 +60,8 @@ public class UserFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_user, container, false);
 
         // Getting friends' challenges acceptations and achieved
+
+        //reset of challenges list
         challenges.clear();
 
         // Get actual friends of user and friends IDs
@@ -83,11 +84,12 @@ public class UserFragment extends Fragment {
         // Get challenges
         ParseQuery<ParseObject> queryChallengesChallenger = ParseQuery.getQuery("Attributed_challenge");
         queryChallengesChallenger.whereContainedIn("user_id_applicant", Collections.list(friendsDic.keys()));
+
         ParseQuery<ParseObject> queryChallengesChallenged = ParseQuery.getQuery("Attributed_challenge");
         queryChallengesChallenged.whereContainedIn("user_id", Collections.list(friendsDic.keys()));
         queryChallengesChallenged.whereNotEqualTo("user_id_applicant",currentUser.getObjectId());
-        ParseQuery<ParseObject> queryChallenges = ParseQuery.or(Arrays.asList(queryChallengesChallenger, queryChallengesChallenged));
 
+        ParseQuery<ParseObject> queryChallenges = ParseQuery.or(Arrays.asList(queryChallengesChallenger, queryChallengesChallenged));
         queryChallenges.addDescendingOrder("createdAt");
         queryChallenges.setLimit(10);
 

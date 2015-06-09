@@ -8,6 +8,7 @@ public class Friend {
     private String lastName;
     private String nickName;
     private String imgPath;
+    private String userID;
     private boolean isSelected = false;
 
     public Friend() {
@@ -28,6 +29,11 @@ public class Friend {
         firstName = first;
         lastName = last;
         nickName = nick;
+    }
+
+    public Friend(String name, String id) {
+        this.firstName = name;
+        this.userID = id;
     }
 
     public Friend(String name) {
@@ -64,6 +70,14 @@ public class Friend {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public boolean isSelected() {

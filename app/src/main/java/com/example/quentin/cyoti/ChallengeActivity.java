@@ -125,10 +125,6 @@ public class ChallengeActivity extends AppCompatActivity
         imageButtonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), DescriptionChallengeActivity.class);
-                i.putExtra("description","Gabriel challenges admin to se deguiser en clown");
-                i.putExtra("challengeID","Rs5JmZXtjn");
-                startActivity(i);
             }
         });
 

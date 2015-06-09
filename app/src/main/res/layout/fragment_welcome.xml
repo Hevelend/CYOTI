@@ -29,7 +29,7 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_height="75dp"
             android:layout_weight="1">
 
             <TextView
@@ -79,5 +79,13 @@
         android:layout_below="@id/linearLayout"
         android:textSize="30sp"
         android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:id="@+id/lv_challenges"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/txtTitle"/>
+
 </RelativeLayout>
 

@@ -1,16 +1,25 @@
 package com.example.quentin.cyoti.metier;
 
+import android.util.Log;
+
+import com.parse.ParseUser;
+
 import java.util.Date;
 
 /**
  * Created by Vincent on 15/05/2015.
  */
 public class Challenge {
+    private String challengeID;
     private String description;
     private Date createdDate;
     private Date finishedDate;
     private Friend friendChallenged;
     private Friend friendChallenger;
+
+    private String username;
+    private boolean isCurrentUserChallenged;
+    private boolean isCurrentUserChallenger;
 
     public Challenge() {
 //        this.description = "Sing in public";
@@ -20,12 +29,24 @@ public class Challenge {
 //        this.friendChallenger = new Friend("Jane", "Doe", "JD");
     }
 
-    public Challenge(String description, Date creation, Date finish, Friend challenged, Friend challenger) {
+    public Challenge(String id, String description, Date creation, Date finish, Friend challenged, Friend challenger, ParseUser user) {
+        this.challengeID = id;
         this.description = description;
         this.createdDate = creation;
         this.finishedDate = finish;
         this.friendChallenged = challenged;
         this.friendChallenger = challenger;
+        this.username = user.getUsername();
+        this.isCurrentUserChallenged = friendChallenged != null && (friendChallenged.getFirstName().equals(username));
+        this.isCurrentUserChallenger = friendChallenger != null && (friendChallenger.getFirstName().equals(username));
+    }
+
+    public String getChallengeID() {
+        return challengeID;
+    }
+
+    public void setChallengeID(String id) {
+        this.challengeID = id;
     }
 
     public String getDescription() {
@@ -56,15 +77,25 @@ public class Challenge {
         return friendChallenged;
     }
 
-    public void setUserChallenged(Friend userChallenged) {
-        this.friendChallenged = userChallenged;
+    public void setUserChallenged(Friend currentUserChallenged) {
+        this.friendChallenged = currentUserChallenged;
+        this.isCurrentUserChallenged = friendChallenged != null && (friendChallenged.getFirstName().equals(username));
     }
 
     public Friend getUserChallenger() {
         return friendChallenger;
     }
 
-    public void setUserChallenger(Friend userChallenger) {
-        this.friendChallenger = userChallenger;
+    public void setUserChallenger(Friend currentUserChallenger) {
+        this.friendChallenger = currentUserChallenger;
+        this.isCurrentUserChallenger = friendChallenger != null && (friendChallenger.getFirstName().equals(username));
+    }
+
+    public boolean isCurrentUserChallenged() {
+        return isCurrentUserChallenged;
+    }
+
+    public boolean isCurrentUserChallenger() {
+        return isCurrentUserChallenger;
     }
 }
