@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Parcel;
@@ -47,13 +48,12 @@ public class UserProfileActivity extends ActionBarActivity {
     private EditText etUserPassword;
     private Switch swNotificationsPush;
     private Switch swMailingNotifications;
-    private ImageView imageUser;
+    private static ImageView imageUser;
 
-    private ParseUser currentUser;
+    private static ParseUser currentUser;
 
     private boolean saveChanges = false;
     private boolean deleteProfile = false;
-    private boolean defaultProfileImage = true;
     private boolean pushNotifications;
     private boolean mailingNotifications;
     private String imagePath = "";
@@ -77,7 +77,11 @@ public class UserProfileActivity extends ActionBarActivity {
         ac.setIcon(R.drawable.ic_app);
 
         imageUser = (ImageView) this.findViewById(R.id.imageUser);
-        getImageProfile();
+
+        Bitmap bmpUser = getImageProfile(currentUser.getObjectId());
+
+        if (bmpUser == null) imageUser.setImageResource(R.drawable.default_avatar);
+        else imageUser.setImageBitmap(bmpUser);
 
         btEditPhoto = (ImageButton) this.findViewById(R.id.bt_editPhoto);
 
@@ -194,19 +198,6 @@ public class UserProfileActivity extends ActionBarActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-//            Cursor cursor = getContentResolver().query(selectedImage,
-//                    filePathColumn, null, null, null);
-//            cursor.moveToFirst();
-//
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//            imagePath = cursor.getString(columnIndex);
-//            cursor.close();
-//
-//            /* TODO : Améliorer affichage image */
-//            imageUser.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-//
-//            defaultProfileImage = false;
         }
     }
 
@@ -336,27 +327,32 @@ public class UserProfileActivity extends ActionBarActivity {
     }
 
 
-    public void getImageProfile() {
+    public static Bitmap getImageProfile(String userId) {
         ParseQuery<ParseObject> queryImage = ParseQuery.getQuery("_User");
-        queryImage.whereEqualTo("objectId", currentUser.getObjectId());
+        queryImage.whereEqualTo("objectId", userId);
 
         try {
-            ParseObject user = queryImage.getFirst();
+            ParseObject tmpUser = queryImage.getFirst();
 
-            ParseFile imageFile = user.getParseFile("avatar");
+            ParseFile imageFile = tmpUser.getParseFile("avatar");
 
-            if (imageFile == null) imageUser.setImageResource(R.drawable.default_avatar);
+            if (imageFile == null) {
+                //imageUser.setImageResource(R.drawable.default_avatar);
+                return null;
+            }
 
             else {
                 byte[] imageBytes = imageFile.getData();
 
                 Bitmap imageBMP = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
-                imageUser.setImageBitmap(imageBMP);
+                //imageUser.setImageBitmap(imageBMP);
+                return imageBMP;
             }
         }
         catch (ParseException e) {
             Log.d("imgquery", e.getMessage() + e.getCause().toString());
+            return null;
         }
     }
 

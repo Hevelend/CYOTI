@@ -11,9 +11,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.quentin.cyoti.R;
+import com.example.quentin.cyoti.UserProfileActivity;
 import com.example.quentin.cyoti.metier.Challenge;
+import com.example.quentin.cyoti.metier.User;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Gabriel on 31/05/2015.
@@ -56,6 +63,13 @@ public class ChallengeAdapter extends ArrayAdapter<Challenge> {
         if (c.isCurrentUserChallenger()) {
             rl_head.setBackgroundColor(context.getResources().getColor(R.color.yellow));
         }
+
+        ImageView imageFriend = (ImageView) v.findViewById(R.id.imageFriend);
+
+        c.getUserChallenger().setImgBmp(UserProfileActivity.getImageProfile(c.getUserChallenger().getUserID()));
+
+        if(c.getUserChallenger().getImgBmp() == null) imageFriend.setImageResource(R.drawable.default_avatar);
+        else imageFriend.setImageBitmap(c.getUserChallenger().getImgBmp());
 
         return v;
     }

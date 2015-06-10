@@ -12,7 +12,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quentin.cyoti.adapters.ChallengeAdapter;
 import com.example.quentin.cyoti.adapters.StringAdapter;
+import com.example.quentin.cyoti.metier.Challenge;
 import com.example.quentin.cyoti.metier.Friend;
 import com.example.quentin.cyoti.metier.User;
 import com.parse.ParseException;
@@ -21,9 +23,11 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -36,6 +40,7 @@ public class UserFragment extends Fragment {
     private Hashtable<String,String> friendsDic;
     private ArrayList<String> challenges;
     private List<ParseObject> listTempObject = null;
+    private ArrayList<String> datesChallenge;
 
     private OnUserListener mCallback;
     private ParseObject tempObject = null;
@@ -48,6 +53,7 @@ public class UserFragment extends Fragment {
         friends = new ArrayList<Friend>();
         challenges = new ArrayList<String>();
         friendsDic = new Hashtable<String, String>();
+        datesChallenge = new ArrayList<String>();
 
         // Create notifications' installation
         createParseInstallation();
@@ -144,6 +150,12 @@ public class UserFragment extends Fragment {
                  if (Boolean.parseBoolean(tempSuccess)) {display += " REUSSITE";} else {display += " ECHEC";}
             }
 
+            if (tempChallenge != null) {
+                SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy");
+                String creationDate = format.format(tempChallenge.getCreatedAt());
+                datesChallenge.add("Sent on " + creationDate);
+            }
+
             challenges.add(display);
 
         }
@@ -155,6 +167,7 @@ public class UserFragment extends Fragment {
                 R.layout.listitem_news,
                 challenges,
                 R.id.tv_challenge);
+
 
         listChallenges.setAdapter(challengesAdapter);
 

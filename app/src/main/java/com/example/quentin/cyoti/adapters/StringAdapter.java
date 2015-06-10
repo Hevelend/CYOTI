@@ -6,9 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.quentin.cyoti.R;
+import com.example.quentin.cyoti.metier.Friend;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Gabriel on 18/05/2015.
@@ -34,6 +40,9 @@ public class StringAdapter extends ArrayAdapter<String> {
 
         TextView textView = (TextView)v.findViewById(idTextView);
         textView.setText(s);
+
+        ImageView imageFriend = (ImageView)v.findViewById(R.id.imageFriend);
+
 
         return v;
     }
