@@ -51,4 +51,6 @@ dependencies {
     compile fileTree(include: 'activation.jar', dir: 'libs')
     compile fileTree(include: 'additionnal.jar', dir: 'libs')
     compile fileTree(include: 'mail.jar', dir: 'libs')
+
+    compile 'de.hdodenhof:circleimageview:1.3.0'
 }

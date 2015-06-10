@@ -178,6 +178,7 @@ public class UserProfileActivity extends ActionBarActivity {
 
             try {
                 Bitmap imageBMP = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                imageUser.setImageBitmap(imageBMP);
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 imageBMP.compress(Bitmap.CompressFormat.PNG, 100, stream);
