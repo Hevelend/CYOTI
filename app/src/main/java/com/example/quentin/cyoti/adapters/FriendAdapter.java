@@ -12,9 +12,13 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.quentin.cyoti.UserProfileActivity;
 import com.example.quentin.cyoti.metier.Friend;
 import com.example.quentin.cyoti.R;
 import com.example.quentin.cyoti.utilities.FriendViewHolder;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 
@@ -31,6 +35,19 @@ public class FriendAdapter extends ArrayAdapter<Friend>{
     public View getView(int position, View convertView, ViewGroup parent) {
         Friend f = this.getItem(position);
 
+        ParseQuery queryFriend = ParseQuery.getQuery("_User");
+        queryFriend.whereEqualTo("username", f.getFirstName());
+
+        ParseObject friend;
+
+        try {
+            friend = queryFriend.getFirst();
+            f.setUserID(friend.getObjectId());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            f.setUserID("error");
+        }
+
         Activity act = (Activity)getContext();
         LayoutInflater inflater = (act).getLayoutInflater();
 
@@ -39,10 +56,15 @@ public class FriendAdapter extends ArrayAdapter<Friend>{
         TextView tvFriend = (TextView)v.findViewById(R.id.tv_friend);
         tvFriend.setText(f.getFirstName());
 
+        ImageView imageFriend = (ImageView) v.findViewById(R.id.imageFriend);
 
+        if (!f.getUserID().equals("error")) {
+            f.setImgBmp(UserProfileActivity.getImageProfile(f.getUserID()));
 
-        //ImageView imgFriend = (ImageView)v.findViewById(R.id.imageFriend);
-        //imgFriend.setImageURI(Uri.parse(f.getImgPath()));
+            if(f.getImgBmp() == null) imageFriend.setImageResource(R.drawable.default_avatar);
+            else imageFriend.setImageBitmap(f.getImgBmp());
+        }
+
         return v;
     }
 }
