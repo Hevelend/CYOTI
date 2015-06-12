@@ -15,5 +15,7 @@
     <color name="light_grey">#BABCBB</color>
     <color name="hyperlight_grey">#EBECED</color>
     <color name="bluemerica">#003594</color>
+    <color name="bluemerica2">#003249</color>
+    <color name="bluemerica3">#3568B5</color>
     <color name="bluemerica_terne">#15557C</color>
 </resources>

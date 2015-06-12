@@ -1,6 +1,10 @@
 package com.example.quentin.cyoti.metier;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.example.quentin.cyoti.R;
 
 /**
  * Created by Vincent on 13/05/2015.
@@ -13,23 +17,27 @@ public class Friend {
     private String userID;
     private boolean isSelected = false;
 
+    // TODO ne plus utiliser ce constructeur
     public Friend() {
         firstName = "Mon";
         lastName = "Ami";
         nickName = "Nick123";
     }
 
+    // TODO ne plus utiliser ce constructeur
     public Friend(String first, String last, String nick) {
         firstName = first;
         lastName = last;
         nickName = nick;
     }
 
-    public Friend(String name, String id) {
+    public Friend(Context context, String name, String id, Bitmap icon) {
         this.firstName = name;
         this.userID = id;
+        this.imgFriend = (icon != null) ? icon : BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
     }
 
+    // TODO ne plus utiliser ce constructeur
     public Friend(String name) {
         this.firstName = name;
     }
@@ -80,5 +88,10 @@ public class Friend {
 
     public void setSelected(boolean select) {
         this.isSelected = select;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + userID;
     }
 }

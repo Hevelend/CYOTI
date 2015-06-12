@@ -58,18 +58,14 @@ public class ChallengeAdapter extends ArrayAdapter<Challenge> {
 
         RelativeLayout rl_head = (RelativeLayout) v.findViewById(R.id.header);
         if (c.isCurrentUserChallenged()) {
-            rl_head.setBackgroundColor(context.getResources().getColor(R.color.green));
+            rl_head.setBackgroundColor(context.getResources().getColor(R.color.bluemerica2));
         }
         if (c.isCurrentUserChallenger()) {
-            rl_head.setBackgroundColor(context.getResources().getColor(R.color.yellow));
+            rl_head.setBackgroundColor(context.getResources().getColor(R.color.bluemerica3));
         }
 
         ImageView imageFriend = (ImageView) v.findViewById(R.id.imageFriend);
-
-        c.getUserChallenger().setImgBmp(UserProfileActivity.getImageProfile(c.getUserChallenger().getUserID()));
-
-        if(c.getUserChallenger().getImgBmp() == null) imageFriend.setImageResource(R.drawable.default_avatar);
-        else imageFriend.setImageBitmap(c.getUserChallenger().getImgBmp());
+        imageFriend.setImageBitmap(c.getUserChallenger().getImgBmp());
 
         return v;
     }

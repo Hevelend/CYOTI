@@ -4,12 +4,16 @@ import com.example.quentin.cyoti.adapters.ChallengeAdapter;
 import com.example.quentin.cyoti.metier.Challenge;
 import com.example.quentin.cyoti.metier.Friend;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,24 +35,24 @@ import java.util.List;
 
 public class WelcomeFragment extends Fragment {
 
-
     private final ParseUser currentUser;
+    private Friend friendUser;
     public int XPuser;
     public int levelNumber;
     public String titleLevel;
     public ImageView iv_user;
 
-    private ArrayList<Friend> friends;
+    private ArrayList<String> friends;
     private ListView listChallenges;
-    private Hashtable<String,String> friendsDic;
+    private Hashtable<String,Friend> friendsDic;
     private ArrayList<Challenge> challenges;
     private ArrayList<String> dateChallenge;
 
     public WelcomeFragment(){
         currentUser = ParseUser.getCurrentUser();
-        friends = new ArrayList<Friend>();
+        friends = new ArrayList<String>();
         challenges = new ArrayList<Challenge>();
-        friendsDic = new Hashtable<String, String>();
+        friendsDic = new Hashtable<String, Friend>();
         dateChallenge = new ArrayList<String>();
     }
 
@@ -58,6 +62,22 @@ public class WelcomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
+
+        // Create a Friend object for the user
+        ParseFile imageFile = currentUser.getParseFile("avatar");
+        Bitmap avatarUser = null;
+        byte[] data = null;
+        if (imageFile != null) {
+            try {
+                data = imageFile.getData();
+            } catch (ParseException e) {
+                Log.d("avatarUser", "Error: " + e.getMessage());
+            }
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            avatarUser = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        }
+
+        friendUser = new Friend(rootView.getContext(),currentUser.getUsername(),currentUser.getObjectId(),avatarUser);
 
         // Convert currentUser into String
         String struser = currentUser.getUsername().toString();
@@ -126,15 +146,30 @@ public class WelcomeFragment extends Fragment {
         //reset of challenges list
         challenges.clear();
 
-        // Get actual friends of user and friends IDs
+        // Get actual friends of user and friends' infos
         getFriends();
+        // Create a Friend object for each friend and put it in the dictionary
         for (int i=0; i<friends.size(); i++) {
             ParseQuery<ParseObject> queryFriend = ParseQuery.getQuery("_User");
-            queryFriend.whereEqualTo("username", friends.get(i).getFirstName());
+            queryFriend.whereEqualTo("username", friends.get(i));
             ParseObject friend = null;
             try {
                 friend = queryFriend.getFirst();
-                friendsDic.put(friend.getObjectId(), friends.get(i).getFirstName());
+                ParseFile imageFile2 = friend.getParseFile("avatar");
+                Bitmap avatar = null;
+                byte[] data2 = null;
+                if (imageFile2 != null) {
+                    try {
+                        data2 = imageFile2.getData();
+                    } catch (ParseException e) {
+                        Log.d("avatar", "Error: " + e.getMessage());
+                    }
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    avatar = BitmapFactory.decodeByteArray(data2, 0, data2.length, options);
+                }
+
+                Friend tempObjectFriend = new Friend(rootView.getContext(),friend.getString("username"),friend.getObjectId(),avatar);
+                friendsDic.put(friend.getObjectId(),tempObjectFriend );
             } catch (ParseException e) {
                 Log.d("getFriendID", e.getMessage());
                 Toast.makeText(getActivity().getApplicationContext(),
@@ -142,6 +177,12 @@ public class WelcomeFragment extends Fragment {
             }
 
         }
+
+        // test of what in friendsDic
+        /*ArrayList<String> temp = Collections.list(friendsDic.keys());
+        for (int i = 0; i < temp.size(); i++) {
+            Log.d("test", temp.get(i).toString() + " f: " + friendsDic.get(temp.get(i)).toString());
+        }*/
 
         // Get challenges
         ParseQuery<ParseObject> queryOwnChallengesChallenger = ParseQuery.getQuery("Attributed_challenge");
@@ -152,6 +193,7 @@ public class WelcomeFragment extends Fragment {
 
         ParseQuery<ParseObject> queryChallenges = ParseQuery.or(Arrays.asList(queryOwnChallengesChallenger, queryOwnChallengesChallenged));
         queryChallenges.whereEqualTo("finish_date", null);
+        queryChallenges.whereNotEqualTo("accepting_date", null);
         queryChallenges.addDescendingOrder("createdAt");
         queryChallenges.setLimit(10);
 
@@ -163,66 +205,37 @@ public class WelcomeFragment extends Fragment {
             Log.d("queryFail", "Query Object has failed : " + e.toString());
         }
 
-        for (int j=0; j<listTempObject.size(); j++) {
-            String challengeID = listTempObject.get(j).getObjectId();
-            String challengedID = listTempObject.get(j).getString("user_id");
-            String challengerID = listTempObject.get(j).getString("user_id_applicant");
-            Challenge currentChallenge = null;
+        if (listTempObject != null) {
+            for (int j=0; j<listTempObject.size(); j++) {
+                String challengeID = listTempObject.get(j).getObjectId();
+                String challengedID = listTempObject.get(j).getString("user_id");
+                String challengerID = listTempObject.get(j).getString("user_id_applicant");
+                Challenge currentChallenge = null;
 
-            if (challengedID.equals(currentUser.getObjectId())) {
-                currentChallenge = new Challenge(challengeID, "null", listTempObject.get(j).getCreatedAt(), null, new Friend(currentUser.getUsername(), challengedID), new Friend(friendsDic.get(challengerID), challengerID), currentUser);
+                if (challengedID.equals(currentUser.getObjectId())) {
+                    // Get challenge description
+                    ParseQuery<ParseObject> queryOneChallenge = ParseQuery.getQuery("Challenge");
+                    queryOneChallenge.whereEqualTo("objectId", listTempObject.get(j).get("challenge_id"));
+                    ParseObject tempChallenge = null;
 
-                ParseQuery<ParseObject> queryOneChallenge = ParseQuery.getQuery("Challenge");
-                queryOneChallenge.whereEqualTo("objectId", listTempObject.get(j).get("challenge_id"));
+                    try {
+                        tempChallenge = queryOneChallenge.getFirst();
+                    } catch (ParseException e) {
+                        Log.d("queryFail", "Query Object has failed : " + e.toString());
+                    }
 
-                ParseObject tempChallenge = null;
+                    if (Collections.list(friendsDic.keys()).contains(challengerID)) {
+                        currentChallenge = new Challenge(challengeID, "null", listTempObject.get(j).getCreatedAt(), null, friendUser, friendsDic.get(challengerID), currentUser);
 
-                try {
-                    tempChallenge = queryOneChallenge.getFirst();
-                } catch (ParseException e) {
-                    Log.d("queryFail", "Query Object has failed : " + e.toString());
-                }
+                        if (tempChallenge != null) {
+                            currentChallenge.setDescription(friendsDic.get(challengerID).getFirstName() + " challenges " + currentUser.getUsername() + " to " + tempChallenge.get("challenge"));
+                        }
+                    } else {
+                        // Query challenger name and avatar
+                        ParseQuery<ParseObject> queryChallenger = ParseQuery.getQuery("_User");
+                        queryChallenger.whereEqualTo("objectId", challengerID);
+                        ParseObject tempFriend = null;
 
-                if (tempChallenge != null) {
-                    currentChallenge.setDescription(friendsDic.get(challengerID) + " challenges " + currentUser.getUsername() + " to " + tempChallenge.get("challenge"));
-                }
-            } else if (challengerID.equals(currentUser.getObjectId())) {
-                currentChallenge = new Challenge(challengeID, "null", listTempObject.get(j).getCreatedAt(), null, new Friend(friendsDic.get(challengedID), challengedID), new Friend(currentUser.getUsername(), challengerID), currentUser);
-
-                ParseQuery<ParseObject> queryOneChallenge = ParseQuery.getQuery("Challenge");
-                queryOneChallenge.whereEqualTo("objectId", listTempObject.get(j).get("challenge_id"));
-
-                ParseObject tempChallenge = null;
-
-                try {
-                    tempChallenge = queryOneChallenge.getFirst();
-                } catch (ParseException e) {
-                    Log.d("queryFail", "Query Object has failed : " + e.toString());
-                }
-
-                if (tempChallenge != null) {
-                    currentChallenge.setDescription(currentUser.getUsername() + " challenges " + friendsDic.get(challengedID) + " to " + tempChallenge.get("challenge"));
-                }
-            } else {
-                ParseQuery<ParseObject> queryOneChallenge = ParseQuery.getQuery("Challenge");
-                queryOneChallenge.whereEqualTo("objectId", listTempObject.get(j).get("challenge_id"));
-
-                ParseObject tempChallenge = null;
-
-                try {
-                    tempChallenge = queryOneChallenge.getFirst();
-                } catch (ParseException e) {
-                    Log.d("queryFail", "Query Object has failed : " + e.toString());
-                }
-                if (tempChallenge != null) {
-                    ParseQuery<ParseObject> queryChallenger = ParseQuery.getQuery("_User");
-                    queryChallenger.whereEqualTo("objectId", challengerID);
-
-                    ParseQuery<ParseObject> queryChallenged = ParseQuery.getQuery("_User");
-                    queryChallenged.whereEqualTo("objectId", challengedID);
-                    ParseObject tempFriend = null;
-
-                    if (challengedID.equals(currentUser.getObjectId())) {
                         try {
                             tempFriend = queryChallenger.getFirst();
                         } catch (ParseException e) {
@@ -230,11 +243,53 @@ public class WelcomeFragment extends Fragment {
                         }
 
                         if (tempFriend != null) {
-                            currentChallenge = new Challenge(challengeID, "null", listTempObject.get(j).getCreatedAt(), null, new Friend(friendsDic.get(challengedID), challengedID), new Friend(friendsDic.get(challengerID), challengerID), currentUser);
 
-                            currentChallenge.setDescription(tempFriend.getString("username") + " challenges " + currentUser.getUsername() + " to " + tempChallenge.get("challenge"));
+                            ParseFile imageFile3 = tempFriend.getParseFile("avatar");
+                            Bitmap tempAvatar = null;
+                            byte[] data3 = null;
+                            if (imageFile3 != null) {
+                                try {
+                                    data3 = imageFile3.getData();
+                                } catch (ParseException e) {
+                                    Log.d("tempAvatar", "Error: " + e.getMessage());
+                                }
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                tempAvatar = BitmapFactory.decodeByteArray(data3, 0, data3.length, options);
+                            }
+
+                            Friend tempNotFriend = new Friend(rootView.getContext(),tempFriend.getString("username"),tempFriend.getObjectId(),tempAvatar);
+
+                            currentChallenge = new Challenge(challengeID, "null", listTempObject.get(j).getCreatedAt(), null, friendUser, tempNotFriend, currentUser);
+
+                            if (tempChallenge != null) {
+                                currentChallenge.setDescription(tempNotFriend.getFirstName() + " challenges " + currentUser.getUsername() + " to " + tempChallenge.get("challenge"));
+                            }
                         }
-                    } else if (challengerID.equals(currentUser.getObjectId())) {
+                    }
+                } else if (challengerID.equals(currentUser.getObjectId())) {
+                    ParseQuery<ParseObject> queryOneChallenge = ParseQuery.getQuery("Challenge");
+                    queryOneChallenge.whereEqualTo("objectId", listTempObject.get(j).get("challenge_id"));
+
+                    ParseObject tempChallenge = null;
+
+                    try {
+                        tempChallenge = queryOneChallenge.getFirst();
+                    } catch (ParseException e) {
+                        Log.d("queryFail", "Query Object has failed : " + e.toString());
+                    }
+
+                    if (Collections.list(friendsDic.keys()).contains(challengedID)) {
+                        currentChallenge = new Challenge(challengeID, "null", listTempObject.get(j).getCreatedAt(), null, friendsDic.get(challengedID), friendUser, currentUser);
+
+                        if (tempChallenge != null) {
+                            currentChallenge.setDescription(currentUser.getUsername() + " challenges " + friendsDic.get(challengedID).getFirstName() + " to " + tempChallenge.get("challenge"));
+                        }
+                    } else {
+                        // Query challenged name (no need of avatar)
+                        ParseQuery<ParseObject> queryChallenged = ParseQuery.getQuery("_User");
+                        queryChallenged.whereEqualTo("objectId", challengedID);
+                        ParseObject tempFriend = null;
+
                         try {
                             tempFriend = queryChallenged.getFirst();
                         } catch (ParseException e) {
@@ -242,21 +297,27 @@ public class WelcomeFragment extends Fragment {
                         }
 
                         if (tempFriend != null) {
-                            currentChallenge = new Challenge(challengeID, "null", listTempObject.get(j).getCreatedAt(), null, new Friend(friendsDic.get(challengedID), challengedID), new Friend(friendsDic.get(challengerID), challengerID), currentUser);
+                            Friend tempNotFriend = new Friend(rootView.getContext(),tempFriend.getString("username"),tempFriend.getObjectId(),null);
 
-                            currentChallenge.setDescription(currentUser.getUsername() + " challenges " + tempFriend.getString("username") + " to " + tempChallenge.get("challenge"));
+                            currentChallenge = new Challenge(challengeID, "null", listTempObject.get(j).getCreatedAt(), null, tempNotFriend, friendUser, currentUser);
+
+                            if (tempChallenge != null) {
+                                currentChallenge.setDescription(tempNotFriend.getFirstName() + " challenges " + currentUser.getUsername() + " to " + tempChallenge.get("challenge"));
+                            }
                         }
                     }
+                } else {
+                    Log.d("impossible","user should always be challenger or challenged of every challenge in this fragment");
                 }
-            }
 
-            if (currentChallenge != null) {
-                SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy");
-                String creationDate = format.format(currentChallenge.getCreatedDate());
-                dateChallenge.add("Sent on " + creationDate);
-            }
+                if (currentChallenge != null) {
+                    SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy");
+                    String creationDate = format.format(currentChallenge.getCreatedDate());
+                    dateChallenge.add("Sent on " + creationDate);
+                }
 
-            challenges.add(currentChallenge);
+                challenges.add(currentChallenge);
+            }
         }
 
         // Fill the ListView
@@ -273,22 +334,28 @@ public class WelcomeFragment extends Fragment {
                 Challenge c = (Challenge) parent.getAdapter().getItem(position);
                 if (c.isCurrentUserChallenger()) {
                     Intent i = new Intent(rootView.getContext(), DescriptionChallengeActivity.class);
-                    i.putExtra("description",c.getDescription());
-                    i.putExtra("challengeID",c.getChallengeID());
-                    Log.d("challenger","oui");
+                    i.putExtra("description", c.getDescription());
+                    i.putExtra("challengeID", c.getChallengeID());
+                    i.putExtra("isCurrentUserChallenger","true");
+                    i.putExtra("isCurrentUserChallenged","false");
+                    Log.d("challenger", "oui");
                     startActivity(i);
 
                 } else if (c.isCurrentUserChallenged()) {
                     Intent i = new Intent(rootView.getContext(), DescriptionChallengeActivity.class);
-                    i.putExtra("description",c.getDescription());
-                    i.putExtra("challengeID",c.getChallengeID());
+                    i.putExtra("description", c.getDescription());
+                    i.putExtra("challengeID", c.getChallengeID());
+                    i.putExtra("isCurrentUserChallenger","false");
+                    i.putExtra("isCurrentUserChallenged","true");
                     Log.d("challenged", "oui");
                     startActivity(i);
 
                 } else {
                     Intent i = new Intent(rootView.getContext(), DescriptionChallengeActivity.class);
-                    i.putExtra("description",c.getDescription());
-                    i.putExtra("challengeID",c.getChallengeID());
+                    i.putExtra("description", c.getDescription());
+                    i.putExtra("challengeID", c.getChallengeID());
+                    i.putExtra("isCurrentUserChallenger","false");
+                    i.putExtra("isCurrentUserChallenged","false");
                     startActivity(i);
                 }
             }
@@ -317,7 +384,7 @@ public class WelcomeFragment extends Fragment {
 
             if (tempFriends != null) {
                 for (int i = 0; i < tempFriends.size(); i++) {
-                    friends.add(new Friend(tempFriends.get(i)));
+                    friends.add(tempFriends.get(i));
                 }
             }
         }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,12 +18,16 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.Date;
+
 /**
  * Created by Gabriel on 05/06/2015.
  */
 public class DescriptionChallengeActivity extends AppCompatActivity {
     private String description;
     private String challengeID;
+    private boolean isCurrentUserChallenged;
+    private boolean isCurrentUserChallenger;
     private Bitmap proof;
 
     public DescriptionChallengeActivity () {
@@ -35,6 +40,8 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this.description = intent.getExtras().getString("description");
         this.challengeID = intent.getExtras().getString("challengeID");
+        this.isCurrentUserChallenged = Boolean.parseBoolean(intent.getExtras().getString("isCurrentUserChallenged"));
+        this.isCurrentUserChallenger = Boolean.parseBoolean(intent.getExtras().getString("isCurrentUserChallenger"));
 
         TextView tvDescription = (TextView) this.findViewById(R.id.tv_description);
         tvDescription.setText(description);
@@ -64,7 +71,7 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                 Log.d("queryFail", "Query has failed : " + e.toString());
             }
             if (tempEvidence != null) {
-                ParseFile imageFile = (ParseFile)tempEvidence.get("evidence");
+                ParseFile imageFile = tempEvidence.getParseFile("evidence");
                 imageFile.getDataInBackground(new GetDataCallback() {
                     public void done(byte[] data, ParseException e) {
                         if (e == null) {
@@ -76,6 +83,55 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                         }
                     }
                 });
+                if (isCurrentUserChallenger) {
+                    final ImageButton bt_unlike = (ImageButton) this.findViewById(R.id.bt_unlike);
+                    final ImageButton bt_like = (ImageButton) this.findViewById(R.id.bt_like);
+
+                    ParseQuery<ParseObject> queryChall = ParseQuery.getQuery("Attributed_challenge");
+                    queryChall.whereEqualTo("objectId", challengeID);
+                    ParseObject tempChall = null;
+                    try {
+                        tempChall = queryChall.getFirst();
+                    } catch (ParseException e) {
+                        Log.d("queryFail", "Query has failed : " + e.toString());
+                    }
+
+                    if (tempChall != null) {
+                        bt_like.setVisibility(View.VISIBLE);
+                        bt_like.setClickable(true);
+                        bt_unlike.setVisibility(View.VISIBLE);
+                        bt_unlike.setClickable(true);
+                        tempChall.put("finish_date", new Date());
+                        final ParseObject tempChallPos = tempChall;
+                        tempChallPos.put("success", true);
+                        final ParseObject tempChallNeg = tempChall;
+                        tempChallNeg.put("success", false);
+
+
+                        bt_like.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                tempChallPos.saveInBackground();
+                                bt_like.setVisibility(View.INVISIBLE);
+                                bt_like.setClickable(false);
+                                bt_unlike.setVisibility(View.INVISIBLE);
+                                bt_unlike.setClickable(false);
+                            }
+                        });
+
+                        bt_unlike.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                tempChallNeg.saveInBackground();
+                                bt_like.setVisibility(View.INVISIBLE);
+                                bt_like.setClickable(false);
+                                bt_unlike.setVisibility(View.INVISIBLE);
+                                bt_unlike.setClickable(false);
+                            }
+                        });
+                    }
+                }
+
             }
         }
     }
