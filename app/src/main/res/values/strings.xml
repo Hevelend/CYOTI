@@ -50,6 +50,8 @@
     <string name="tv_title_proof">Proof of winning :</string>
     <string name="tv_no_proof">There is no proof for this challenge (yet ?)</string>
     <string name="tv_proof_description">Picture of the proof</string>
+    <string name="bt_select_file">Upload file</string>
+    <string name="bt_take_picture">Take a picture</string>
 
     <!-- PendingChallengesActivity -->
 

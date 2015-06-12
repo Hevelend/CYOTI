@@ -338,7 +338,6 @@ public class WelcomeFragment extends Fragment {
                     i.putExtra("challengeID", c.getChallengeID());
                     i.putExtra("isCurrentUserChallenger","true");
                     i.putExtra("isCurrentUserChallenged","false");
-                    Log.d("challenger", "oui");
                     startActivity(i);
 
                 } else if (c.isCurrentUserChallenged()) {
@@ -347,7 +346,6 @@ public class WelcomeFragment extends Fragment {
                     i.putExtra("challengeID", c.getChallengeID());
                     i.putExtra("isCurrentUserChallenger","false");
                     i.putExtra("isCurrentUserChallenged","true");
-                    Log.d("challenged", "oui");
                     startActivity(i);
 
                 } else {

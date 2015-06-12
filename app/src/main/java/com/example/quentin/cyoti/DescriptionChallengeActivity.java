@@ -1,16 +1,18 @@
 package com.example.quentin.cyoti;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -18,6 +20,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 import java.util.Date;
 
 /**
@@ -29,6 +33,8 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
     private boolean isCurrentUserChallenged;
     private boolean isCurrentUserChallenger;
     private Bitmap proof;
+
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     public DescriptionChallengeActivity () {
     }
@@ -47,6 +53,8 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
         tvDescription.setText(description);
 
         TextView tvNoProof = (TextView) this.findViewById(R.id.tv_no_proof);
+        final Button bt_select_file = (Button) this.findViewById(R.id.bt_select_file);
+        final Button bt_take_picture = (Button) this.findViewById(R.id.bt_take_picture);
 
         final ImageView imProof = (ImageView) this.findViewById(R.id.im_proof);
 
@@ -63,6 +71,25 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
 
         if (count < 1) {
             tvNoProof.setVisibility(View.VISIBLE);
+            bt_select_file.setVisibility(View.VISIBLE);
+            bt_select_file.setClickable(true);
+            bt_take_picture.setVisibility(View.VISIBLE);
+            bt_take_picture.setClickable(true);
+
+            bt_take_picture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bt_select_file.setVisibility(View.INVISIBLE);
+                    bt_select_file.setClickable(false);
+                    bt_take_picture.setVisibility(View.INVISIBLE);
+                    bt_take_picture.setClickable(false);
+
+                    // create Intent to take a picture and return control to the calling application
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // start the image capture Intent
+                    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                }
+            });
         }
         else {
             try {
@@ -84,8 +111,8 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                     }
                 });
                 if (isCurrentUserChallenger) {
-                    final ImageButton bt_unlike = (ImageButton) this.findViewById(R.id.bt_unlike);
-                    final ImageButton bt_like = (ImageButton) this.findViewById(R.id.bt_like);
+                    final ImageButton ib_unlike = (ImageButton) this.findViewById(R.id.ib_unlike);
+                    final ImageButton ib_like = (ImageButton) this.findViewById(R.id.ib_like);
 
                     ParseQuery<ParseObject> queryChall = ParseQuery.getQuery("Attributed_challenge");
                     queryChall.whereEqualTo("objectId", challengeID);
@@ -97,10 +124,10 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                     }
 
                     if (tempChall != null) {
-                        bt_like.setVisibility(View.VISIBLE);
-                        bt_like.setClickable(true);
-                        bt_unlike.setVisibility(View.VISIBLE);
-                        bt_unlike.setClickable(true);
+                        ib_like.setVisibility(View.VISIBLE);
+                        ib_like.setClickable(true);
+                        ib_unlike.setVisibility(View.VISIBLE);
+                        ib_unlike.setClickable(true);
                         tempChall.put("finish_date", new Date());
                         final ParseObject tempChallPos = tempChall;
                         tempChallPos.put("success", true);
@@ -108,30 +135,67 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                         tempChallNeg.put("success", false);
 
 
-                        bt_like.setOnClickListener(new View.OnClickListener() {
+                        ib_like.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 tempChallPos.saveInBackground();
-                                bt_like.setVisibility(View.INVISIBLE);
-                                bt_like.setClickable(false);
-                                bt_unlike.setVisibility(View.INVISIBLE);
-                                bt_unlike.setClickable(false);
+                                ib_like.setVisibility(View.INVISIBLE);
+                                ib_like.setClickable(false);
+                                ib_unlike.setVisibility(View.INVISIBLE);
+                                ib_unlike.setClickable(false);
                             }
                         });
 
-                        bt_unlike.setOnClickListener(new View.OnClickListener() {
+                        ib_unlike.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 tempChallNeg.saveInBackground();
-                                bt_like.setVisibility(View.INVISIBLE);
-                                bt_like.setClickable(false);
-                                bt_unlike.setVisibility(View.INVISIBLE);
-                                bt_unlike.setClickable(false);
+                                ib_like.setVisibility(View.INVISIBLE);
+                                ib_like.setClickable(false);
+                                ib_unlike.setVisibility(View.INVISIBLE);
+                                ib_unlike.setClickable(false);
                             }
                         });
                     }
                 }
 
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                // Convert bitmap to ParseFile then save in database
+                Bitmap bmp = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.JPEG, 10, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                //calculate how many bytes our image consists of.
+                //int bytes = bmp.getByteCount();
+                //or we can calculate bytes this way. Use a different value than 4 if you don't use 32bit images.
+                //int bytes = bmp.getWidth()*bmp.getHeight()*8;
+                //ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
+                //bmp.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
+
+                //byte[] byteArray = buffer.array(); //Get the underlying array containing the data.
+
+                if (byteArray != null) {
+                    ParseFile tempFile = new ParseFile(challengeID + ".jpg",byteArray);
+                    tempFile.saveInBackground();
+                    ParseObject evidence = new ParseObject("Evidence");
+                    evidence.put("attributed_challenge_id", challengeID);
+                    evidence.put("evidence", tempFile);
+                    evidence.saveInBackground();
+                }
+
+
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // User cancelled the image capture
+            } else {
+                // Image capture failed, advise user
             }
         }
     }
