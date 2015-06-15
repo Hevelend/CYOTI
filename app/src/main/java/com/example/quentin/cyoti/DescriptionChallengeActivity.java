@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,7 +23,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -35,8 +38,9 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
     private Bitmap proof;
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int SELECT_FILE_ACTIVITY_REQUEST_CODE = 200;
 
-    public DescriptionChallengeActivity () {
+    public DescriptionChallengeActivity() {
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,27 +75,45 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
 
         if (count < 1) {
             tvNoProof.setVisibility(View.VISIBLE);
-            bt_select_file.setVisibility(View.VISIBLE);
-            bt_select_file.setClickable(true);
-            bt_take_picture.setVisibility(View.VISIBLE);
-            bt_take_picture.setClickable(true);
 
-            bt_take_picture.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    bt_select_file.setVisibility(View.INVISIBLE);
-                    bt_select_file.setClickable(false);
-                    bt_take_picture.setVisibility(View.INVISIBLE);
-                    bt_take_picture.setClickable(false);
+            if (isCurrentUserChallenged) {
+                bt_select_file.setVisibility(View.VISIBLE);
+                bt_select_file.setClickable(true);
+                bt_take_picture.setVisibility(View.VISIBLE);
+                bt_take_picture.setClickable(true);
 
-                    // create Intent to take a picture and return control to the calling application
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    // start the image capture Intent
-                    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                }
-            });
-        }
-        else {
+                bt_select_file.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        bt_select_file.setVisibility(View.INVISIBLE);
+                        bt_select_file.setClickable(false);
+                        bt_take_picture.setVisibility(View.INVISIBLE);
+                        bt_take_picture.setClickable(false);
+                        // Open Gallery app
+                        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        startActivityForResult(i, SELECT_FILE_ACTIVITY_REQUEST_CODE);
+                    }
+                });
+
+                bt_take_picture.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        bt_select_file.setVisibility(View.INVISIBLE);
+                        bt_select_file.setClickable(false);
+                        bt_take_picture.setVisibility(View.INVISIBLE);
+                        bt_take_picture.setClickable(false);
+
+                        // create Intent to take a picture and return control to the calling application
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT,  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toURI());
+                        //intent.putExtra(MediaStore.EXTRA_OUTPUT,  Environment.getExternalStorageDirectory() + "/DCIM/Camera/" + challengeID + "_proof.jpg");
+                        // start the image capture Intent
+                        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                    }
+                });
+            }
+        } else {
             try {
                 tempEvidence = queryProof.getFirst();
             } catch (ParseException e) {
@@ -165,37 +187,47 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                // Convert bitmap to ParseFile then save in database
-                Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.JPEG, 10, stream);
-                byte[] byteArray = stream.toByteArray();
+        super.onActivityResult(requestCode, resultCode, data);
 
-                //calculate how many bytes our image consists of.
-                //int bytes = bmp.getByteCount();
-                //or we can calculate bytes this way. Use a different value than 4 if you don't use 32bit images.
-                //int bytes = bmp.getWidth()*bmp.getHeight()*8;
-                //ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
-                //bmp.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
+        Bitmap bmp = null;
+        byte[] byteArray;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-                //byte[] byteArray = buffer.array(); //Get the underlying array containing the data.
-
-                if (byteArray != null) {
-                    ParseFile tempFile = new ParseFile(challengeID + ".jpg",byteArray);
-                    tempFile.saveInBackground();
-                    ParseObject evidence = new ParseObject("Evidence");
-                    evidence.put("attributed_challenge_id", challengeID);
-                    evidence.put("evidence", tempFile);
-                    evidence.saveInBackground();
+        switch (requestCode) {
+            case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    bmp = (Bitmap) data.getExtras().get("data");
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    // User cancelled the image capture
+                } else {
+                    // Image capture failed, advise user
                 }
+                break;
 
+            case SELECT_FILE_ACTIVITY_REQUEST_CODE:
+                if (resultCode == RESULT_OK && null != data) {
+                    try {
+                        bmp = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(data.getData()));
+                    } catch (IOException e) {
+                        Log.d("getBitmap", "Error : " + e.toString());
+                    }
+                }
+                break;
 
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // User cancelled the image capture
-            } else {
-                // Image capture failed, advise user
+            default:
+                bmp = null;
+        }
+        // Convert bitmap to ParseFile then save in database
+        if (bmp != null) {
+            bmp.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            byteArray = stream.toByteArray();
+            if (byteArray != null) {
+                ParseFile tempFile = new ParseFile(challengeID + ".jpg", byteArray);
+                tempFile.saveInBackground();
+                ParseObject evidence = new ParseObject("Evidence");
+                evidence.put("attributed_challenge_id", challengeID);
+                evidence.put("evidence", tempFile);
+                evidence.saveInBackground();
             }
         }
     }
