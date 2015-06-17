@@ -57,6 +57,7 @@ public class UserProfileActivity extends ActionBarActivity {
     private boolean pushNotifications;
     private boolean mailingNotifications;
     private String imagePath = "";
+    private Bitmap imageBMP;
 
     private final static int ACTION_SAVE_CHANGES   = 1;
     private final static int ACTION_DELETE_PROFILE = 2;
@@ -181,23 +182,24 @@ public class UserProfileActivity extends ActionBarActivity {
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
             try {
-                Bitmap imageBMP = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                imageBMP = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
                 imageUser.setImageBitmap(imageBMP);
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                imageBMP.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-                byte[] imageBytes = stream.toByteArray();
-
-                ParseFile imageFile = new ParseFile(currentUser.getObjectId() + "_avatar.png", imageBytes);
-
-                currentUser.put("avatar", imageFile);
-                currentUser.save();
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                imageBMP.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//
+//                byte[] imageBytes = stream.toByteArray();
+//
+//                ParseFile imageFile = new ParseFile(currentUser.getObjectId() + "_avatar.png", imageBytes);
+//
+//                currentUser.put("avatar", imageFile);
+//                currentUser.save();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
+//            catch (ParseException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
@@ -219,6 +221,14 @@ public class UserProfileActivity extends ActionBarActivity {
 
                 if(!password.equals("")) currentUser.put("password", password);
 
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                imageBMP.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                byte[] imageBytes = stream.toByteArray();
+
+                ParseFile imageFile = new ParseFile(currentUser.getObjectId() + "_avatar.png", imageBytes);
+
+                currentUser.put("avatar", imageFile);
                 currentUser.put("newsletter", mailingNotifications);
                 currentUser.put("notification", pushNotifications);
 
