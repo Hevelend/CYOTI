@@ -184,22 +184,9 @@ public class UserProfileActivity extends ActionBarActivity {
             try {
                 imageBMP = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
                 imageUser.setImageBitmap(imageBMP);
-
-//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                imageBMP.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//
-//                byte[] imageBytes = stream.toByteArray();
-//
-//                ParseFile imageFile = new ParseFile(currentUser.getObjectId() + "_avatar.png", imageBytes);
-//
-//                currentUser.put("avatar", imageFile);
-//                currentUser.save();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            catch (ParseException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 

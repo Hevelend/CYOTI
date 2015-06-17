@@ -1,9 +1,13 @@
 package com.example.quentin.cyoti;
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +27,7 @@ import com.example.quentin.cyoti.adapters.FriendAdapter;
 import com.example.quentin.cyoti.metier.Friend;
 import com.example.quentin.cyoti.utilities.Mail;
 import com.example.quentin.cyoti.utilities.PushNotification;
+import com.parse.GetCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -41,12 +47,11 @@ public class ProposeChallengeFragment extends Fragment {
     private ArrayList<Friend> friends;
     private ArrayList<Friend> friendsSelected;
     private ListView listFriends;
+
     private ArrayAdapter<Friend> friendAdapter;
-    private ParseObject tempObject;
-    private String tempObjectID = "idTest";
-    private ParseUser currentUser;
     private String themeID;
 
+    private ParseUser currentUser;
     private ParseObject friendDB;
 
     public ProposeChallengeFragment() {
@@ -84,16 +89,9 @@ public class ProposeChallengeFragment extends Fragment {
             }
         });
 
-//        Bundle args = getArguments();
-//
-//        if (args != null) {
-//            Log.d("args", "ProposeChallengeFragment - args non null");
-//            this.friends = (ArrayList<String>) args.get("friends");
-//        }
-//
-//        if (friends.size() == 0) {
-//            Log.d("friendsNull", "liste friends vide");
-//        }
+        if (friends.size() == 0) {
+            Toast.makeText(getActivity().getApplicationContext(), "Retrivieving friends", Toast.LENGTH_SHORT).show();
+        }
 
         getFriends();
 
@@ -212,41 +210,31 @@ public class ProposeChallengeFragment extends Fragment {
         return rootView;
     }
 
-//    public void updateFriendsList(ArrayList<String> friends) {
-//        this.friends = friends;
-//        listFriends = (ListView)rootView.findViewById(R.id.lv_friends);
-//
-//        FriendAdapter friendAdapter = new FriendAdapter(rootView.getContext(),
-//                                                        R.layout.listitem_friend,
-//                                                        this.friends);
-//
-//        listFriends.setAdapter(friendAdapter);
-//    }
-
 
     public void getFriends() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+        ParseQuery<ParseObject> queryFriends = ParseQuery.getQuery("_User");
         friends.clear();
 
-        try {
-            tempObject = query.get(currentUser.getObjectId());
-        } catch (ParseException e) {
-            Log.d("queryFail", "Query has failed : " + e.toString());
-        }
+        queryFriends.getInBackground(currentUser.getObjectId(), new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject == null) {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                                    "Problem retrieving friends", Toast.LENGTH_SHORT).show();
 
-        if (tempObject != null) {
-            tempFriends = (ArrayList<String>) tempObject.get("friend_list");
+                    Log.d("rqFriends", "Problem retrieving friends");
+                }
 
-            if (tempFriends != null) {
-                for (int i = 0; i < tempFriends.size(); i++) {
-                    friends.add(new Friend(tempFriends.get(i)));
+                else {
+                    tempFriends = (ArrayList<String>) parseObject.get("friend_list");
+
+                    if (tempFriends != null) {
+                        for (int i = 0; i < tempFriends.size(); i++) {
+                            friends.add(new Friend(tempFriends.get(i)));
+                        }
+                    }
                 }
             }
-        }
+        });
     }
-
-    public void saveMyID(String myid) {
-        tempObjectID = myid;
-    }
-
 }
