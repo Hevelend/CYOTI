@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -41,6 +42,7 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
     private static final int SELECT_FILE_ACTIVITY_REQUEST_CODE = 200;
 
     public DescriptionChallengeActivity() {
+
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +138,7 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                     final ImageButton ib_unlike = (ImageButton) this.findViewById(R.id.ib_unlike);
                     final ImageButton ib_like = (ImageButton) this.findViewById(R.id.ib_like);
 
-                    ParseQuery<ParseObject> queryChall = ParseQuery.getQuery("Attributed_challenge");
+                    final ParseQuery<ParseObject> queryChall = ParseQuery.getQuery("Attributed_challenge");
                     queryChall.whereEqualTo("objectId", challengeID);
                     ParseObject tempChall = null;
                     try {
@@ -158,28 +160,66 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
 
 
                         ib_like.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                tempChallPos.saveInBackground();
-                                ib_like.setVisibility(View.INVISIBLE);
-                                ib_like.setClickable(false);
-                                ib_unlike.setVisibility(View.INVISIBLE);
-                                ib_unlike.setClickable(false);
-                            }
-                        });
+                           @Override
+                           public void onClick(View view) {
+                               tempChallPos.saveInBackground();
+                               ib_like.setVisibility(View.INVISIBLE);
+                               ib_like.setClickable(false);
+                               ib_unlike.setVisibility(View.INVISIBLE);
+                               ib_unlike.setClickable(false);
 
-                        ib_unlike.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                tempChallNeg.saveInBackground();
-                                ib_like.setVisibility(View.INVISIBLE);
-                                ib_like.setClickable(false);
-                                ib_unlike.setVisibility(View.INVISIBLE);
-                                ib_unlike.setClickable(false);
+                               //get objectId du challenge queryCahll.whereEqualTo un peu plus haut
+                               queryChall.getFirstInBackground(new GetCallback<ParseObject>() {
+                                   public void done(ParseObject object, ParseException e) {
+                                       if (e == null) {
+                                           object.put("success", true);
+                                           object.saveInBackground();
+                                           String user_id = object.getString("user_id");
+
+                                           ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+                                           query.getInBackground(user_id, new GetCallback<ParseObject>() {
+                                               public void done(ParseObject object, ParseException e) {
+                                                   if (e == null) {
+                                                       int XPuser = object.getInt("experience");
+                                                       int newXP = XPuser + 10;
+                                                       object.put("experience", newXP);
+                                                       Log.d("testXp", "Ancien XP" + XPuser + "Nouveau XP:" + newXP);
+                                                       object.saveInBackground();
+
+                                                   } else {
+                                                       Log.d("score", "Error: " + e.getMessage());
+                                                   }
+                                               }
+                                           });
+
+
+                                       } else {
+                                           Log.d("score", "Retrieved the object.");
+                                       }
+                                   }
+                               });
+
+                           }
+                       }
+
+                        );
+
+            ib_unlike.setOnClickListener(new View.OnClickListener()
+
+            {
+                @Override
+                public void onClick (View view){
+                tempChallNeg.saveInBackground();
+                ib_like.setVisibility(View.INVISIBLE);
+                ib_like.setClickable(false);
+                ib_unlike.setVisibility(View.INVISIBLE);
+                ib_unlike.setClickable(false);
+            }
+            }
+
+            );
+        }
                             }
-                        });
-                    }
-                }
 
             }
         }
