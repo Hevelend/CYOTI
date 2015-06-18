@@ -11,14 +11,14 @@
 
     <ImageView
         android:id="@+id/iv_user"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/circle"
         android:src="@drawable/ic_panda"
         android:layout_centerHorizontal="true"/>
 
     <LinearLayout
-        android:layout_width="400dp"
+        android:layout_width="500dp"
         android:layout_height="75dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
@@ -38,7 +38,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:text="Welcome"
-                android:textSize="15sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:layout_margin="10dp"
                 />
@@ -52,7 +52,7 @@
                 android:id="@+id/txtuser"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:textSize="15sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:layout_margin="10dp"
                 />
@@ -62,8 +62,8 @@
 
     <TextView
         android:id="@+id/txtLevel"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -77,14 +77,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout"
-        android:textSize="15sp"
+        android:textSize="30sp"
         android:layout_centerHorizontal="true" />
 
     <ListView
         android:id="@+id/lv_challenges"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@id/txtTitle"/>
 
 </RelativeLayout>

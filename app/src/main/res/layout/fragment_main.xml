@@ -6,40 +6,44 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/dark_beige"
+    android:background="@color/purple"
     tools:context=".MainActivityFragment">
-
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_trophy"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="170dp"
-        android:id="@+id/linearLayout_title"
-        android:layout_above="@+id/tv_signin"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:id="@+id/linearLayout_img"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_trophy"
+            android:id="@+id/imageView"
+            android:layout_marginBottom="2dp" />
+
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:id="@+id/linearLayout_title"
+        android:layout_below="@+id/linearLayout_img"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:id="@+id/tv_cyoty"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="50sp"
+            android:textSize="20sp"
             android:text="@string/tv_cioty"
             android:gravity="center"/>
         <TextView
             android:id="@+id/tv_challenge"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:textSize="30sp"
+            android:layout_height="35dp"
+            android:textSize="15sp"
             android:text="@string/tv_challenge"
             android:gravity="center" />
     </LinearLayout>
@@ -49,45 +53,24 @@
         android:id="@+id/tv_signin"
         android:layout_width="fill_parent"
         android:layout_height="30dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:gravity="center"
         android:text="@string/tv_signin"
-        android:layout_above="@+id/linearLayout_socialnetwork"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="OR"
-        android:textSize="30sp"
-        android:id="@+id/textView"
-        android:layout_marginBottom="66dp"
-        android:layout_above="@+id/linearLayout_connection"
+        android:layout_below="@+id/linearLayout_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <!-- Alignement des boutons des réseaux sociaux pour la connexion -->
     <LinearLayout
-        android:layout_width="225dp"
-        android:layout_height="75dp"
-        android:gravity="center_horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:orientation="horizontal"
         android:id="@+id/linearLayout_socialnetwork"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-
+        android:layout_below="@id/tv_signin">
         <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="75dp"
-            android:layout_weight="1">
-           <!-- <com.facebook.login.widget.LoginButton
-                xmlns:fb="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/fb"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_margin="10dp"
-                android:background="@drawable/ic_fb" />-->
+            android:layout_width="50dp"
+            android:layout_height="50dp">
             <ImageButton
                 android:id="@+id/fb"
                 android:layout_width="fill_parent"
@@ -97,9 +80,9 @@
                 />
         </RelativeLayout>
 
-        <RelativeLayout android:layout_width="fill_parent"
-            android:layout_height="75dp"
-            android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp">
             <ImageButton
                 android:id="@+id/twitter"
                 android:layout_width="fill_parent"
@@ -108,9 +91,9 @@
                 android:layout_margin="10dp"
                 />
         </RelativeLayout>
-        <RelativeLayout android:layout_width="fill_parent"
-            android:layout_height="75dp"
-            android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp">
             <ImageButton
                 android:id="@+id/google"
                 android:layout_width="fill_parent"
@@ -119,64 +102,82 @@
                 android:layout_margin="10dp"
                 />
         </RelativeLayout>
-
     </LinearLayout>
 
     <!-- fin alignement bouton réseaux sociaux -->
+    <TextView
+        android:id="@+id/tv_or"
+        android:layout_width="fill_parent"
+        android:layout_height="15dp"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="OR"
+        android:textSize="15sp"
+        android:layout_below="@+id/linearLayout_socialnetwork"/>
+
     <!-- Alignement des textview pour la connexion -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:id="@+id/linearLayout_connection"
-        android:layout_above="@+id/login"
+        android:layout_below="@id/tv_or"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="10dp">
         <TextView
             android:id="@+id/txtusername"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:text="Username"
+            android:textSize="15sp"
             android:gravity="center"/>
 
         <EditText
             android:id="@+id/username"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
+            android:textSize="15sp"
             android:inputType="text" />
-
         <TextView
             android:id="@+id/txtpassword"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
+            android:textSize="15sp"
             android:gravity="center"
             android:text="Password" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
+            android:textSize="15sp"
             android:inputType="textPassword" />
     </LinearLayout>
     <!-- fin de l'alignement des textview pour la connexion -->
-
-    <Button
-        android:id="@+id/login"
-        android:layout_width="250dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SIGN IN"
-        android:background="@color/turquoise"
-        android:layout_gravity="center_horizontal"
-        android:layout_above="@+id/signup"
-        android:layout_centerHorizontal="true"/>
+        android:orientation="horizontal"
+        android:layout_below="@id/linearLayout_connection"
+        android:gravity="center">
 
-    <Button
-        android:id="@+id/signup"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:background="@color/turquoise"
-        android:text="Create an account"
-        android:layout_margin="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="SIGN IN"
+            android:background="@color/turquoise"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/signup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/turquoise"
+            android:text="Create an account"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+
+
 </RelativeLayout>

@@ -12,8 +12,10 @@
 
     <ImageView
         android:id="@+id/imageFriend"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:layout_marginLeft="10px"
         android:src="@mipmap/ic_app" />
 
     <TextView
@@ -21,70 +23,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/tv_descriptionChallenge"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_alignTop="@+id/imageFriend"
-        android:layout_toRightOf="@+id/imageFriend"
-        android:layout_toEndOf="@+id/imageFriend" />
+        android:layout_toRightOf="@id/imageFriend"
+        android:layout_alignTop="@id/imageFriend"
+        android:layout_marginLeft="20px"
+        android:textSize="35dp"
+        android:textStyle="bold"/>
 
     <ProgressBar
         android:id="@+id/pb_vote"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="120dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         android:progressDrawable="@drawable/circular_progress_bar"
         android:useLevel="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/tv_descriptionChallenge"
-        android:layout_marginTop="25dp"
-        android:layout_alignRight="@+id/tv_descriptionChallenge"
-        android:layout_alignEnd="@+id/tv_descriptionChallenge"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="50dp"/>
 
 
     <ImageButton
         android:id="@+id/bt_unlike"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:layout_below="@id/pb_vote"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="150px"
+        android:layout_marginTop="50px"
         android:background="@mipmap/unlike" />
 
     <ImageButton
         android:id="@+id/bt_like"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignTop="@id/bt_unlike"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
+        android:layout_marginRight="150px"
         android:background="@mipmap/like" />
 
     <Button
         android:id="@+id/bt_validChallenge"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
         android:background="#999999"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/bt_like"
         android:layout_marginTop="100px"
         android:text="@string/bt_validChallenge"
         android:textColor="#ffffff"
-        android:textSize="15sp"
+        android:textSize="30dp"
         android:textStyle="bold"/>
 
     <Button
         android:id="@+id/bt_proposeChallenge"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
         android:background="@color/turquoise"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/bt_validChallenge"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20px"
         android:text="@string/bt_proposeChallenge"
         android:textColor="#ffffff"
-        android:textSize="15sp"
+        android:textSize="30dp"
         android:textStyle="bold" />
 
     <TextView

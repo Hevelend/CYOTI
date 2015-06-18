@@ -5,44 +5,43 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@color/dark_beige"
     tools:context="com.example.quentin.cyoti.UserProfileActivity">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="70dp"
-        android:layout_margin="3dp"
-        android:id="@+id/linearLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/imageUser"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/default_avatar"
-            app:border_width="2dp"
-            app:border_color="#ffffff"
-            android:layout_gravity="center_horizontal" />
 
-        <ImageButton
-            android:id="@+id/bt_editPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/imageUser"
-            android:layout_alignBottom="@id/imageUser"
-            android:background="@color/dark_beige"
-            android:src="@drawable/ic_edit"
-            android:visibility="invisible"/>
-    </LinearLayout>
+    <!--<ImageView-->
+        <!--android:id="@+id/imageUser"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:clickable="true"-->
+        <!--android:contentDescription="your_image"/>-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imageUser"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/default_avatar"
+        app:border_width="2dp"
+        app:border_color="#ffffff"/>
+
+    <ImageButton
+        android:id="@+id/bt_editPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imageUser"
+        android:layout_alignBottom="@id/imageUser"
+        android:background="@color/dark_beige"
+        android:src="@drawable/ic_edit"
+        android:visibility="invisible"/>
 
 
     <RelativeLayout
         android:id="@+id/userAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="130dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/linearLayout1"
-        android:layout_marginTop="2dp"
+        android:layout_below="@id/imageUser"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/layout_rectangle">
@@ -50,8 +49,7 @@
         <TextView
             android:id="@+id/tv_userAccount"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:text="@string/tv_userAccount"
             android:background="@drawable/user_account_rectangle"
             style="@style/SectionUserProfile" />
@@ -59,8 +57,7 @@
         <TextView
             android:id="@+id/tv_userName"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_userAccount"
             android:layout_alignLeft="@id/tv_userAccount"
             style="@style/DetailUserProfile"
@@ -69,8 +66,7 @@
         <EditText
             android:id="@+id/et_userName"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_userName"
             android:layout_alignTop="@id/tv_userName"
             android:layout_marginLeft="80dp"
@@ -79,8 +75,7 @@
         <TextView
             android:id="@+id/tv_userEmail"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_userName"
             android:layout_alignLeft="@id/tv_userAccount"
             style="@style/DetailUserProfile"
@@ -89,8 +84,7 @@
         <EditText
             android:id="@+id/et_userEmail"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_userEmail"
             android:layout_alignTop="@id/tv_userEmail"
             android:layout_alignLeft="@id/et_userName"
@@ -99,8 +93,7 @@
         <TextView
             android:id="@+id/tv_userPwd"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_userEmail"
             android:layout_alignLeft="@id/tv_userAccount"
             style="@style/DetailUserProfile"
@@ -109,8 +102,7 @@
         <EditText
             android:id="@+id/et_userPwd"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:layout_alignTop="@+id/tv_userPwd"
@@ -123,10 +115,10 @@
     <RelativeLayout
         android:id="@+id/userPreferences"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/userAccount"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/layout_rectangle" >
@@ -134,8 +126,7 @@
         <TextView
             android:id="@+id/tv_userPreferences"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:text="@string/tv_userPreferences"
             android:background="@drawable/user_preferences_rectangle"
             style="@style/SectionUserProfile" />
@@ -143,8 +134,7 @@
         <TextView
             android:id="@+id/tv_notification"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_userPreferences"
             style="@style/DetailUserProfile"
             android:text="@string/tv_notifications" />
@@ -152,7 +142,7 @@
         <Switch
             android:id="@+id/sw_notification"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_notification"
             android:layout_alignTop="@id/tv_notification"
             android:layout_marginLeft="60dp" />
@@ -160,8 +150,7 @@
         <TextView
             android:id="@+id/tv_mailNotification"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_notification"
             style="@style/DetailUserProfile"
             android:text="@string/tv_mailNotification" />
@@ -169,7 +158,7 @@
         <Switch
             android:id="@+id/sw_mailNotification"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_mailNotification"
             android:layout_alignTop="@id/tv_mailNotification"
             android:layout_alignLeft="@id/sw_notification" />
@@ -180,11 +169,13 @@
     <ImageButton
         android:id="@+id/bt_deleteProfile"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/userPreferences"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/ic_delete"
         android:background="@color/dark_beige" />
+
+
 
 </RelativeLayout>

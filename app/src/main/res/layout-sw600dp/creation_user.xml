@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:text="Username" />
 
     <EditText
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/username"
         android:gravity="center"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:text="mail" />
 
     <EditText
@@ -41,7 +41,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:layout_below="@+id/mail"
         android:text="Password" />
 
@@ -57,7 +57,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:layout_below="@id/password"
         android:text="Repeat password" />
 
@@ -75,7 +75,7 @@
         android:layout_below="@id/passwordRepeat"
         android:layout_centerHorizontal="true"
         android:background="@color/turquoise"
-        android:layout_margin="15dp"
+        android:layout_margin="20dp"
         android:text="SIGN UP" />
 
 </RelativeLayout>

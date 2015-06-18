@@ -29,13 +29,13 @@
         <Button
             android:id="@+id/bt_removeFriend"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
             android:padding="5dp"
             android:text="@string/bt_remove_text"
             android:layout_gravity="center_horizontal"
             android:background="@color/red"
-            android:textSize="15sp"
+            android:textSize="30sp"
             android:textColor="#ffffff"
             android:textAllCaps="false"/>
 
@@ -43,10 +43,10 @@
             android:id="@+id/tv_addFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:layout_gravity="center_horizontal"
             android:text="@string/tv_addFriend"
-            android:textSize="15sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -60,14 +60,13 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/actv_addFriend"
-                android:textSize="15sp"
                 android:hint="@string/actv_addFriend"/>
 
             <ImageButton
                 android:contentDescription="@string/ib_addFriend_description"
                 android:id="@+id/ib_addFriend"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/ic_tick"/>
 
         </LinearLayout>

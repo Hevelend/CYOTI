@@ -1,0 +1,35 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/dark_beige" >
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" >
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_pending_challenges"
+            android:clickable="true" />
+
+    </LinearLayout>
+
+    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_alignBottom="@id/pager" android:background="@color/bar_blue" android:layout_height="@dimen/abc_action_bar_default_height_material" android:layout_width="match_parent">
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_profile" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_marginRight="10dp" android:padding="6dp" android:scaleType="fitCenter" android:layout_width="wrap_content" android:src="@mipmap/ic_settings"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_friends" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_toRightOf="@id/action_profile" android:layout_width="wrap_content" android:layout_marginRight="10dp" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_friends"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_diploma" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_toRightOf="@id/action_friends" android:layout_width="wrap_content" android:layout_marginRight="10dp" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_diploma"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_news" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_toRightOf="@id/action_diploma" android:layout_width="wrap_content" android:layout_marginRight="10dp" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_news"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_refresh" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="10dp" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_refresh"></ImageButton>
+        <ImageButton android:background="@color/bar_blue" android:id="@+id/action_cup" android:layout_alignParentTop="true" android:layout_toLeftOf="@id/action_refresh" android:layout_height="wrap_content" android:layout_width="wrap_content" android:padding="6dp" android:scaleType="fitCenter" android:src="@mipmap/ic_cup"></ImageButton>
+    </RelativeLayout>
+
+</LinearLayout>

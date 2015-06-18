@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp" >
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp" >
 
 
 
     <RelativeLayout
         android:id="@+id/layoutCorps"
-        android:layout_width="400dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/listborder"
         android:layout_marginTop="40dp" >
 
@@ -29,10 +27,10 @@
                 android:id="@+id/tv_date"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="New Text"
+                android:text=""
                 android:layout_marginLeft="100dp"
                 android:padding="5dp"
-                android:textSize="15sp"/>
+                android:textSize="20sp"/>
 
         </RelativeLayout>
 
@@ -51,27 +49,29 @@
                 android:layout_toEndOf="@id/imageFriend"
                 android:layout_toRightOf="@+id/imageFriend"
                 android:padding="5dp"
-                android:textSize="15sp"/>
+                android:textSize="20sp"/>
 
         </LinearLayout>
 
     </RelativeLayout>
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:id="@+id/imageFriend"-->
+        <!--android:layout_width="70dp"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:src="@mipmap/ic_app"-->
+        <!--android:layout_marginTop="5dp" />-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageFriend"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginLeft="30dp"
-        android:src="@mipmap/ic_app"
-        android:layout_marginTop="5dp" />
-
-    <ImageView
-        android:id="@+id/imageResult"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="-40dp"
-        android:src="@mipmap/ic_fail"
-        android:layout_below="@id/layoutCorps" />
+        android:layout_marginTop="5dp"
+        android:src="@drawable/default_avatar"
+        app:border_width="2dp"
+        app:border_color="#ffffff"/>
 
 </RelativeLayout>

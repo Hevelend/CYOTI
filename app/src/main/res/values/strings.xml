@@ -63,7 +63,7 @@
     <string name="tv_userPreferences">Preferences</string>
     <string name="tv_notifications">Notifications</string>
     <string name="tv_mailNotification">Mailing</string>
-    <string name="tv_saveChanges">Would you want to save your changes ?</string>
+    <string name="tv_saveChanges">Do you want to save your changes ?</string>
     <string name="tv_deleteProfile">Would you delete your profile ?</string>
 
     <string-array name="challenge_themes">
