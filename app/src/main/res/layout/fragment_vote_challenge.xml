@@ -63,9 +63,9 @@
 
     <Button
         android:id="@+id/bt_validChallenge"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:background="#999999"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bar_blue"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/bt_like"
         android:layout_marginTop="100px"
@@ -76,9 +76,9 @@
 
     <Button
         android:id="@+id/bt_proposeChallenge"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:background="@color/turquoise"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bluemerica3"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/bt_validChallenge"
         android:layout_marginTop="10dp"

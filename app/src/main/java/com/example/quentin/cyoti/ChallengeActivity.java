@@ -55,7 +55,7 @@ public class ChallengeActivity extends AppCompatActivity
 
         addListenerOnBottomBar();
 
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
+        //FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
 
         View target = findViewById(R.id.action_cup);
         badge = new BadgeView(this, target);

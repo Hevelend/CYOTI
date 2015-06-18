@@ -6,8 +6,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/purple"
+    android:background="@color/dark_beige"
     tools:context=".MainActivityFragment">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -24,6 +25,7 @@
             android:layout_marginBottom="2dp" />
 
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -36,14 +38,15 @@
             android:id="@+id/tv_cyoty"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:text="@string/tv_cioty"
+            android:textStyle="bold"
             android:gravity="center"/>
         <TextView
             android:id="@+id/tv_challenge"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="@string/tv_challenge"
             android:gravity="center" />
     </LinearLayout>
@@ -52,8 +55,9 @@
     <TextView
         android:id="@+id/tv_signin"
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:textSize="15sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp"
         android:gravity="center"
         android:text="@string/tv_signin"
         android:layout_below="@+id/linearLayout_title"
@@ -63,9 +67,10 @@
     <!-- Alignement des boutons des réseaux sociaux pour la connexion -->
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:id="@+id/linearLayout_socialnetwork"
         android:layout_below="@id/tv_signin">
         <RelativeLayout
@@ -108,18 +113,18 @@
     <TextView
         android:id="@+id/tv_or"
         android:layout_width="fill_parent"
-        android:layout_height="15dp"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="center"
         android:text="OR"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:layout_below="@+id/linearLayout_socialnetwork"/>
 
     <!-- Alignement des textview pour la connexion -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:id="@+id/linearLayout_connection"
         android:layout_below="@id/tv_or"
         android:layout_alignParentLeft="true"
@@ -136,7 +141,7 @@
         <EditText
             android:id="@+id/username"
             android:layout_width="fill_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:textSize="15sp"
             android:inputType="text" />
         <TextView
@@ -148,24 +153,26 @@
             android:text="Password" />
 
         <EditText
-            android:id="@+id/password"
             android:layout_width="fill_parent"
-            android:layout_height="25dp"
-            android:textSize="15sp"
-            android:inputType="textPassword" />
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:id="@+id/password" />
+
+
     </LinearLayout>
     <!-- fin de l'alignement des textview pour la connexion -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/linearLayout_connection"
         android:gravity="center">
 
         <Button
             android:id="@+id/login"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="SIGN IN"
             android:background="@color/turquoise"
             android:layout_margin="5dp"/>
@@ -173,7 +180,7 @@
         <Button
             android:id="@+id/signup"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/turquoise"
             android:text="Create an account"
             android:layout_margin="5dp"/>
