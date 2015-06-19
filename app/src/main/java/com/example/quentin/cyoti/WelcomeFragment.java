@@ -91,8 +91,9 @@ public class WelcomeFragment extends Fragment {
         String txtUserID = currentUser.getObjectId().toString();
 
         // récupération des points d'xp du user
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        query.getInBackground(txtUserID, new GetCallback<ParseObject>() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Experience");
+        query.whereEqualTo("user_id", txtUserID);
+        query.getFirstInBackground( new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     XPuser = object.getInt("experience");

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -160,47 +161,58 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
 
 
                         ib_like.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View view) {
-                               tempChallPos.saveInBackground();
-                               ib_like.setVisibility(View.INVISIBLE);
-                               ib_like.setClickable(false);
-                               ib_unlike.setVisibility(View.INVISIBLE);
-                               ib_unlike.setClickable(false);
+                               @Override
+                               public void onClick(View view) {
+                                   tempChallPos.saveInBackground();
+                                   ib_like.setVisibility(View.INVISIBLE);
+                                   ib_like.setClickable(false);
+                                   ib_unlike.setVisibility(View.INVISIBLE);
+                                   ib_unlike.setClickable(false);
 
-                               //get objectId du challenge queryCahll.whereEqualTo un peu plus haut
-                               queryChall.getFirstInBackground(new GetCallback<ParseObject>() {
-                                   public void done(ParseObject object, ParseException e) {
-                                       if (e == null) {
-                                           object.put("success", true);
-                                           object.saveInBackground();
-                                           String user_id = object.getString("user_id");
+                                   //get objectId du challenge queryCahll.whereEqualTo un peu plus haut
+                                   queryChall.getFirstInBackground(new GetCallback<ParseObject>() {
+                                       public void done(ParseObject object, ParseException e) {
+                                           if (e == null) {
+                                               object.put("success", true);
+                                               object.saveInBackground();
+                                               String user_id = object.getString("user_id");
 
-                                           ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-                                           query.getInBackground(user_id, new GetCallback<ParseObject>() {
-                                               public void done(ParseObject object, ParseException e) {
-                                                   if (e == null) {
-                                                       int XPuser = object.getInt("experience");
-                                                       int newXP = XPuser + 10;
-                                                       object.put("experience", newXP);
-                                                       Log.d("testXp", "Ancien XP" + XPuser + "Nouveau XP:" + newXP);
-                                                       object.saveInBackground();
+                                               ParseQuery<ParseObject> query = ParseQuery.getQuery("Experience");
+                                               query.whereEqualTo("user_id", user_id);
+                                               query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                   public void done(ParseObject object, ParseException e) {
+                                                       if (e == null) {
+                                                           try {
+                                                               int XPuser = object.getInt("experience");
+                                                               int newXP = XPuser + 10;
+                                                               Log.d("testXp", "Ancien XP" + XPuser + "Nouveau XP:" + newXP);
+                                                               object.put("experience", newXP);
+                                                               object.save();
+                                                           } catch (ParseException error) {
+                                                               error.printStackTrace();
 
-                                                   } else {
-                                                       Log.d("score", "Error: " + e.getMessage());
+                                                               Toast.makeText(getApplicationContext(),
+                                                                       "Error ! Please try again later.",
+                                                                       Toast.LENGTH_SHORT).show();
+
+                                                               Log.d("majU", "Mise à jour du user échouée");
+                                                           }
+
+                                                       } else {
+                                                           Log.d("score", "Error: " + e.getMessage());
+                                                       }
                                                    }
-                                               }
-                                           });
+                                               });
 
 
-                                       } else {
-                                           Log.d("score", "Retrieved the object.");
+                                           } else {
+                                               Log.d("score", "Retrieved the object.");
+                                           }
                                        }
-                                   }
-                               });
+                                   });
 
+                               }
                            }
-                       }
 
                         );
 
