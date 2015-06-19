@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -36,7 +38,6 @@ public class CreationUserFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.creation_user, container, false);
-
     // Locate EditTexts in main.xml
             username = (EditText) rootView.findViewById(R.id.username);
             password = (EditText) rootView.findViewById(R.id.password);
@@ -75,7 +76,6 @@ public class CreationUserFragment extends Fragment {
                     user.put("mail_checking", false);
                     user.put("newsletter", true);
                     user.put("level", 0);
-                    user.put("experience", 0);
                     user.put("facebook_account", false);
                     user.put("twitter_account", false);
                     user.put("newsletter", true);
@@ -87,6 +87,14 @@ public class CreationUserFragment extends Fragment {
                                 Toast.makeText(getActivity().getApplicationContext(),
                                         "Successfully Signed up",
                                         Toast.LENGTH_LONG).show();
+
+                                ParseUser currentUser = ParseUser.getCurrentUser();
+                                String txtUserID = currentUser.getObjectId().toString();
+                                ParseObject object = new ParseObject("Experience");
+                                object.put("user_id",txtUserID);
+                                object.put("experience",0);
+                                object.saveInBackground();
+
                                 Intent intent = new Intent(rootView.getContext(), ChallengeActivity.class);
                                 startActivity(intent);
                             } else {
@@ -96,6 +104,7 @@ public class CreationUserFragment extends Fragment {
                             }
                         }
                     });
+
                 }
 
             }
