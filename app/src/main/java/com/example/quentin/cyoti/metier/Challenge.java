@@ -16,10 +16,13 @@ public class Challenge {
     private Date finishedDate;
     private Friend friendChallenged;
     private Friend friendChallenger;
+    private Success successState;
 
     private String username;
     private boolean isCurrentUserChallenged;
     private boolean isCurrentUserChallenger;
+
+    public enum Success {UNDEFINED, YES, NO}
 
     public Challenge() {
 //        this.description = "Sing in public";
@@ -29,7 +32,7 @@ public class Challenge {
 //        this.friendChallenger = new Friend("Jane", "Doe", "JD");
     }
 
-    public Challenge(String id, String description, Date creation, Date finish, Friend challenged, Friend challenger, ParseUser user) {
+    public Challenge(String id, String description, Date creation, Date finish, Friend challenged, Friend challenger, ParseUser user, String success) {
         this.challengeID = id;
         this.description = description;
         this.createdDate = creation;
@@ -39,6 +42,11 @@ public class Challenge {
         this.username = user.getUsername();
         this.isCurrentUserChallenged = friendChallenged != null && (friendChallenged.getFirstName().equals(username));
         this.isCurrentUserChallenger = friendChallenger != null && (friendChallenger.getFirstName().equals(username));
+        if (finish != null && success != null) {
+            this.successState = Boolean.parseBoolean(success) ? Success.YES : Success.NO;
+        } else {
+            this.successState = Success.UNDEFINED;
+        }
     }
 
     public String getChallengeID() {
@@ -97,5 +105,9 @@ public class Challenge {
 
     public boolean isCurrentUserChallenger() {
         return isCurrentUserChallenger;
+    }
+
+    public Success getSuccessState() {
+        return successState;
     }
 }

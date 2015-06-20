@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -63,6 +64,19 @@ public class ChallengeAdapter extends ArrayAdapter<Challenge> {
         if (c.isCurrentUserChallenger()) {
             rl_head.setBackgroundColor(context.getResources().getColor(R.color.bluemerica3));
         }
+
+        LinearLayout ll_corps = (LinearLayout) v.findViewById(R.id.corps);
+        switch (c.getSuccessState()) {
+            case UNDEFINED:
+                break;
+            case YES:
+                ll_corps.setBackgroundColor(context.getResources().getColor(R.color.green));
+                break;
+            case NO:
+                ll_corps.setBackgroundColor(context.getResources().getColor(R.color.red));
+                break;
+        }
+
 
         ImageView imageFriend = (ImageView) v.findViewById(R.id.imageFriend);
         imageFriend.setImageBitmap(c.getUserChallenger().getImgBmp());
