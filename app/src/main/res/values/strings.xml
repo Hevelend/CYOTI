@@ -38,6 +38,7 @@
     <string name="dialog_title">Choose a friend</string>
     <string name="yes_propose">Your proposition to your friend has been sent</string>
     <string name="no_propose">Your proposition hasn\'t been sent</string>
+    <string name="pb_propose">Problem sending proposition. Please try later</string>
 
     <!-- FriendsFragment -->
     <string name="tv_addFriend">Add a friend ?</string>

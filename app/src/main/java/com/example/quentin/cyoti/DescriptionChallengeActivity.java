@@ -24,8 +24,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quentin.cyoti.utilities.Mail;
+import com.example.quentin.cyoti.utilities.PushNotification;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -47,6 +50,7 @@ import java.util.List;
 public class DescriptionChallengeActivity extends AppCompatActivity {
     private String description;
     private String challengeID;
+    private String friendSelected;
     private boolean isCurrentUserChallenged;
     private boolean isCurrentUserChallenger;
     private Double percentVote = 0.0;
@@ -352,16 +356,15 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                 //setting a title for the dialog
                 alertDialog.setTitle(R.string.dialog_title);
 
+
                 final ListView lv = (ListView) convertView.findViewById(R.id.listView1);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, (ArrayList<String>)currentUser.get("friend_list"));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position,
                                             long id) {
-
-                        String friend;
-                        friend = (String) lv.getItemAtPosition(position);
-                        Log.e("TAG", friend.toString());
+                        friendSelected = (String) lv.getItemAtPosition(position);
+                        Log.e("TAG", friendSelected.toString());
                     }
                 });
                 lv.setAdapter(adapter);
@@ -376,7 +379,15 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                         {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Write your code here to execute after dialog
-                                Toast.makeText(rootView.getContext().getApplicationContext(), R.string.yes_propose, Toast.LENGTH_SHORT).show();
+                                if (proposeChallengeToFriendSelected(friendSelected)) {
+                                    Toast.makeText(rootView.getContext().getApplicationContext(),
+                                            R.string.yes_propose, Toast.LENGTH_SHORT).show();
+                                }
+
+                                else {
+                                    Toast.makeText(rootView.getContext().getApplicationContext(),
+                                            R.string.pb_propose, Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 
@@ -495,6 +506,52 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
         getPercentageVote();
         vote.setProgress(percentVote.intValue());
         tvPercent.setText(String.format("%.1f", percentVote) + "%");
+    }
+
+    public boolean proposeChallengeToFriendSelected(String friend) {
+        ParseACL accl = new ParseACL();
+        accl.setPublicWriteAccess(true);
+        accl.setPublicReadAccess(true);
+
+        ParseObject myattributed = new ParseObject("Attributed_challenge");
+
+        ParseQuery<ParseObject> queryAttributed = ParseQuery.getQuery("Attributed_challenge");
+        queryAttributed.whereEqualTo("objectId", challengeID);
+
+        ParseQuery<ParseObject> queryFriend = ParseQuery.getQuery("_User");
+        queryFriend.whereEqualTo("username", friend);
+
+        ParseObject parseFriend;
+        ParseObject parseAttributed;
+
+        try {
+            parseFriend = queryFriend.getFirst();
+            parseAttributed = queryAttributed.getFirst();
+
+            myattributed.put("user_id", parseFriend.getObjectId());
+            myattributed.put("challenge_id", parseAttributed.get("challenge_id"));
+            myattributed.put("user_id_applicant", currentUser.getObjectId());
+            myattributed.put("sending_date", new Date());
+            myattributed.setACL(accl);
+
+            myattributed.save();
+
+            if (PushNotification.isNotificationsAllowed(parseFriend)) {
+                PushNotification.sendNotification(currentUser, parseFriend,
+                        PushNotification.NEW_CHALLENGE_NOTIFICATION);
+            }
+
+            Mail m = new Mail();
+
+            if (m.isMailingAllowed(parseFriend)) {
+                m.sendNewChallengeAsyncMail(m, currentUser, parseFriend, description);
+            }
+
+            return true;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

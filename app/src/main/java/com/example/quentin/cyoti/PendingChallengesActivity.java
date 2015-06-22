@@ -57,7 +57,7 @@ public class PendingChallengesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pending_challenges);
 
         addListenerOnBottomBar();
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
+        //FontsOverride.setDefaultFont(this, "MONOSPACE", "MAW.ttf");
 
         getPendingChallenge();
 
