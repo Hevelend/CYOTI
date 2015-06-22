@@ -157,7 +157,7 @@
             <Button
                 android:id="@+id/bt_proposeChallenge"
                 android:layout_width="350dp"
-                android:layout_height="50dp"
+                android:layout_height="80dp"
                 android:background="@color/turquoise"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/bt_like"
@@ -165,7 +165,8 @@
                 android:text="@string/bt_proposeChallenge"
                 android:textColor="#ffffff"
                 android:textSize="30sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_alignParentBottom="true" />
 
             <TextView
                 android:layout_width="wrap_content"
