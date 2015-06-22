@@ -50,7 +50,7 @@ public class WelcomeFragment extends Fragment {
 
     public WelcomeFragment(){
         currentUser = ParseUser.getCurrentUser();
-        friends = new ArrayList<String>();
+        friends = (ArrayList<String>) currentUser.get("friend_list");
         challenges = new ArrayList<Challenge>();
         friendsDic = new Hashtable<String, Friend>();
         datesChallenge = new ArrayList<String>();
@@ -148,8 +148,7 @@ public class WelcomeFragment extends Fragment {
         //reset of challenges list
         challenges.clear();
 
-        // Get actual friends of user and friends' infos
-        getFriends();
+        // Get actual friends infos of user
         // Create a Friend object for each friend and put it in the dictionary
         for (int i=0; i<friends.size(); i++) {
             ParseQuery<ParseObject> queryFriend = ParseQuery.getQuery("_User");
@@ -355,29 +354,5 @@ public class WelcomeFragment extends Fragment {
 
 
         return rootView;
-    }
-
-    public void getFriends() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-
-        ParseObject tempObject = null;
-        ArrayList<String> tempFriends;
-
-        try {
-            tempObject = query.get(currentUser.getObjectId());
-        } catch (ParseException e) {
-            Log.d("queryFail", "Query has failed : " + e.toString());
-        }
-
-        if (tempObject != null) {
-            tempFriends = (ArrayList<String>) tempObject.get("friend_list");
-
-
-            if (tempFriends != null) {
-                for (int i = 0; i < tempFriends.size(); i++) {
-                    friends.add(tempFriends.get(i));
-                }
-            }
-        }
     }
 }

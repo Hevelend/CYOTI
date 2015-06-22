@@ -23,15 +23,14 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
         switch(frag) {
             case 0:
                 return new WelcomeFragment();
+
             case 1:
                 return new UserFragment();
+
             case 2:
                 return new ProposeChallengeFragment();
 
             case 3:
-                return new VoteChallengeFragment();
-
-            case 4:
                 return new FriendsFragment();
 
             default:
@@ -41,6 +40,6 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 4;
     }
 }
