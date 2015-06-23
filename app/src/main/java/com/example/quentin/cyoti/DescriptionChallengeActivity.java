@@ -299,13 +299,13 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
         }
 
         // Vote for the challenge
-        vote = (ProgressBar) rootView.findViewById(R.id.pb_vote);
-        tvPercent = (TextView) rootView.findViewById(R.id.tv_percent);
-        ImageButton btLike = (ImageButton) rootView.findViewById(R.id.bt_like);
-        ImageButton btUnlike = (ImageButton) rootView.findViewById(R.id.bt_unlike);
+        vote = (ProgressBar) this.findViewById(R.id.pb_vote);
+        tvPercent = (TextView) this.findViewById(R.id.tv_percent);
+        ImageButton btLike = (ImageButton) this.findViewById(R.id.bt_like);
+        ImageButton btUnlike = (ImageButton) this.findViewById(R.id.bt_unlike);
         if (!isCurrentUserChallenged) {
             getPercentageVote();
-            vote = (ProgressBar) rootView.findViewById(R.id.pb_vote);
+            vote = (ProgressBar) this.findViewById(R.id.pb_vote);
             vote.setRotation(90f);
             if (percentVote.isNaN()) {
                 vote.setProgress(100);
@@ -382,7 +382,7 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
         }
 
         // Propose challenge to other friends
-        Button btnPropose = (Button) rootView.findViewById(R.id.bt_proposeChallenge);
+        Button btnPropose = (Button) this.findViewById(R.id.bt_proposeChallenge);
         btnPropose.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
@@ -397,7 +397,7 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
 
 
                 final ListView lv = (ListView) convertView.findViewById(R.id.listView1);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, (ArrayList<String>)currentUser.get("friend_list"));
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, (ArrayList<String>)currentUser.get("friend_list"));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position,
