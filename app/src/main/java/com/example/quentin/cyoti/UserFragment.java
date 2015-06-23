@@ -97,35 +97,37 @@ public class UserFragment extends Fragment {
 
         // Get actual friends infos of user
         // Create a Friend object for each friend and put it in the dictionary
-        for (int i = 0; i < friends.size(); i++) {
-            ParseQuery<ParseObject> queryFriend = ParseQuery.getQuery("_User");
-            queryFriend.whereEqualTo("username", friends.get(i));
-            ParseObject friend = null;
-            try {
-                friend = queryFriend.getFirst();
-                ParseFile imageFile2 = friend.getParseFile("avatar");
-                Bitmap avatar = null;
-                byte[] data2 = null;
-                if (imageFile2 != null) {
-                    try {
-                        data2 = imageFile2.getData();
-                    } catch (ParseException e) {
-                        Log.d("avatar", "Error: " + e.getMessage());
+        if (friends != null) {
+            for (int i = 0; i < friends.size(); i++) {
+                ParseQuery<ParseObject> queryFriend = ParseQuery.getQuery("_User");
+                queryFriend.whereEqualTo("username", friends.get(i));
+                ParseObject friend = null;
+                try {
+                    friend = queryFriend.getFirst();
+                    ParseFile imageFile2 = friend.getParseFile("avatar");
+                    Bitmap avatar = null;
+                    byte[] data2 = null;
+                    if (imageFile2 != null) {
+                        try {
+                            data2 = imageFile2.getData();
+                        } catch (ParseException e) {
+                            Log.d("avatar", "Error: " + e.getMessage());
+                        }
+                        if (data2 != null) {
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            avatar = BitmapFactory.decodeByteArray(data2, 0, data2.length, options);
+                        }
                     }
-                    if (data2 != null) {
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        avatar = BitmapFactory.decodeByteArray(data2, 0, data2.length, options);
-                    }
+
+                    Friend tempObjectFriend = new Friend(rootView.getContext(), friend.getString("username"), friend.getObjectId(), avatar);
+                    friendsDic.put(friend.getObjectId(), tempObjectFriend);
+                } catch (ParseException e) {
+                    Log.d("getFriendID", e.getMessage());
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Problem getting friends informations. Please try later.", Toast.LENGTH_SHORT).show();
                 }
 
-                Friend tempObjectFriend = new Friend(rootView.getContext(), friend.getString("username"), friend.getObjectId(), avatar);
-                friendsDic.put(friend.getObjectId(), tempObjectFriend);
-            } catch (ParseException e) {
-                Log.d("getFriendID", e.getMessage());
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Problem getting friends informations. Please try later.", Toast.LENGTH_SHORT).show();
             }
-
         }
 
         // Get challenges
