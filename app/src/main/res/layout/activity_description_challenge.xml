@@ -119,6 +119,64 @@
 
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/pb_vote"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:useLevel="true"
+                android:layout_below="@+id/ll_buttons_like"
+                android:layout_marginTop="25dp"
+                android:layout_alignRight="@+id/ll_buttons_like"
+                android:layout_alignEnd="@+id/ll_buttons_like"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+
+            <ImageButton
+                android:id="@+id/bt_unlike"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/pb_vote"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@mipmap/unlike" />
+
+            <ImageButton
+                android:id="@+id/bt_like"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignTop="@id/bt_unlike"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
+                android:background="@mipmap/like" />
+
+            <Button
+                android:id="@+id/bt_proposeChallenge"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@color/bluemerica3"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/bt_like"
+                android:layout_marginTop="10dp"
+                android:text="@string/bt_proposeChallenge"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="50dp"
+                android:textStyle="bold"
+                android:textColor="#ff009900"
+                android:id="@+id/tv_percent"
+                android:layout_centerHorizontal="true"
+                android:layout_alignTop="@id/pb_vote"
+                android:layout_marginTop="120dp"/>
+
         </RelativeLayout>
     </ScrollView>
 

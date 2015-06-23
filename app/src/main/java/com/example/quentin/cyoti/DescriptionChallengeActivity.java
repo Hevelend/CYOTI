@@ -186,53 +186,72 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                         ib_like.setOnClickListener(new View.OnClickListener() {
                                                        @Override
                                                        public void onClick(View view) {
-                                                           tempChallPos.saveInBackground();
-                                                           ib_like.setVisibility(View.INVISIBLE);
-                                                           ib_like.setClickable(false);
-                                                           ib_unlike.setVisibility(View.INVISIBLE);
-                                                           ib_unlike.setClickable(false);
+                                                           DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                                               @Override
+                                                               public void onClick(DialogInterface dialog, int which) {
+                                                                   switch (which){
+                                                                       case DialogInterface.BUTTON_POSITIVE:
+                                                                           tempChallPos.saveInBackground();
+                                                                           ib_like.setVisibility(View.INVISIBLE);
+                                                                           ib_like.setClickable(false);
+                                                                           ib_unlike.setVisibility(View.INVISIBLE);
+                                                                           ib_unlike.setClickable(false);
 
-                                                           //get objectId du challenge queryCahll.whereEqualTo un peu plus haut
-                                                           queryChall.getFirstInBackground(new GetCallback<ParseObject>() {
-                                                               public void done(ParseObject object, ParseException e) {
-                                                                   if (e == null) {
-                                                                       object.put("success", true);
-                                                                       object.saveInBackground();
-                                                                       String user_id = object.getString("user_id");
+                                                                           //get objectId du challenge queryCahll.whereEqualTo un peu plus haut
+                                                                           queryChall.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                                               public void done(ParseObject object, ParseException e) {
+                                                                                   if (e == null) {
+                                                                                       object.put("success", true);
+                                                                                       object.saveInBackground();
+                                                                                       String user_id = object.getString("user_id");
 
-                                                                       ParseQuery<ParseObject> query = ParseQuery.getQuery("Experience");
-                                                                       query.whereEqualTo("user_id", user_id);
-                                                                       query.getFirstInBackground(new GetCallback<ParseObject>() {
-                                                                           public void done(ParseObject object, ParseException e) {
-                                                                               if (e == null) {
-                                                                                   try {
-                                                                                       int XPuser = object.getInt("experience");
-                                                                                       int newXP = XPuser + 10;
-                                                                                       Log.d("testXp", "Ancien XP" + XPuser + "Nouveau XP:" + newXP);
-                                                                                       object.put("experience", newXP);
-                                                                                       object.save();
-                                                                                   } catch (ParseException error) {
-                                                                                       error.printStackTrace();
+                                                                                       ParseQuery<ParseObject> query = ParseQuery.getQuery("Experience");
+                                                                                       query.whereEqualTo("user_id", user_id);
+                                                                                       query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                                                           public void done(ParseObject object, ParseException e) {
+                                                                                               if (e == null) {
+                                                                                                   try {
+                                                                                                       int XPuser = object.getInt("experience");
+                                                                                                       int newXP = XPuser + 10;
+                                                                                                       Log.d("testXp", "Ancien XP" + XPuser + "Nouveau XP:" + newXP);
+                                                                                                       object.put("experience", newXP);
+                                                                                                       object.save();
+                                                                                                   } catch (ParseException error) {
+                                                                                                       error.printStackTrace();
 
-                                                                                       Toast.makeText(getApplicationContext(),
-                                                                                               "Error ! Please try again later.",
-                                                                                               Toast.LENGTH_SHORT).show();
+                                                                                                       Toast.makeText(getApplicationContext(),
+                                                                                                               "Error ! Please try again later.",
+                                                                                                               Toast.LENGTH_SHORT).show();
 
-                                                                                       Log.d("majU", "Mise a jour du user echouee");
+                                                                                                       Log.d("majU", "Mise a jour du user echouee");
+                                                                                                   }
+
+                                                                                               } else {
+                                                                                                   Log.d("score", "Error: " + e.getMessage());
+                                                                                               }
+                                                                                           }
+                                                                                       });
+
+
+                                                                                   } else {
+                                                                                       Log.d("score", "Retrieved the object.");
                                                                                    }
-
-                                                                               } else {
-                                                                                   Log.d("score", "Error: " + e.getMessage());
                                                                                }
-                                                                           }
-                                                                       });
+                                                                           });
+                                                                           dialog.dismiss();
+                                                                           break;
 
-
-                                                                   } else {
-                                                                       Log.d("score", "Retrieved the object.");
+                                                                       case DialogInterface.BUTTON_NEGATIVE:
+                                                                           dialog.dismiss();
+                                                                           break;
                                                                    }
                                                                }
-                                                           });
+                                                           };
+
+                                                           AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                                           builder.setMessage("Are you sure it's a success ?").setPositiveButton("Yes", dialogClickListener)
+                                                                   .setNegativeButton("No", dialogClickListener).show();
+
 
                                                        }
                                                    }
@@ -244,11 +263,31 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
                                                      {
                                                          @Override
                                                          public void onClick(View view) {
-                                                             tempChallNeg.saveInBackground();
-                                                             ib_like.setVisibility(View.INVISIBLE);
-                                                             ib_like.setClickable(false);
-                                                             ib_unlike.setVisibility(View.INVISIBLE);
-                                                             ib_unlike.setClickable(false);
+                                                             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                                                 @Override
+                                                                 public void onClick(DialogInterface dialog, int which) {
+                                                                     switch (which){
+                                                                         case DialogInterface.BUTTON_POSITIVE:
+                                                                             //Yes button clicked
+                                                                             tempChallNeg.saveInBackground();
+                                                                             ib_like.setVisibility(View.INVISIBLE);
+                                                                             ib_like.setClickable(false);
+                                                                             ib_unlike.setVisibility(View.INVISIBLE);
+                                                                             ib_unlike.setClickable(false);
+                                                                             dialog.dismiss();
+                                                                             break;
+
+                                                                         case DialogInterface.BUTTON_NEGATIVE:
+                                                                             //No button clicked
+                                                                             dialog.dismiss();
+                                                                             break;
+                                                                     }
+                                                                 }
+                                                             };
+
+                                                             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                                             builder.setMessage("Are you sure it's a fail ?").setPositiveButton("Yes", dialogClickListener)
+                                                                     .setNegativeButton("No", dialogClickListener).show();
                                                          }
                                                      }
 
@@ -483,6 +522,7 @@ public class DescriptionChallengeActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        nbVotes = Math.max(nbVotes, nbVotesYes);
 
         percentVote = (nbVotesYes / nbVotes) * 100.0;
     }
